@@ -13,13 +13,6 @@ class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.String(50), nullable=False)
 
-    categories = db.relationship(
-        'Category',
-        secondary=room_category,
-        lazy='subquery',
-        backref=db.backref('rooms', lazy=True)
-    )
-
     def __init__(self, number, categories=None):
         self.number = number
         self.categories = categories or []
