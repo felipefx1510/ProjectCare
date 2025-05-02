@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/categories/styles.css') }}">
+    <title>Cadastrar categoria</title>
+</head>
+<body>
+    <div>
+        {% include 'fragments/_navbar.html' %}
+    </div>
+    <div class="container mt-4">
+        <h1>Cadastrar categoria</h1>
+        <form action="{{ url_for('categories/register') }}" method="POST" class="form-cadastro">
+            <div class="mb-3">
+                <label for="name" class="form-label">Nome da categoria</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
+    </div>
+</body>
+</html>
