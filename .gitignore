@@ -8,3 +8,4 @@ __pycache__/
 migrations/
 .vercel
 .env*.local
+.cache__ggshield/
