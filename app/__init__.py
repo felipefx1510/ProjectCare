@@ -21,6 +21,9 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+    with app.app_context():
+        db.create_all()  # Cria as tabelas no banco de dados se não existirem
+        
     # Registro de blueprints
     from app.routes.home import home_bp
     from app.routes.caregivers import caregivers_bp

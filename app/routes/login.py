@@ -8,13 +8,9 @@ def login():
     Login page.
     """
     if request.method == "POST":
-        # Here you would typically check the username and password
-        # For now, we'll just redirect to the home page
-        return render_template("login/login.html")
-
-@login_bp.route("/", methods=["GET"])
-def login_post():
-    """
-    Login page.
-    """
+        # Aqui você pode adicionar a lógica de autenticação
+        # Por enquanto, redireciona para a página inicial após o login
+        return redirect(url_for('home.home'))
+    
+    # Retorna o template de login para o método GET
     return render_template("login/login.html")

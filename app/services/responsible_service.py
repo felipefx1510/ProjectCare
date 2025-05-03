@@ -6,9 +6,14 @@ class ResponsibleService:
         """
         Save a new responsible to the database.
         """
-        db.session.add(responsible)
-        db.session.commit()
-        return responsible
+        try:
+            db.session.add(responsible)
+            db.session.commit()
+            return responsible
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar no banco de dados: {e}")
+            raise
     
     def get_all_responsibles(self):
         """
