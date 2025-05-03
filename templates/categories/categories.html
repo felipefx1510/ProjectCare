@@ -13,6 +13,29 @@
     <div class="container mt-4">
         <h1>Lista categorias</h1>
         <a href="{{ url_for('register_category') }}" class="btn btn-primary mb-3">Cadastrar</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        <a href="#" class="btn btn-warning btn-sm">Editar</a>
+                        <form method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
     
 </body>

@@ -14,7 +14,7 @@ def home():
 @app.route("/categories")
 def categories():
     categories = CategoryRepository.get_all()
-    return render_template("categories/categories.html")
+    return render_template("categories/categories.html", categories=categories)
 
 @app.route("/categories/register", methods=["GET", "POST"])
 def register_category():
