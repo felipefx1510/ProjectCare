@@ -1,10 +1,11 @@
-from flask import Flask, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for
 from config import Config
+from db import db  # Importa o db do novo módulo
+from repositories.category_repository import CategoryRepository
 
 app = Flask(__name__)
 app.config.from_object(Config)
-db = SQLAlchemy(app)
+db.init_app(app)  # Inicializa o banco de dados com o app
 
 @app.route("/")
 def home():
@@ -12,16 +13,16 @@ def home():
 
 @app.route("/categories")
 def categories():
+    categories = CategoryRepository.get_all()
     return render_template("categories/categories.html")
 
-@app.route("/categories/register")
-def register_categorie():
+@app.route("/categories/register", methods=["GET", "POST"])
+def register_category():
+    if request.method == "POST":
+        name = request.form.get("name")
+        CategoryRepository.create(name)
+        return redirect(url_for("categories"))
     return render_template("categories/register.html")
-
-@app.route("/categories/register/save", methods=["POST"])
-def save_categorie():
-    # Aqui você pode adicionar a lógica para salvar a categoria no banco de dados
-    return render_template("categories/categories.html")
 
 
 if __name__ == "__main__":

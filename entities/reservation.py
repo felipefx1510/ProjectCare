@@ -1,5 +1,5 @@
 # filepath: p:\Python\Reservation\ProjectCare\entities\reservation.py
-from app import db
+from db import db
 from datetime import date
 
 class Reservation(db.Model):

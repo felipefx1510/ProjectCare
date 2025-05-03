@@ -1,4 +1,4 @@
-from app import db
+from db import db
 
 # Tabela associativa room_category
 room_category = db.Table(

@@ -1,4 +1,4 @@
-from app import db
+from db import db
 from .room import room_category  # Importa a tabela associativa já criada
 
 class Category(db.Model):
