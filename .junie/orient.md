@@ -36,7 +36,7 @@ app/
     └── login/                 # Templates para login e registro
 migrations/                    # Migrações de banco de dados
 ├── versions/                  # Versões das migrações
-│   └── e040930716ad_criação_inicial_das_tabelas.py
+│   └── 3c65ead452be_criação_inicial_das_tabelas.py
 test/                          # Testes automatizados
 requirements.txt               # Dependências do projeto
 ```
@@ -539,7 +539,8 @@ def register_caregiver():
         education=education,
         expertise_area=expertise_area,
         skills=skills,
-        rating=0.0
+        rating=0.0,
+        address=""
     )
 
     caregiver_service.save(caregiver)
@@ -892,16 +893,16 @@ Este template exibe o formulário de registro com duas opções: para responsáv
 
 ### Migrações de Banco de Dados
 
-#### `migrations/versions/e040930716ad_criação_inicial_das_tabelas.py`
+#### `migrations/versions/3c65ead452be_criação_inicial_das_tabelas.py`
 
 Este arquivo contém a migração inicial que cria as tabelas do banco de dados.
 
 ```python
 """Criação inicial das tabelas
 
-Revision ID: e040930716ad
+Revision ID: 3c65ead452be
 Revises: 
-Create Date: 2025-05-03 05:33:07.771969
+Create Date: 2023-05-03 05:33:07.771969
 
 """
 from alembic import op
@@ -909,7 +910,7 @@ import sqlalchemy as sa
 
 
 # identificadores de revisão, usados pelo Alembic
-revision = 'e040930716ad'
+revision = '3c65ead452be'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -954,6 +955,116 @@ def downgrade():
 - Define duas funções: `upgrade()` para aplicar a migração e `downgrade()` para revertê-la.
 - A função `upgrade()` cria as tabelas `caregiver`, `responsible`, `contract` e `elderly` com suas colunas e restrições.
 - A função `downgrade()` remove as tabelas na ordem inversa para manter a integridade referencial.
+
+#### `migrations/env.py`
+
+Este arquivo configura o ambiente de migração do Alembic.
+
+```python
+from __future__ import with_statement
+
+import logging
+from logging.config import fileConfig
+
+from sqlalchemy import engine_from_config
+from sqlalchemy import pool
+from flask import current_app
+
+from alembic import context
+
+# this is the Alembic Config object, which provides
+# access to the values within the .ini file in use.
+config = context.config
+
+# Interpret the config file for Python logging.
+# This line sets up loggers basically.
+fileConfig(config.config_file_name)
+logger = logging.getLogger('alembic.env')
+
+# add your model's MetaData object here
+# for 'autogenerate' support
+# from myapp import mymodel
+# target_metadata = mymodel.Base.metadata
+config.set_main_option(
+    'sqlalchemy.url',
+    str(current_app.extensions['migrate'].db.get_engine().url).replace(
+        '%', '%%'))
+target_metadata = current_app.extensions['migrate'].db.metadata
+
+# other values from the config, defined by the needs of env.py,
+# can be acquired:
+# my_important_option = config.get_main_option("my_important_option")
+# ... etc.
+
+
+def run_migrations_offline():
+    """Run migrations in 'offline' mode.
+
+    This configures the context with just a URL
+    and not an Engine, though an Engine is acceptable
+    here as well.  By skipping the Engine creation
+    we don't even need a DBAPI to be available.
+
+    Calls to context.execute() here emit the given string to the
+    script output.
+
+    """
+    url = config.get_main_option("sqlalchemy.url")
+    context.configure(
+        url=url, target_metadata=target_metadata, literal_binds=True
+    )
+
+    with context.begin_transaction():
+        context.run_migrations()
+
+
+def run_migrations_online():
+    """Run migrations in 'online' mode.
+
+    In this scenario we need to create an Engine
+    and associate a connection with the context.
+
+    """
+
+    # this callback is used to prevent an auto-migration from being generated
+    # when there are no changes to the schema
+    # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
+    def process_revision_directives(context, revision, directives):
+        if getattr(config.cmd_opts, 'autogenerate', False):
+            script = directives[0]
+            if script.upgrade_ops.is_empty():
+                directives[:] = []
+                logger.info('No changes in schema detected.')
+
+    connectable = engine_from_config(
+        config.get_section(config.config_ini_section),
+        prefix='sqlalchemy.',
+        poolclass=pool.NullPool,
+    )
+
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+            process_revision_directives=process_revision_directives,
+            **current_app.extensions['migrate'].configure_args
+        )
+
+        with context.begin_transaction():
+            context.run_migrations()
+
+
+if context.is_offline_mode():
+    run_migrations_offline()
+else:
+    run_migrations_online()
+```
+
+**Detalhes importantes:**
+- Este arquivo configura o ambiente para as migrações do Alembic.
+- Define duas funções para executar migrações: `run_migrations_offline()` e `run_migrations_online()`.
+- A função `run_migrations_online()` inclui um callback `process_revision_directives()` que evita a geração de migrações vazias.
+- O arquivo obtém a URL do banco de dados da aplicação Flask atual.
 
 ### Arquivos Estáticos
 
@@ -1022,6 +1133,78 @@ O projeto tem alguns testes no diretório `test/`, mas não há uma cobertura co
 2. Adicionar testes de integração para as rotas
 3. Configurar um ambiente de teste separado
 4. Usar fixtures para configurar dados de teste
+
+#### `test/test_caregiver_model.py`
+
+Este arquivo contém testes para o modelo `Caregiver`.
+
+```python
+import unittest
+import sys
+import os
+
+# Adicionar o diretório raiz ao path do Python
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from app import create_app, db
+from app.models.caregiver import Caregiver
+
+class TestCaregiverModel(unittest.TestCase):
+    def setUp(self):
+        # Configurar o app para testes
+        self.app = create_app()
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        self.app.config['TESTING'] = True
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        # Limpar após cada teste
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_create_caregiver(self):
+        # Criar um cuidador de teste
+        caregiver = Caregiver(
+            name="Teste da Silva",
+            cpf="123.456.789-00",
+            phone="(11) 98765-4321",
+            email="teste@example.com",
+            password="senha123",
+            specialty="Enfermagem",
+            experience=5,
+            education="Técnico em Enfermagem",
+            expertise_area="Idosos",
+            skills="Primeiros socorros, Medicação",
+            rating=4.5,
+            address="Rua Teste, 123"
+        )
+
+        # Adicionar ao banco de dados
+        db.session.add(caregiver)
+        db.session.commit()
+
+        # Recuperar do banco de dados
+        saved_caregiver = Caregiver.query.filter_by(email="teste@example.com").first()
+
+        # Verificar se foi salvo corretamente
+        self.assertIsNotNone(saved_caregiver)
+        self.assertEqual(saved_caregiver.name, "Teste da Silva")
+        self.assertEqual(saved_caregiver.cpf, "123.456.789-00")
+        self.assertEqual(saved_caregiver.experience, 5)
+        self.assertEqual(saved_caregiver.rating, 4.5)
+
+if __name__ == '__main__':
+    unittest.main()
+```
+
+**Detalhes importantes:**
+- O teste configura um ambiente de teste com um banco de dados SQLite em memória.
+- Usa os métodos `setUp()` e `tearDown()` para configurar e limpar o ambiente de teste.
+- Testa a criação e recuperação de um objeto `Caregiver`.
+- Verifica se os atributos do objeto recuperado correspondem aos valores originais.
 
 ## Sugestões de Melhorias
 
