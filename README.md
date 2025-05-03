@@ -27,7 +27,7 @@ Este documento contém informações relevantes para o desenvolvimento do projet
    DATABASE_URL=postgresql://usuario:senha@localhost:5432/ProjectCare
    SECRET_KEY=sua_chave_secreta
    ```
-   
+
    Nota: Se não for definida a variável `DATABASE_URL`, o sistema usará a conexão padrão: `postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare`
 
 ### Migrações de Banco de Dados
@@ -81,6 +81,20 @@ Para executar todos os testes (requer pytest):
 pytest test\
 ```
 
+**Nota**: Ao executar os testes, você pode ver um aviso de depreciação relacionado ao `datetime.datetime.utcnow()`. Este aviso não afeta a funcionalidade dos testes, mas indica que em versões futuras do Python esta função será removida. Considere atualizar o código para usar `datetime.datetime.now(datetime.UTC)` em uma futura refatoração.
+
+### Teste de Conexão com o Banco de Dados
+
+O projeto inclui um script para testar a conexão com o banco de dados:
+
+```
+python test\teste_db.py
+```
+
+Este script verifica se a variável de ambiente `DATABASE_URL` está definida e tenta estabelecer uma conexão com o banco de dados. É útil para diagnosticar problemas de conexão.
+
+Atualmente, o projeto está configurado para usar um banco de dados PostgreSQL hospedado no Render.com. Você pode configurar seu próprio banco de dados PostgreSQL local ou remoto alterando a variável `DATABASE_URL` no arquivo `.env`.
+
 ### Criando Novos Testes
 
 1. Crie um novo arquivo no diretório `test/` com o prefixo `test_`.
@@ -117,13 +131,13 @@ class TestCaregiverModel(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.create_all()
-    
+
     def tearDown(self):
         # Limpar após cada teste
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
-    
+
     def test_create_caregiver(self):
         # Criar um cuidador de teste
         caregiver = Caregiver(
@@ -140,14 +154,14 @@ class TestCaregiverModel(unittest.TestCase):
             rating=4.5,
             address="Rua Teste, 123"
         )
-        
+
         # Adicionar ao banco de dados
         db.session.add(caregiver)
         db.session.commit()
-        
+
         # Recuperar do banco de dados
         saved_caregiver = Caregiver.query.filter_by(email="teste@example.com").first()
-        
+
         # Verificar se foi salvo corretamente
         self.assertIsNotNone(saved_caregiver)
         self.assertEqual(saved_caregiver.name, "Teste da Silva")
