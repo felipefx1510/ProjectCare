@@ -19,21 +19,21 @@ class Caregiver(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
    #relation
-   contracts = db.relationship("Contract", back_populates="caregiver", cascade="all, delete-orphan")
+    contracts = db.relationship("Contract", back_populates="caregiver", cascade="all, delete-orphan")
    
-   def __init__(self, name, cpf, phone, email, password, specialty, experience, education, expertise_area, skills, rating, address):
-    self.name = name
-    self.cpf = cpf
-    self.phone = phone
-    self.email = email
-    self.password = password
-    self.specialty = specialty
-    self.experience = experience
-    self.education = education
-    self.expertise_area = expertise_area
-    self.skills = skills
-    self.rating = rating
-    self.address = address
-    
+    def __init__(self, name, cpf, phone, email, password, specialty, experience, education, expertise_area, skills, rating, address):
+        self.name = name
+        self.cpf = cpf
+        self.phone = phone
+        self.email = email
+        self.password = password
+        self.specialty = specialty
+        self.experience = experience
+        self.education = education
+        self.expertise_area = expertise_area
+        self.skills = skills
+        self.rating = rating
+        self.address = address
+        
     def __repr__(self):
         return f"<Caregiver {self.name}>"

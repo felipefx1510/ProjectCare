@@ -12,19 +12,16 @@ migrate = Migrate()
 def create_app():
     app = Flask(__name__)
     
-    #config app
-    if config_class:
-        app.config.from_object(config_class)
-    else:
-        app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev_key)'
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare')
-        app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Configuração do app
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev_key')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
         
-    #extensions
+    # Extensões
     db.init_app(app)
     migrate.init_app(app, db)
 
-    #reg blueprints
+    # Registro de blueprints
     from app.routes.home import home_bp
     from app.routes.caregivers import caregivers_bp
     from app.routes.contact import contact_bp

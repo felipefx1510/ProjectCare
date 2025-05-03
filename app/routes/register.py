@@ -8,8 +8,8 @@ register_bp = Blueprint("register", __name__, url_prefix="/register")
 
 @register_bp.route("/", methods=["GET", "POST"])
 def register():
-   if request.method == "POST":
-       pass
+    if request.method == "POST":
+        pass
     return render_template("register/register.html")
 @register_bp.route('/responsible', methods=['POST'])
 def register_responsible():
