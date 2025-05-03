@@ -48,24 +48,24 @@ Muitas pessoas idosas necessitam de cuidados especializados, mas encontrar cuida
 
 - **app/**: O pacote principal da aplicação
   - Contém todo o código da aplicação, incluindo modelos, rotas e templates
-  
+
 - **migrations/**: Contém arquivos de migração do banco de dados
   - Gerados e gerenciados pelo Flask-Migrate
   - Rastreia mudanças no esquema do banco de dados ao longo do tempo
-  
+
 - **test/**: Contém arquivos de teste para a aplicação
   - Usa o framework unittest para testes
   - Inclui testes para modelos e outros componentes
-  
+
 - **.junie/**: Diretório de documentação
   - Contém diretrizes e explicações para desenvolvedores
-  
+
 - **config.py**: Arquivo de configuração (atualmente comentado)
   - Normalmente conteria configurações da aplicação
-  
+
 - **requirements.txt**: Lista todas as dependências Python
   - Usado para instalar pacotes necessários com pip
-  
+
 - **.env**: Arquivo de variáveis de ambiente (não rastreado no git)
   - Contém configurações sensíveis como credenciais de banco de dados e chaves secretas
 
@@ -73,22 +73,22 @@ Muitas pessoas idosas necessitam de cuidados especializados, mas encontrar cuida
 
 - **models/**: Modelos de banco de dados
   - Cada arquivo define uma tabela diferente do banco de dados e seus relacionamentos
-  
+
 - **routes/**: Manipuladores de rotas (controladores)
   - Organizados em blueprints para diferentes partes da aplicação
-  
+
 - **services/**: Lógica de negócios
   - Contém serviços que lidam com operações nos modelos
-  
+
 - **static/**: Arquivos estáticos (CSS, JavaScript, imagens)
   - Servidos diretamente ao cliente
-  
+
 - **templates/**: Templates HTML
   - Organizados por blueprint/funcionalidade
-  
+
 - **__init__.py**: Factory da aplicação
   - Cria e configura a aplicação Flask
-  
+
 - **run.py**: Ponto de entrada para executar a aplicação
 
 ## Explicação Arquivo por Arquivo
@@ -98,6 +98,8 @@ Muitas pessoas idosas necessitam de cuidados especializados, mas encontrar cuida
 #### app/__init__.py
 
 Este arquivo contém a função factory `create_app()` que:
+- Carrega variáveis de ambiente do arquivo `.env` usando `load_dotenv(override=True)`
+- Verifica se as variáveis de ambiente obrigatórias ('SECRET_KEY', 'DATABASE_URL') estão definidas
 - Cria uma nova aplicação Flask
 - Configura a aplicação (chave secreta, URI do banco de dados, etc.)
 - Inicializa extensões (SQLAlchemy, Flask-Migrate)
@@ -107,18 +109,28 @@ Este arquivo contém a função factory `create_app()` que:
 ```python
 def create_app():
     app = Flask(__name__)
-    
+
+    # Verifica se as variáveis obrigatórias estão definidas
+    required_env_vars = ['SECRET_KEY', 'DATABASE_URL']
+    for var in required_env_vars:
+        if not os.getenv(var):
+            raise RuntimeError(f"A variável de ambiente '{var}' não está definida. Verifique o arquivo .env.")
+
     # Configuração
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev_key')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare')
-    
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
     # Inicializar extensões
     db.init_app(app)
     migrate.init_app(app, db)
-    
+
+    with app.app_context():
+        db.create_all()  # Cria as tabelas no banco de dados se não existirem
+
     # Registrar blueprints
     # ...
-    
+
     return app
 ```
 
@@ -150,7 +162,7 @@ class Caregiver(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     # ... outros campos ...
-    
+
     # Relacionamento com contratos
     contracts = db.relationship("Contract", back_populates="caregiver", cascade="all, delete-orphan")
 ```
@@ -167,7 +179,7 @@ class Elderly(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     # ... outros campos ...
-    
+
     # Relacionamento com pessoas responsáveis
     responsible_id = db.Column(db.Integer, db.ForeignKey("responsible.id"), nullable=False)
     responsible = db.relationship("Responsible", back_populates="elderly")
@@ -185,7 +197,7 @@ class Responsible(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     # ... outros campos ...
-    
+
     # Relacionamentos
     elderly = db.relationship("Elderly", back_populates="responsible", cascade="all, delete-orphan")
     contracts = db.relationship("Contract", back_populates="responsible", cascade="all, delete-orphan")
@@ -203,7 +215,7 @@ class Contract(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
-    
+
     # Relacionamentos
     responsible_id = db.Column(db.Integer, db.ForeignKey("responsible.id"), nullable=False)
     caregiver_id = db.Column(db.Integer, db.ForeignKey("caregiver.id"), nullable=False)
