@@ -1,122 +1,122 @@
-# ProjectCare - Technical Documentation
+# ProjectCare - Documentação Técnica
 
-## Overview
+## Visão Geral
 
-ProjectCare is a web application designed to connect caregivers with elderly people who need care. The platform serves as a marketplace where responsible people (family members or guardians) can find and hire qualified caregivers for their elderly relatives.
+ProjectCare é uma aplicação web projetada para conectar cuidadores com pessoas idosas que necessitam de cuidados. A plataforma funciona como um marketplace onde pessoas responsáveis (familiares ou tutores) podem encontrar e contratar cuidadores qualificados para seus parentes idosos.
 
-### Problem Statement
+### Problema a Resolver
 
-Many elderly people require specialized care, but finding qualified caregivers can be challenging for family members. ProjectCare aims to solve this problem by:
+Muitas pessoas idosas necessitam de cuidados especializados, mas encontrar cuidadores qualificados pode ser um desafio para os familiares. O ProjectCare visa resolver este problema:
 
-1. Providing a platform where caregivers can register and showcase their qualifications
-2. Allowing responsible people to search for and connect with caregivers
-3. Facilitating the creation and management of care contracts
-4. Ensuring a safe and reliable caregiving experience
+1. Fornecendo uma plataforma onde cuidadores podem se registrar e mostrar suas qualificações
+2. Permitindo que pessoas responsáveis pesquisem e se conectem com cuidadores
+3. Facilitando a criação e gestão de contratos de cuidados
+4. Garantindo uma experiência de cuidado segura e confiável
 
-## Technologies Used
+## Tecnologias Utilizadas
 
-### Core Technologies
+### Tecnologias Principais
 
-- **Flask**: A lightweight Python web framework that provides tools and libraries for building web applications
-  - Used for routing, request handling, and template rendering
-  - Blueprints are used to organize the application into modular components
+- **Flask**: Um framework web Python leve que fornece ferramentas e bibliotecas para construir aplicações web
+  - Usado para roteamento, manipulação de requisições e renderização de templates
+  - Blueprints são usados para organizar a aplicação em componentes modulares
 
-- **SQLAlchemy**: An Object-Relational Mapping (ORM) library for Python
-  - Allows interaction with the database using Python objects instead of raw SQL
-  - Handles database connections, queries, and transactions
+- **SQLAlchemy**: Uma biblioteca de Mapeamento Objeto-Relacional (ORM) para Python
+  - Permite interação com o banco de dados usando objetos Python em vez de SQL puro
+  - Gerencia conexões, consultas e transações com o banco de dados
 
-- **PostgreSQL**: A powerful, open-source relational database system
-  - Stores all application data (users, caregivers, contracts, etc.)
-  - Provides reliability and support for complex queries
+- **PostgreSQL**: Um sistema de banco de dados relacional poderoso e de código aberto
+  - Armazena todos os dados da aplicação (usuários, cuidadores, contratos, etc.)
+  - Fornece confiabilidade e suporte para consultas complexas
 
-### Additional Technologies
+### Tecnologias Adicionais
 
-- **Flask-Migrate**: An extension that handles SQLAlchemy database migrations
-  - Uses Alembic under the hood to manage database schema changes
-  - Provides commands for creating and applying migrations
+- **Flask-Migrate**: Uma extensão que gerencia migrações de banco de dados SQLAlchemy
+  - Usa Alembic internamente para gerenciar mudanças no esquema do banco de dados
+  - Fornece comandos para criar e aplicar migrações
 
-- **Jinja2**: A template engine for Python
-  - Used to render HTML templates with dynamic data
-  - Supports template inheritance, loops, conditionals, and more
+- **Jinja2**: Um motor de templates para Python
+  - Usado para renderizar templates HTML com dados dinâmicos
+  - Suporta herança de templates, loops, condicionais e mais
 
-- **python-dotenv**: A library for loading environment variables from a .env file
-  - Used to manage configuration settings like database connection strings and secret keys
+- **python-dotenv**: Uma biblioteca para carregar variáveis de ambiente de um arquivo .env
+  - Usada para gerenciar configurações como strings de conexão com banco de dados e chaves secretas
 
-## Project Structure
+## Estrutura do Projeto
 
-### Top-Level Directories and Files
+### Diretórios e Arquivos de Nível Superior
 
-- **app/**: The main application package
-  - Contains all the application code, including models, routes, and templates
+- **app/**: O pacote principal da aplicação
+  - Contém todo o código da aplicação, incluindo modelos, rotas e templates
   
-- **migrations/**: Contains database migration files
-  - Generated and managed by Flask-Migrate
-  - Tracks changes to the database schema over time
+- **migrations/**: Contém arquivos de migração do banco de dados
+  - Gerados e gerenciados pelo Flask-Migrate
+  - Rastreia mudanças no esquema do banco de dados ao longo do tempo
   
-- **test/**: Contains test files for the application
-  - Uses the unittest framework for testing
-  - Includes tests for models and other components
+- **test/**: Contém arquivos de teste para a aplicação
+  - Usa o framework unittest para testes
+  - Inclui testes para modelos e outros componentes
   
-- **.junie/**: Documentation directory
-  - Contains guidelines and explanations for developers
+- **.junie/**: Diretório de documentação
+  - Contém diretrizes e explicações para desenvolvedores
   
-- **config.py**: Configuration file (currently commented out)
-  - Would normally contain application configuration settings
+- **config.py**: Arquivo de configuração (atualmente comentado)
+  - Normalmente conteria configurações da aplicação
   
-- **requirements.txt**: Lists all Python dependencies
-  - Used to install required packages with pip
+- **requirements.txt**: Lista todas as dependências Python
+  - Usado para instalar pacotes necessários com pip
   
-- **.env**: Environment variables file (not tracked in git)
-  - Contains sensitive configuration like database credentials and secret keys
+- **.env**: Arquivo de variáveis de ambiente (não rastreado no git)
+  - Contém configurações sensíveis como credenciais de banco de dados e chaves secretas
 
-### App Directory Structure
+### Estrutura do Diretório App
 
-- **models/**: Database models
-  - Each file defines a different database table and its relationships
+- **models/**: Modelos de banco de dados
+  - Cada arquivo define uma tabela diferente do banco de dados e seus relacionamentos
   
-- **routes/**: Route handlers (controllers)
-  - Organized into blueprints for different parts of the application
+- **routes/**: Manipuladores de rotas (controladores)
+  - Organizados em blueprints para diferentes partes da aplicação
   
-- **services/**: Business logic
-  - Contains services that handle operations on models
+- **services/**: Lógica de negócios
+  - Contém serviços que lidam com operações nos modelos
   
-- **static/**: Static files (CSS, JavaScript, images)
-  - Served directly to the client
+- **static/**: Arquivos estáticos (CSS, JavaScript, imagens)
+  - Servidos diretamente ao cliente
   
-- **templates/**: HTML templates
-  - Organized by blueprint/feature
+- **templates/**: Templates HTML
+  - Organizados por blueprint/funcionalidade
   
-- **__init__.py**: Application factory
-  - Creates and configures the Flask application
+- **__init__.py**: Factory da aplicação
+  - Cria e configura a aplicação Flask
   
-- **run.py**: Entry point for running the application
+- **run.py**: Ponto de entrada para executar a aplicação
 
-## File-by-File Explanation
+## Explicação Arquivo por Arquivo
 
-### App Package
+### Pacote App
 
 #### app/__init__.py
 
-This file contains the application factory function `create_app()` which:
-- Creates a new Flask application
-- Configures the application (secret key, database URI, etc.)
-- Initializes extensions (SQLAlchemy, Flask-Migrate)
-- Creates database tables if they don't exist
-- Registers blueprints for different parts of the application
+Este arquivo contém a função factory `create_app()` que:
+- Cria uma nova aplicação Flask
+- Configura a aplicação (chave secreta, URI do banco de dados, etc.)
+- Inicializa extensões (SQLAlchemy, Flask-Migrate)
+- Cria tabelas do banco de dados se elas não existirem
+- Registra blueprints para diferentes partes da aplicação
 
 ```python
 def create_app():
     app = Flask(__name__)
     
-    # Configuration
+    # Configuração
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev_key')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare')
     
-    # Initialize extensions
+    # Inicializar extensões
     db.init_app(app)
     migrate.init_app(app, db)
     
-    # Register blueprints
+    # Registrar blueprints
     # ...
     
     return app
@@ -124,7 +124,7 @@ def create_app():
 
 #### app/run.py
 
-A simple script that creates the application and runs it in development mode:
+Um script simples que cria a aplicação e a executa em modo de desenvolvimento:
 
 ```python
 from . import create_app
@@ -135,67 +135,67 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-### Models
+### Modelos
 
 #### app/models/caregiver.py
 
-Defines the `Caregiver` model, representing healthcare providers in the system:
-- Personal information (name, CPF, phone, email, address)
-- Professional information (specialty, experience, education, expertise_area, skills, rating)
-- Relationship with contracts
+Define o modelo `Caregiver` (Cuidador), representando os prestadores de cuidados de saúde no sistema:
+- Informações pessoais (nome, CPF, telefone, email, endereço)
+- Informações profissionais (especialidade, experiência, educação, área de expertise, habilidades, avaliação)
+- Relacionamento com contratos
 
 ```python
 class Caregiver(db.Model):
     __tablename__ = "caregiver"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    # ... other fields ...
+    # ... outros campos ...
     
-    # Relationship with contracts
+    # Relacionamento com contratos
     contracts = db.relationship("Contract", back_populates="caregiver", cascade="all, delete-orphan")
 ```
 
 #### app/models/elderly.py
 
-Defines the `Elderly` model, representing elderly people who need care:
-- Personal information (name, birthdate, gender, address)
-- Relationship with responsible people
+Define o modelo `Elderly` (Idoso), representando pessoas idosas que precisam de cuidados:
+- Informações pessoais (nome, data de nascimento, gênero, endereço)
+- Relacionamento com pessoas responsáveis
 
 ```python
 class Elderly(db.Model):
     __tablename__ = "elderly"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    # ... other fields ...
+    # ... outros campos ...
     
-    # Relationship with responsible people
+    # Relacionamento com pessoas responsáveis
     responsible_id = db.Column(db.Integer, db.ForeignKey("responsible.id"), nullable=False)
     responsible = db.relationship("Responsible", back_populates="elderly")
 ```
 
 #### app/models/responsible.py
 
-Defines the `Responsible` model, representing people responsible for elderly individuals:
-- Personal information (name, CPF, phone, email)
-- Relationships with elderly people and contracts
+Define o modelo `Responsible` (Responsável), representando pessoas responsáveis por indivíduos idosos:
+- Informações pessoais (nome, CPF, telefone, email)
+- Relacionamentos com pessoas idosas e contratos
 
 ```python
 class Responsible(db.Model):
     __tablename__ = "responsible"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    # ... other fields ...
+    # ... outros campos ...
     
-    # Relationships
+    # Relacionamentos
     elderly = db.relationship("Elderly", back_populates="responsible", cascade="all, delete-orphan")
     contracts = db.relationship("Contract", back_populates="responsible", cascade="all, delete-orphan")
 ```
 
 #### app/models/contract.py
 
-Defines the `Contract` model, representing agreements between caregivers and responsible people:
-- Contract details (start_date, end_date)
-- Relationships with caregivers and responsible people
+Define o modelo `Contract` (Contrato), representando acordos entre cuidadores e pessoas responsáveis:
+- Detalhes do contrato (data_inicio, data_fim)
+- Relacionamentos com cuidadores e pessoas responsáveis
 
 ```python
 class Contract(db.Model):
@@ -204,20 +204,20 @@ class Contract(db.Model):
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)
     
-    # Relationships
+    # Relacionamentos
     responsible_id = db.Column(db.Integer, db.ForeignKey("responsible.id"), nullable=False)
     caregiver_id = db.Column(db.Integer, db.ForeignKey("caregiver.id"), nullable=False)
     responsible = db.relationship("Responsible", back_populates="contracts")
     caregiver = db.relationship("Caregiver", back_populates="contracts")
 ```
 
-### Routes (Blueprints)
+### Rotas (Blueprints)
 
 #### app/routes/home.py
 
-Defines the blueprint for the home page:
-- Creates a blueprint with the URL prefix "/"
-- Defines a route for the root URL that renders the home template
+Define o blueprint para a página inicial:
+- Cria um blueprint com o prefixo de URL "/"
+- Define uma rota para a URL raiz que renderiza o template home
 
 ```python
 home_bp = Blueprint("home", __name__, url_prefix="/")
@@ -229,9 +229,9 @@ def home():
 
 #### app/routes/caregivers.py
 
-Defines the blueprint for caregiver-related routes:
-- Creates a blueprint with the URL prefix "/caregivers"
-- Defines a route for listing all caregivers
+Define o blueprint para rotas relacionadas a cuidadores:
+- Cria um blueprint com o prefixo de URL "/caregivers"
+- Define uma rota para listar todos os cuidadores
 
 ```python
 caregivers_bp = Blueprint("caregivers", __name__, url_prefix="/caregivers")
@@ -244,9 +244,9 @@ def list_caregivers():
 
 #### app/routes/contact.py
 
-Defines the blueprint for the contact page:
-- Creates a blueprint with the URL prefix "/contact"
-- Defines a route for the contact page
+Define o blueprint para a página de contato:
+- Cria um blueprint com o prefixo de URL "/contact"
+- Define uma rota para a página de contato
 
 ```python
 contact_bp = Blueprint("contact", __name__, url_prefix="/contact")
@@ -258,10 +258,10 @@ def contact():
 
 #### app/routes/login.py
 
-Defines the blueprint for user authentication:
-- Creates a blueprint with the URL prefix "/login"
-- Defines a route for the login page that handles both GET and POST requests
-- Currently, the authentication logic is not fully implemented
+Define o blueprint para autenticação de usuários:
+- Cria um blueprint com o prefixo de URL "/login"
+- Define uma rota para a página de login que lida com requisições GET e POST
+- Atualmente, a lógica de autenticação não está totalmente implementada
 
 ```python
 login_bp = Blueprint("login", __name__, url_prefix="/login")
@@ -269,16 +269,16 @@ login_bp = Blueprint("login", __name__, url_prefix="/login")
 @login_bp.route("/", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        # Authentication logic would go here
+        # A lógica de autenticação iria aqui
         return redirect(url_for('home.home'))
     return render_template("login/login.html")
 ```
 
 #### app/routes/register.py
 
-Defines the blueprint for user registration:
-- Creates a blueprint with the URL prefix "/register"
-- Defines routes for registering responsible people and caregivers
+Define o blueprint para registro de usuários:
+- Cria um blueprint com o prefixo de URL "/register"
+- Define rotas para registrar pessoas responsáveis e cuidadores
 
 ```python
 register_bp = Blueprint("register", __name__, url_prefix="/register")
@@ -289,129 +289,129 @@ def register():
 
 @register_bp.route('/responsible', methods=['POST'])
 def register_responsible():
-    # Get form data and create a Responsible object
+    # Obter dados do formulário e criar um objeto Responsible
     # ...
     return redirect(url_for('login.login'))
 
 @register_bp.route('/caregiver', methods=['POST'])
 def register_caregiver():
-    # Get form data and create a Caregiver object
+    # Obter dados do formulário e criar um objeto Caregiver
     # ...
     return redirect(url_for('login.login'))
 ```
 
 ### Templates
 
-The application uses Jinja2 templates organized by feature:
-- **home/home.html**: The home page template
-- **caregivers/list.html**: Template for listing caregivers
-- **contact/contact.html**: The contact page template
-- **login/login.html**: The login page template
-- **login/register.html**: The registration page template
-- **fragments/navbar.html**: A reusable navigation bar template
+A aplicação usa templates Jinja2 organizados por funcionalidade:
+- **home/home.html**: O template da página inicial
+- **caregivers/list.html**: Template para listar cuidadores
+- **contact/contact.html**: O template da página de contato
+- **login/login.html**: O template da página de login
+- **login/register.html**: O template da página de registro
+- **fragments/navbar.html**: Um template reutilizável de barra de navegação
 
-### Static Files
+### Arquivos Estáticos
 
-The application includes static files like images in the `app/static/images/` directory.
+A aplicação inclui arquivos estáticos como imagens no diretório `app/static/images/`.
 
-## Database Structure
+## Estrutura do Banco de Dados
 
-### Models and Relationships
+### Modelos e Relacionamentos
 
-The database has four main tables:
-1. **caregiver**: Stores information about caregivers
-2. **elderly**: Stores information about elderly people
-3. **responsible**: Stores information about responsible people
-4. **contract**: Stores information about contracts between caregivers and responsible people
+O banco de dados tem quatro tabelas principais:
+1. **caregiver**: Armazena informações sobre cuidadores
+2. **elderly**: Armazena informações sobre pessoas idosas
+3. **responsible**: Armazena informações sobre pessoas responsáveis
+4. **contract**: Armazena informações sobre contratos entre cuidadores e pessoas responsáveis
 
-The relationships between these tables are:
-- A responsible person can be associated with multiple elderly people (one-to-many)
-- A responsible person can have multiple contracts (one-to-many)
-- A caregiver can have multiple contracts (one-to-many)
-- A contract connects one caregiver with one responsible person (many-to-one for both)
+Os relacionamentos entre essas tabelas são:
+- Uma pessoa responsável pode estar associada a várias pessoas idosas (um-para-muitos)
+- Uma pessoa responsável pode ter vários contratos (um-para-muitos)
+- Um cuidador pode ter vários contratos (um-para-muitos)
+- Um contrato conecta um cuidador com uma pessoa responsável (muitos-para-um para ambos)
 
-### Migrations
+### Migrações
 
-Database migrations are managed using Flask-Migrate:
-- Migration files are stored in the `migrations/versions/` directory
-- Each migration file represents a change to the database schema
-- Migrations can be created using `flask db migrate -m "description"`
-- Migrations can be applied using `flask db upgrade`
+As migrações de banco de dados são gerenciadas usando Flask-Migrate:
+- Arquivos de migração são armazenados no diretório `migrations/versions/`
+- Cada arquivo de migração representa uma mudança no esquema do banco de dados
+- Migrações podem ser criadas usando `flask db migrate -m "descrição"`
+- Migrações podem ser aplicadas usando `flask db upgrade`
 
-## Authentication Flow
+## Fluxo de Autenticação
 
-The authentication flow is not fully implemented yet, but the structure is in place:
-1. Users (caregivers or responsible people) register through the registration page
-2. Registration data is processed by the appropriate route handler
-3. User information is saved to the database
-4. Users are redirected to the login page
-5. The login page would authenticate users (not implemented yet)
-6. After successful authentication, users would be redirected to the home page
+O fluxo de autenticação ainda não está totalmente implementado, mas a estrutura está no lugar:
+1. Usuários (cuidadores ou pessoas responsáveis) se registram através da página de registro
+2. Os dados de registro são processados pelo manipulador de rota apropriado
+3. As informações do usuário são salvas no banco de dados
+4. Os usuários são redirecionados para a página de login
+5. A página de login autenticaria os usuários (não implementado ainda)
+6. Após autenticação bem-sucedida, os usuários seriam redirecionados para a página inicial
 
-## Configuration
+## Configuração
 
-The application uses environment variables for configuration:
-- **DATABASE_URL**: The PostgreSQL connection string
-- **SECRET_KEY**: A secret key for securing sessions and cookies
+A aplicação usa variáveis de ambiente para configuração:
+- **DATABASE_URL**: A string de conexão PostgreSQL
+- **SECRET_KEY**: Uma chave secreta para proteger sessões e cookies
 
-These variables can be set in a `.env` file in the project root directory.
+Essas variáveis podem ser definidas em um arquivo `.env` no diretório raiz do projeto.
 
-If the `DATABASE_URL` is not set, the application uses a default connection string:
+Se o `DATABASE_URL` não estiver definido, a aplicação usa uma string de conexão padrão:
 ```
 postgresql://postgres:Soldier2003!@localhost:5432/ProjectCare
 ```
 
-## Running the Application
+## Executando a Aplicação
 
-### Development
+### Desenvolvimento
 
-To run the application in development mode:
-1. Create and activate a virtual environment:
+Para executar a aplicação em modo de desenvolvimento:
+1. Crie e ative um ambiente virtual:
    ```
    python -m venv .venv
    .venv\Scripts\activate
    ```
-2. Install dependencies:
+2. Instale as dependências:
    ```
    pip install -r requirements.txt
    ```
-3. Set up environment variables in a `.env` file
-4. Run the application:
+3. Configure variáveis de ambiente em um arquivo `.env`
+4. Execute a aplicação:
    ```
    python -m app.run
    ```
 
-The application will start in debug mode, which provides:
-- Automatic reloading when code changes
-- Detailed error pages
-- The interactive debugger
+A aplicação iniciará em modo de depuração, que fornece:
+- Recarregamento automático quando o código muda
+- Páginas de erro detalhadas
+- O depurador interativo
 
-### Production
+### Produção
 
-For production deployment, you would typically:
-1. Use a WSGI server like Gunicorn instead of the built-in Flask server
-2. Set `debug=False` to disable the interactive debugger
-3. Use environment variables for configuration instead of a `.env` file
-4. Consider using a reverse proxy like Nginx in front of the application
+Para implantação em produção, você normalmente:
+1. Usaria um servidor WSGI como Gunicorn em vez do servidor Flask embutido
+2. Definiria `debug=False` para desativar o depurador interativo
+3. Usaria variáveis de ambiente para configuração em vez de um arquivo `.env`
+4. Consideraria usar um proxy reverso como Nginx na frente da aplicação
 
-## Areas for Improvement
+## Áreas para Melhoria
 
-1. **Authentication**: The authentication system is not fully implemented. Consider using Flask-Login or another authentication library.
+1. **Autenticação**: O sistema de autenticação não está totalmente implementado. Considere usar Flask-Login ou outra biblioteca de autenticação.
 
-2. **Password Security**: Passwords are currently stored in plain text. They should be hashed using a library like Werkzeug's security functions or passlib.
+2. **Segurança de Senhas**: As senhas atualmente são armazenadas em texto simples. Elas devem ser criptografadas usando uma biblioteca como as funções de segurança do Werkzeug ou passlib.
 
-3. **Form Validation**: There's no validation for form inputs. Consider using Flask-WTF for form handling and validation.
+3. **Validação de Formulários**: Não há validação para entradas de formulário. Considere usar Flask-WTF para manipulação e validação de formulários.
 
-4. **Error Handling**: The application doesn't have comprehensive error handling. Add try-except blocks and error pages.
+4. **Tratamento de Erros**: A aplicação não possui tratamento abrangente de erros. Adicione blocos try-except e páginas de erro.
 
-5. **Testing**: While there's a test directory, more comprehensive tests would improve reliability.
+5. **Testes**: Embora exista um diretório de testes, testes mais abrangentes melhorariam a confiabilidade.
 
-6. **Configuration**: Consider using the commented-out `config.py` file for a more structured configuration approach.
+6. **Configuração**: Considere usar o arquivo `config.py` comentado para uma abordagem de configuração mais estruturada.
 
-7. **API Documentation**: If the application exposes APIs, consider adding documentation using Swagger/OpenAPI.
+7. **Documentação de API**: Se a aplicação expõe APIs, considere adicionar documentação usando Swagger/OpenAPI.
 
-8. **Logging**: Add logging to help with debugging and monitoring.
+8. **Logging**: Adicione logging para ajudar na depuração e monitoramento.
 
-9. **Frontend Framework**: Consider using a frontend framework like React or Vue.js for a more interactive user experience.
+9. **Framework Frontend**: Considere usar um framework frontend como React ou Vue.js para uma experiência de usuário mais interativa.
 
-10. **Containerization**: Consider using Docker to containerize the application for easier deployment.
+10. **Containerização**: Considere usar Docker para containerizar a aplicação para facilitar a implantação.
