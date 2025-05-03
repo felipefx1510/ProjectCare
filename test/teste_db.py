@@ -3,10 +3,12 @@ from dotenv import load_dotenv
 import os
 
 # Carrega variáveis do .env
-load_dotenv()
+load_dotenv(override=True)
 
 # Pega a URL do banco
 DATABASE_URL = os.getenv("DATABASE_URL")
+
+print(f"Valor da variável DATABASE_URL: {DATABASE_URL}")
 
 if not DATABASE_URL:
     print("❌ Variável DATABASE_URL não definida no .env")
