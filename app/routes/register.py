@@ -19,8 +19,13 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         address = request.form.get('address')
+        city = request.form.get('city')
+        state = request.form.get('state')
+        birthdate = request.form.get('birthdate')
+        gender = request.form.get('gender')
 
-        user = User(name=name, cpf=cpf, phone=phone, email=email, password=password, address=address)
+        user = User(name=name, cpf=cpf, phone=phone, email=email, password=password,
+                    address=address, city=city, state=state, birthdate=birthdate, gender=gender)
         user_service.save(user)
 
         # Armazenar o ID do usuário na sessão para uso posterior
@@ -29,7 +34,7 @@ def register():
         # Redirecionar para a página de seleção de perfil
         return redirect(url_for('register.select_profile'))
 
-    return render_template("login/register.html")
+    return render_template("register/register.html")
 
 
 @register_bp.route("/select-profile", methods=["GET"])

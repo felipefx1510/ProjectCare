@@ -18,11 +18,16 @@ class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    cpf = db.Column(db.String(14), unique=True, nullable=False)
+    cpf = db.Column(db.String(17), unique=True, nullable=False)
+    gender = db.Column(db.String(20), nullable=False)
+    birthdate = db.Column(db.Date, nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    address = db.Column(db.String(255), nullable=True)
+    address = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    state = db.Column(db.String(100), nullable=False)
+    
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relações
@@ -30,13 +35,17 @@ class User(db.Model):
     responsible = db.relationship("Responsible", back_populates="user", uselist=False)
     elderly = db.relationship("Elderly", back_populates="user", uselist=False)
 
-    def __init__(self, name, cpf, phone, email, password, address=None):
+    def __init__(self, name, cpf, gender, birthdate, phone, email, password, address, city, state):
         self.name = name
         self.cpf = cpf
+        self.gender = gender
+        self.birthdate = birthdate
         self.phone = phone
         self.email = email
-        self.set_password = password
+        self.set_password(password)
         self.address = address
+        self.city = city
+        self.state = state
 
     def set_password(self, password):
         """Hash the password and store it."""
