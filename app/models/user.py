@@ -21,7 +21,7 @@ class User(db.Model):
     cpf = db.Column(db.String(17), unique=True, nullable=False)
     gender = db.Column(db.String(20), nullable=False)
     birthdate = db.Column(db.Date, nullable=False)
-    phone = db.Column(db.String(20), nullable=False)
+    phone = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
     address = db.Column(db.String(255), nullable=False)
