@@ -6,92 +6,133 @@
     <title>Cadastro - ProjectCare</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* CSS para ajustar o layout */
+        body {
+            display: flex;
+            flex-direction: column;
+            flex: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
 
 {% include 'fragments/navbar.html' %}
 
-<section class="vh-100 bg-light">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-8 col-xl-6">
-                <div class="card shadow-lg" style="border-radius: 15px;">
-                    <div class="card-body p-4">
-                        <h3 class="text-center text-primary mb-4">Crie sua conta</h3>
-                        <form method="post" action="{{ url_for('register.register') }}">
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Nome completo</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cpf" class="form-label">CPF</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="phone" class="form-label">Telefone</label>
-                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Digite seu telefone" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirm_password" class="form-label">Confirme sua senha</label>
-                                <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Endereço</label>
-                                <input type="text" class="form-control" id="address" name="address" placeholder="Digite seu endereço" required>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="city" class="form-label">Cidade</label>
-                                    <input type="text" class="form-control" id="city" name="city" placeholder="Digite sua cidade" required>
+{% include 'fragments/flash.html' %}
+
+<main>
+    <section class="bg-light">
+        <div class="container py-5">
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="card shadow-lg" style="border-radius: 15px;">
+                        <div class="card-body p-4">
+                            <h3 class="text-center text-primary mb-4">Crie sua conta</h3>
+                            <form method="post" action="{{ url_for('register.register') }}">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nome completo</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required>
                                 </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="state" class="form-label">Estado</label>
-                                    <input type="text" class="form-control" id="state" name="state" placeholder="Digite seu estado" required>
+                                <div class="mb-3">
+                                    <label for="cpf" class="form-label">CPF</label>
+                                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="birthdate" class="form-label">Data de nascimento</label>
-                                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Gênero</label>
-                                <div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="genderm" name="gender" value="Masculino" required>
-                                        <label class="form-check-label" for="genderm">Masculino</label>
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Telefone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Digite seu telefone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">E-mail</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Senha</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="confirm_password" class="form-label">Confirme sua senha</label>
+                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Endereço</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Digite seu endereço" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="city" class="form-label">Cidade</label>
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="Digite sua cidade" required>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="genderf" name="gender" value="Feminino" required>
-                                        <label class="form-check-label" for="genderf">Feminino</label>
-                                    </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" id="gendero" name="gender" value="Outro" required>
-                                        <label class="form-check-label" for="gendero">Outro</label>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="state" class="form-label">Estado</label>
+                                        <input type="text" class="form-control" id="state" name="state" placeholder="Digite seu estado" required>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
-                            </div>
-                        </form>
-                        <p class="text-center text-muted mt-3">Já tem uma conta? <a href="{{ url_for('login.login') }}" class="text-primary">Faça login</a></p>
+                                <div class="mb-3">
+                                    <label for="birthdate" class="form-label">Data de nascimento</label>
+                                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Gênero</label>
+                                    <div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="genderm" name="gender" value="Masculino" required>
+                                            <label class="form-check-label" for="genderm">Masculino</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="genderf" name="gender" value="Feminino" required>
+                                            <label class="form-check-label" for="genderf">Feminino</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" id="gendero" name="gender" value="Outro" required>
+                                            <label class="form-check-label" for="gendero">Outro</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                                </div>
+                            </form>
+                            <p class="text-center text-muted mt-3">Já tem uma conta? <a href="{{ url_for('login.login') }}" class="text-primary">Faça login</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</main>
 
 {% include 'fragments/footer.html' %}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+   //verificar senhas
+    document.getElementById('confirm_password').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        if (password !== confirmPassword) {
+            this.setCustomValidity('As senhas não coincidem.');
+        } else {
+            this.setCustomValidity('');
+        }
+    });
+    // mascara 
+    document.getElementById('cpf').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        if (value.length > 3) {
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        }
+        if (value.length > 6) {
+            value = value.replace(/(\d{3})(\d{3})(\d)/, '$1.$2-$3');
+        }
+        e.target.value = value;
+    });
+</script>
 </body>
 </html>
