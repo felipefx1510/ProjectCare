@@ -1,0 +1,126 @@
+// ProjectCare Business Rules Diagram
+
+// Define the main entities
+entity User {
+  id: Integer (PK)
+  name: String
+  cpf: String (unique)
+  gender: String
+  birthdate: Date
+  phone: String (unique)
+  email: String (unique)
+  password_hash: String
+  address: String
+  city: String
+  state: String
+  created_at: DateTime
+}
+
+entity Caregiver {
+  id: Integer (PK)
+  user_id: Integer (FK)
+  specialty: String
+  experience: Integer
+  education: String
+  expertise_area: String
+  skills: String
+  rating: Float
+}
+
+entity Responsible {
+  id: Integer (PK)
+  user_id: Integer (FK)
+}
+
+entity Elderly {
+  id: Integer (PK)
+  user_id: Integer (FK)
+  responsible_id: Integer (FK)
+  birthdate: Date
+  gender: String
+}
+
+entity Contract {
+  id: Integer (PK)
+  responsible_id: Integer (FK)
+  caregiver_id: Integer (FK)
+  start_date: DateTime
+  end_date: DateTime
+}
+
+// Define relationships
+relationship OneToOne {
+  User.id -> Caregiver.user_id
+  User.id -> Responsible.user_id
+  User.id -> Elderly.user_id
+}
+
+relationship OneToMany {
+  Responsible.id -> Elderly.responsible_id
+  Responsible.id -> Contract.responsible_id
+  Caregiver.id -> Contract.caregiver_id
+}
+
+// Define business rules
+rule "User Registration" {
+  1. User registers with personal information
+  2. User selects a profile type (Caregiver, Responsible, or Elderly)
+  3. User provides additional information based on profile type
+  4. System creates the appropriate profile
+}
+
+rule "Caregiver Registration" {
+  1. User must be registered first
+  2. Caregiver provides professional information
+  3. System creates a Caregiver profile linked to the User
+}
+
+rule "Responsible Registration" {
+  1. User must be registered first
+  2. System creates a Responsible profile linked to the User
+}
+
+rule "Elderly Registration" {
+  1. User must be registered first
+  2. Elderly must be associated with a Responsible
+  3. System creates an Elderly profile linked to the User and Responsible
+}
+
+rule "Contract Creation" {
+  1. A Responsible initiates a contract with a Caregiver
+  2. Contract specifies start and end dates
+  3. System creates a Contract linking the Responsible and Caregiver
+}
+
+rule "Authentication" {
+  1. User provides email and password
+  2. System verifies credentials
+  3. If valid, system creates a session for the user
+}
+
+// Define processes
+process "Care Service Flow" {
+  1. Responsible registers in the system
+  2. Responsible registers Elderly under their care
+  3. Responsible searches for available Caregivers
+  4. Responsible selects a Caregiver and creates a Contract
+  5. Caregiver provides care services according to the Contract
+  6. Responsible can rate the Caregiver's services
+}
+
+// Define constraints
+constraint "User Uniqueness" {
+  Each User must have a unique email, CPF, and phone number
+}
+
+constraint "Profile Type" {
+  A User can be either a Caregiver, Responsible, or Elderly
+}
+
+constraint "Elderly Responsibility" {
+  Each Elderly must be associated with exactly one Responsible
+}
+
+constraint "Contract Validity" {
+  Contract end_date must be after start_date
+}
