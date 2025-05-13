@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
@@ -8,6 +8,7 @@ load_dotenv(override=True)  # Carrega variáveis do arquivo .env
 
 db = SQLAlchemy()
 migrate = Migrate()
+
 
 def create_app():
     app = Flask(__name__)
@@ -30,6 +31,16 @@ def create_app():
     with app.app_context():
         db.create_all()  # Cria as tabelas no banco de dados se não existirem
 
+    
+    @app.context_processor
+    def inject_user():
+        """
+        Injeta o usuário na sessão para acesso em templates.
+        """
+        if 'user_id' in session:
+            return {'navbar_template': 'fragments/navbar_login.html'}
+        return {'navbar_template': 'fragments/navbar.html'}
+
     # Registro de blueprints
     from app.routes.home import home_bp
     from app.routes.caregivers import caregivers_bp
@@ -44,3 +55,4 @@ def create_app():
     app.register_blueprint(register_bp)
 
     return app
+
