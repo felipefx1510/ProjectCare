@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% include 'fragments/navbar.html' %}
+    {% include 'fragments/flash.html' %}
+
+    <div class="container mt-5">
+        <h1 class="text-center">Selecione o perfil desejado:</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
+            </div>
+            <div class="col-md-8">
+                <h2>{{ user.name }}</h2>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Telefone:</strong> {{ user.phone }}</p>
+                <p><strong>CPF:</strong> {{ user.cpf }}</p>
+            </div>
+        </div>
+</body>
+</html>
