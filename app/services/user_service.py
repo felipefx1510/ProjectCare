@@ -3,9 +3,10 @@ from app import db
 from app.models.user import User
 
 def save(user):
-    """
-    Save a user to the database.
-    """
+    existing_user = get_by_email(user.email)
+    if existing_user:
+        raise ValueError("Email já existe em nosso sistema.")
+    
     db.session.add(user)
     db.session.commit()
     return user

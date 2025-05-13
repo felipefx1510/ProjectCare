@@ -16,33 +16,42 @@ def register():
         return redirect(url_for('home.home'))
 
     if request.method == "POST":
-        name = request.form.get('name')
-        cpf = request.form.get('cpf')
-        phone = request.form.get('phone')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        address = request.form.get('address')
-        city = request.form.get('city')
-        state = request.form.get('state')
-        birthdate = request.form.get('birthdate')
-        gender = request.form.get('gender')
+        try:
+            # Coleta de dados do formulário
+            name = request.form.get('name')
+            cpf = request.form.get('cpf')
+            phone = request.form.get('phone')
+            email = request.form.get('email')
+            password = request.form.get('password')
+            address = request.form.get('address')
+            city = request.form.get('city')
+            state = request.form.get('state')
+            birthdate = request.form.get('birthdate')
+            gender = request.form.get('gender')
 
-        user = User(name=name, cpf=cpf, phone=phone, email=email, password=password,
-                    address=address, city=city, state=state, birthdate=birthdate, gender=gender)
-        user_service.save(user)
-
-        # Armazenar o ID do usuário na sessão para uso posterior
-        session['user_id'] = user.id
-
-        if email or phone or cpf:
             # Verifica se o usuário já existe
             existing_user = user_service.get_by_email_or_phone_or_cpf(email=email, phone=phone, cpf=cpf)
             if existing_user:
                 flash('Usuário já cadastrado', 'danger')
                 return redirect(url_for('register.register'))
 
-        # Redirecionar para a página de seleção de perfil
-        return redirect(url_for('register.select_profile'))
+            # Criação e salvamento do usuário
+            user = User(
+                name=name, cpf=cpf, phone=phone, email=email, password=password,
+                address=address, city=city, state=state, birthdate=birthdate, gender=gender
+            )
+            user_service.save(user)
+
+            # Armazenar o ID do usuário na sessão
+            session['user_id'] = user.id
+
+            flash('Usuário cadastrado com sucesso', 'success')
+            return redirect(url_for('register.select_profile'))
+        except ValueError as e:
+            flash(str(e), 'danger')
+        except Exception as e:
+            flash('Ocorreu um erro ao cadastrar o usuário. Tente novamente.', 'danger')
+            return redirect(url_for('register.register'))
 
     return render_template("register/register.html")
 
