@@ -22,6 +22,20 @@ def get_by_email(email):
     """
     return User.query.filter_by(email=email).first()
 
+def get_by_email_or_phone_or_cpf(email=None, phone=None, cpf=None):
+    """
+    Get a user by email, phone, or CPF.
+    """
+    query = User.query
+    if email:
+        query = query.filter_by(email=email)
+    if phone:
+        query = query.filter_by(phone=phone)
+    if cpf:
+        query = query.filter_by(cpf=cpf)
+    
+    return query.first()
+
 def get_all():
     """
     Get all users.

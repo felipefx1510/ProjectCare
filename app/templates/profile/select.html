@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Selecione seu Perfil - ProjectCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     {% include 'fragments/navbar.html' %}
@@ -11,9 +12,9 @@
 
     <div class="container mt-5">
         <h1 class="text-center">Selecione o perfil desejado:</h1>
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-4">
-                <img src="{{ url_for('static', filename='images/profile.jpg') }}" alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
+                <img src="{{ url_for('static', filename='images/projectcare.png') }}" alt="Foto de Perfil" class="img-fluid rounded-circle mb-3">
             </div>
             <div class="col-md-8">
                 <h2>{{ user.name }}</h2>
@@ -22,5 +23,40 @@
                 <p><strong>CPF:</strong> {{ user.cpf }}</p>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title">Cuidador</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Registre-se como cuidador para oferecer seus serviços de cuidados a idosos.</p>
+                        <p>Como cuidador, você precisará fornecer informações sobre sua especialidade, experiência, formação e habilidades.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('register.register_caregiver') }}" class="btn btn-primary btn-lg w-100">Registrar como Cuidador</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="card-title">Responsável</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Registre-se como responsável para gerenciar o cuidado de idosos.</p>
+                        <p>Como responsável, você poderá cadastrar idosos e contratar cuidadores para eles.</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ url_for('register.register_responsible') }}" class="btn btn-success btn-lg w-100">Registrar como Responsável</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

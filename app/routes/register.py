@@ -1,5 +1,5 @@
 # app/routes/register.py
-from flask import Blueprint, render_template, request, redirect, url_for, session
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from app.models.user import User
 from app.models.caregiver import Caregiver
 from app.models.responsible import Responsible
@@ -12,6 +12,9 @@ register_bp = Blueprint("register", __name__, url_prefix="/register")
 
 @register_bp.route("/", methods=["GET", "POST"])
 def register():
+    if 'user_id' in session:
+        return redirect(url_for('home.home'))
+
     if request.method == "POST":
         name = request.form.get('name')
         cpf = request.form.get('cpf')
@@ -30,6 +33,13 @@ def register():
 
         # Armazenar o ID do usuário na sessão para uso posterior
         session['user_id'] = user.id
+
+        if email or phone or cpf:
+            # Verifica se o usuário já existe
+            existing_user = user_service.get_by_email_or_phone_or_cpf(email=email, phone=phone, cpf=cpf)
+            if existing_user:
+                flash('Usuário já cadastrado', 'danger')
+                return redirect(url_for('register.register'))
 
         # Redirecionar para a página de seleção de perfil
         return redirect(url_for('register.select_profile'))
