@@ -145,28 +145,58 @@ def register_responsible():
 @register_bp.route('/elderly', methods=['GET', 'POST'])
 def register_elderly():
     if request.method == "POST":
-        user_id = session.get('user_id')
-        if not user_id:
+        responsible_id = session.get('user_id')
+        if not responsible_id:
+            return redirect(url_for('login.login'))
+        responsible = responsible_service.get_responsible_by_id(responsible_id)
+        if not responsible:
+            flash('Responsável não encontrado.', 'danger')
             return redirect(url_for('login.login'))
 
-        user = user_service.get_by_id(user_id)
-
-        birthdate = datetime.strptime(request.form.get('birthdate'), '%Y-%m-%d').date()
+        name = request.form.get('name')
+        cpf = request.form.get('cpf')
+        birthdate = request.form.get('birthdate')
         gender = request.form.get('gender')
-        responsible_id = request.form.get('responsible_id')
-
-        responsible = responsible_service.get_by_id(responsible_id)
+        address_elderly = request.form.get('address_elderly')
+        city_elderly = request.form.get('city_elderly')
+        state_elderly = request.form.get('state_elderly')
+        photo_url = request.form.get('photo_url')
+        medical_conditions = request.form.get('medical_conditions')
+        allergies = request.form.get('allergies')
+        medications_in_use = request.form.get('medications_in_use')
+        mobility_level = request.form.get('mobility_level')
+        specific_care_needs = request.form.get('specific_care_needs')
+        emergency_contact_name = request.form.get('emergency_contact_name')
+        emergency_contact_phone = request.form.get('emergency_contact_phone')
+        emergency_contact_relationship = request.form.get('emergency_contact_relationship')
+        health_plan_name = request.form.get('health_plan_name')
+        health_plan_number = request.form.get('health_plan_number')
+        additional_notes = request.form.get('additional_notes')
 
         elderly = Elderly(
-            user=user,
+            name=name,
+            cpf=cpf,
             birthdate=birthdate,
             gender=gender,
+            address_elderly=address_elderly,
+            city_elderly=city_elderly,
+            state_elderly=state_elderly,
+            photo_url=photo_url,
+            medical_conditions=medical_conditions,
+            allergies=allergies,
+            medications_in_use=medications_in_use,
+            mobility_level=mobility_level,
+            specific_care_needs=specific_care_needs,
+            emergency_contact_name=emergency_contact_name,
+            emergency_contact_phone=emergency_contact_phone,
+            emergency_contact_relationship=emergency_contact_relationship,
+            health_plan_name=health_plan_name,
+            health_plan_number=health_plan_number,
+            additional_notes=additional_notes,
             responsible=responsible
         )
-
         elderly_service.save(elderly)
-        return redirect(url_for('login.login'))
+        flash('Idoso cadastrado com sucesso!', 'success')
+        return redirect(url_for('register.register_elderly'))
 
-    # Buscar todos os responsáveis para o formulário
-    responsibles = responsible_service.get_all()
-    return render_template("login/register_elderly.html", responsibles=responsibles)
+    return render_template("register/register_elderly.html")

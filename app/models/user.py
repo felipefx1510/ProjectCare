@@ -33,7 +33,7 @@ class User(db.Model):
     # Relações
     caregiver = db.relationship("Caregiver", back_populates="user", uselist=False)
     responsible = db.relationship("Responsible", back_populates="user", uselist=False)
-    elderly = db.relationship("Elderly", back_populates="user", uselist=False)
+    # elderly = db.relationship("Elderly", back_populates="user", uselist=False)  # Removido: não há mais FK para elderly
 
     def __init__(self, name, cpf, gender, birthdate, phone, email, password, address, city, state):
         self.name = name
