@@ -32,6 +32,11 @@
                 <a href="https://wa.me/5582981316407" class="btn btn-success btn-sm me-2" target="_blank">
                     <i class="bi bi-whatsapp"></i> WhatsApp
                 </a>
+                {% if session['acting_profile'] == 'caregiver' %}
+                    <span class="badge bg-primary me-2">Cuidador</span>
+                {% elif session['acting_profile'] == 'responsible' %}
+                    <span class="badge bg-success me-2">Responsável</span>
+                {% endif %}
                 <a href="{{ url_for('home.logout') }}" class="btn btn-outline-danger btn-sm">Sair</a>
             </div>
         </div>

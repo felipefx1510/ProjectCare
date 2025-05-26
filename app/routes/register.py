@@ -68,6 +68,33 @@ def select_profile():
     return render_template("profile/select.html", user=user)
 
 
+@register_bp.route("/add-profile", methods=["GET", "POST"])
+def add_profile():
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login.login'))
+    user = user_service.get_by_id(user_id)
+    caregiver = caregiver_service.get_caregiver_by_id(user_id) if user else None
+    if not caregiver and user:
+        caregiver = caregiver_service.get_caregiver_by_email(user.email)
+    responsible = responsible_service.get_responsible_by_id(user_id) if user else None
+    if not responsible and user:
+        responsible = responsible_service.get_responsible_by_email(user.email)
+    if request.method == "POST":
+        if not caregiver and request.form.get('add_caregiver'):
+            return redirect(url_for('register.register_caregiver'))
+        if not responsible and request.form.get('add_responsible'):
+            return redirect(url_for('register.register_responsible'))
+        flash('Selecione um perfil para adicionar.', 'warning')
+    return render_template(
+        "profile/select.html",
+        user=user,
+        show_add_profile=True,
+        has_caregiver=bool(caregiver),
+        has_responsible=bool(responsible)
+    )
+
+
 @register_bp.route('/caregiver', methods=['GET', 'POST'])
 def register_caregiver():
     if request.method == "POST":

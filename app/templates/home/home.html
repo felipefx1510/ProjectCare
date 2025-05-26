@@ -17,6 +17,23 @@
     </div>
 </header>
 
+{% if session.get('acting_profile') == 'caregiver' %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Bem-vindo, Cuidador!</h2>
+        <p class="text-center">Aqui você pode visualizar oportunidades de trabalho, gerenciar seu perfil e acompanhar avaliações.</p>
+        <!-- Conteúdo específico para cuidador pode ser adicionado aqui -->
+    </div>
+</section>
+{% elif session.get('acting_profile') == 'responsible' %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Bem-vindo, Responsável!</h2>
+        <p class="text-center">Gerencie os idosos sob seus cuidados, contrate cuidadores e acompanhe o bem-estar dos seus familiares.</p>
+        <!-- Conteúdo específico para responsável pode ser adicionado aqui -->
+    </div>
+</section>
+{% else %}
 <section class="py-5">
     <div class="container">
         <h2 class="mb-4 text-center">Profissionais em Destaque</h2>
@@ -62,6 +79,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 {% include 'fragments/footer.html' %}
 

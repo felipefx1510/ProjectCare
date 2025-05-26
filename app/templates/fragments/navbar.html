@@ -32,8 +32,17 @@
                 <a href="https://wa.me/5582981316407" class="btn btn-success btn-sm me-2" target="_blank">
                     <i class="bi bi-whatsapp"></i> WhatsApp
                 </a>
-                <a href="{{ url_for('login.login') }}" class="btn btn-outline-primary btn-sm me-2">Login</a>
-                <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-sm">Cadastro</a>
+                {% if session.get('user_id') %}
+                    {% if session['acting_profile'] == 'caregiver' %}
+                        <span class="badge bg-primary me-2">Cuidador</span>
+                    {% elif session['acting_profile'] == 'responsible' %}
+                        <span class="badge bg-success me-2">Responsável</span>
+                    {% endif %}
+                    <a href="{{ url_for('home.logout') }}" class="btn btn-outline-danger btn-sm">Sair</a>
+                {% else %}
+                    <a href="{{ url_for('login.login') }}" class="btn btn-outline-primary btn-sm me-2">Login</a>
+                    <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-sm">Cadastro</a>
+                {% endif %}
             </div>
         </div>
     </div>
