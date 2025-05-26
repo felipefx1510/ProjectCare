@@ -83,19 +83,39 @@ def register_caregiver():
         expertise_area = request.form.get('expertise')
         skills = request.form.get('skills')
 
+        # Novos campos do formulário
+        dias = request.form.getlist('dias[]')
+        periodos = request.form.getlist('periodos[]')
+        inicio_imediato = request.form.get('inicio_imediato') == 'sim'
+        pretensao = request.form.get('pretensao')
+
+        # Serializa as informações extras para o campo skills
+        info_extra = []
+        if dias:
+            info_extra.append(f"Dias: {', '.join(dias)}")
+        if periodos:
+            info_extra.append(f"Períodos: {', '.join(periodos)}")
+        info_extra.append(f"Início imediato: {'Sim' if inicio_imediato else 'Não'}")
+        info_extra.append(f"Pretensão: R$ {pretensao}")
+        skills_full = skills + " | " + " | ".join(info_extra)
+
         caregiver = Caregiver(
             user=user,
             specialty=specialty,
             experience=experience,
             education=education,
             expertise_area=expertise_area,
-            skills=skills
+            skills=skills,
+            dias_disponiveis=", ".join(dias) if dias else None,
+            periodos_disponiveis=", ".join(periodos) if periodos else None,
+            inicio_imediato=inicio_imediato,
+            pretensao_salarial=float(pretensao) if pretensao else None
         )
 
         caregiver_service.save(caregiver)
         return redirect(url_for('login.login'))
 
-    return render_template("login/register_caregiver.html")
+    return render_template("register/register_caregiver.html")
 
 
 @register_bp.route('/responsible', methods=['GET', 'POST'])
@@ -106,13 +126,20 @@ def register_responsible():
             return redirect(url_for('login.login'))
 
         user = user_service.get_by_id(user_id)
+        relationship_with_elderly = request.form.get('relationship_with_elderly')
+        primary_need_description = request.form.get('primary_need_description')
+        preferred_contact_method = request.form.get('preferred_contact_method')
 
-        responsible = Responsible(user=user)
+        responsible = Responsible(
+            user=user,
+            relationship_with_elderly=relationship_with_elderly,
+            primary_need_description=primary_need_description,
+            preferred_contact_method=preferred_contact_method
+        )
         responsible_service.save(responsible)
-
         return redirect(url_for('login.login'))
 
-    return render_template("login/register_responsible.html")
+    return render_template("register/register_responsible.html")
 
 
 @register_bp.route('/elderly', methods=['GET', 'POST'])

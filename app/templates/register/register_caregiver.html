@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Cuidador - ProjectCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .register-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+            padding: 2rem 2rem 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .form-section-title {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        .section-divider {
+            border-top: 2px solid #e3e3e3;
+            margin: 2.5rem 0 2rem 0;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .disponibilidade-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.2rem 1rem 1rem 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .disponibilidade-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.7rem;
+        }
+        .dias-list, .periodos-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2.5rem;
+        }
+        .dias-list .form-check, .periodos-list .form-check {
+            min-width: 120px;
+        }
+        @media (max-width: 767px) {
+            .register-card {
+                padding: 1rem;
+            }
+            .dias-list, .periodos-list {
+                gap: 0.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    {% include 'fragments/navbar.html' %}
+    {% include 'fragments/flash.html' %}
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="register-card">
+                    <h2 class="text-center mb-4 text-primary">Cadastro de Cuidador</h2>
+                    <form method="post" action="{{ url_for('register.register_caregiver') }}">
+                        <h5 class="form-section-title">Informações Profissionais</h5>
+                        <div class="row g-3 mb-2">
+                            <div class="col-md-6">
+                                <label for="specialty" class="form-label">Especialidade</label>
+                                <input type="text" class="form-control" id="specialty" name="specialty" required placeholder="Ex: Enfermagem, Fisioterapia">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="experience" class="form-label">Experiência (anos)</label>
+                                <input type="number" class="form-control" id="experience" name="experience" min="0" required placeholder="Ex: 5">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="education" class="form-label">Formação</label>
+                                <input type="text" class="form-control" id="education" name="education" required placeholder="Ex: Técnico em Enfermagem">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="expertise" class="form-label">Área de Atuação</label>
+                                <input type="text" class="form-control" id="expertise" name="expertise" required placeholder="Ex: Idosos, Reabilitação">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="skills" class="form-label">Habilidades</label>
+                            <input type="text" class="form-control" id="skills" name="skills" placeholder="Ex: Primeiros socorros, Medicação, Higiene pessoal" required>
+                        </div>
+
+                        <div class="section-divider"></div>
+                        <h5 class="form-section-title">Disponibilidade</h5>
+                        <div class="disponibilidade-box mb-3">
+                            <div class="disponibilidade-title">Dias da Semana</div>
+                            <div class="dias-list">
+                                {% for dia in ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'] %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="dias[]" id="dia_{{ dia }}" value="{{ dia }}">
+                                    <label class="form-check-label" for="dia_{{ dia }}">{{ dia }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="disponibilidade-box mb-3">
+                            <div class="disponibilidade-title">Períodos do Dia</div>
+                            <div class="periodos-list">
+                                {% for periodo in ['Manhã', 'Tarde', 'Noite', 'Madrugada'] %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="periodos[]" id="periodo_{{ periodo }}" value="{{ periodo }}">
+                                    <label class="form-check-label" for="periodo_{{ periodo }}">{{ periodo }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="inicio_imediato" name="inicio_imediato" value="sim">
+                                <label class="form-check-label" for="inicio_imediato">Disponível para início imediato</label>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="pretensao" class="form-label">Pretensão Salarial / Taxa por Hora (R$)</label>
+                            <input type="number" class="form-control" id="pretensao" name="pretensao" min="0" step="0.01" required placeholder="Ex: 120.00">
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
