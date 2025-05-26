@@ -58,7 +58,14 @@ def register():
 
 @register_bp.route("/select-profile", methods=["GET"])
 def select_profile():
-    return render_template("login/select_profile.html")
+    user_id = session.get('user_id')
+    if not user_id:
+        return redirect(url_for('login.login'))
+    user = user_service.get_by_id(user_id)
+    if not user:
+        flash('Usuário não encontrado', 'danger')
+        return redirect(url_for('login.login'))
+    return render_template("profile/select.html", user=user)
 
 
 @register_bp.route('/caregiver', methods=['GET', 'POST'])
