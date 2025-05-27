@@ -1,8 +1,8 @@
-"""reseta config
+"""criação inicial
 
-Revision ID: e9763ed4d1e1
-Revises: e938d84f0209
-Create Date: 2025-05-26 16:52:17.112464
+Revision ID: 3d3dbbf32321
+Revises: 
+Create Date: 2025-05-27 18:44:05.678389
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e9763ed4d1e1'
-down_revision = 'e938d84f0209'
+revision = '3d3dbbf32321'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -55,6 +55,9 @@ def upgrade():
     op.create_table('responsible',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('relationship_with_elderly', sa.String(length=50), nullable=True),
+    sa.Column('primary_need_description', sa.String(length=255), nullable=True),
+    sa.Column('preferred_contact_method', sa.String(length=30), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -70,12 +73,27 @@ def upgrade():
     )
     op.create_table('elderly',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=100), nullable=False),
+    sa.Column('cpf', sa.String(length=20), nullable=True),
     sa.Column('birthdate', sa.Date(), nullable=False),
     sa.Column('gender', sa.String(length=10), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('address_elderly', sa.String(length=255), nullable=True),
+    sa.Column('city_elderly', sa.String(length=100), nullable=True),
+    sa.Column('state_elderly', sa.String(length=100), nullable=True),
+    sa.Column('photo_url', sa.String(length=255), nullable=True),
+    sa.Column('medical_conditions', sa.Text(), nullable=True),
+    sa.Column('allergies', sa.Text(), nullable=True),
+    sa.Column('medications_in_use', sa.Text(), nullable=True),
+    sa.Column('mobility_level', sa.String(length=40), nullable=True),
+    sa.Column('specific_care_needs', sa.Text(), nullable=True),
+    sa.Column('emergency_contact_name', sa.String(length=100), nullable=True),
+    sa.Column('emergency_contact_phone', sa.String(length=30), nullable=True),
+    sa.Column('emergency_contact_relationship', sa.String(length=50), nullable=True),
+    sa.Column('health_plan_name', sa.String(length=100), nullable=True),
+    sa.Column('health_plan_number', sa.String(length=50), nullable=True),
+    sa.Column('additional_notes', sa.Text(), nullable=True),
     sa.Column('responsible_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['responsible_id'], ['responsible.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
