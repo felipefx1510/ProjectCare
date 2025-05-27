@@ -1,50 +1,216 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Contato - ProjectCare</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .rounded-circle {
-            object-fit: cover;
-            width: 150px;
-            height: 150px;
-            aspect-ratio: 1/1;
-        }
-    </style>
-</head>
-<body>
-{% include navbar_template %}
+{% extends 'base.html' %}
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Nosso Contato</h2>
+{% block title %}Contato - ProjectCare{% endblock %}
 
-    <div class="row mb-4">
-        <div class="col-md-6 text-center">
-            <img src="{{ url_for('static', filename='images/breno.jpg') }}" class="rounded-circle mb-2" alt="Breno Siqueira">
-            <h5>Breno Siqueira</h5>
-            <p><strong>Email:</strong> brenosiqueira@hotmail.com</p>
-            <p><strong>Telefone:</strong> +55 82 9 8131-6407</p>
-        </div>
-        <div class="col-md-6 text-center">
-            <img src="{{ url_for('static', filename='images/felipe.jpg') }}" class="rounded-circle mb-2" alt="Felipe Felix">
-            <h5>Felipe Felix</h5>
-            <p><strong>Email:</strong> felipefelix@hotmail.com</p>
-            <p><strong>Telefone:</strong> +55 82 9 9983-4470 </p>
+{% block content %}
+<!-- Page Header -->
+<section class="bg-primary text-white py-5 text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold" data-aos="fade-up">Entre em Contato</h1>
+        <p class="lead" data-aos="fade-up" data-aos-delay="100">
+            Estamos aqui para ajudar você a encontrar o melhor cuidado para seus entes queridos
+        </p>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <i class="bi bi-geo-alt-fill fs-1"></i>
+                        </div>
+                        <h4>Nosso Endereço</h4>
+                        <p class="mb-0">Av. Principal, 123</p>
+                        <p>Maceió, AL 57000-000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <i class="bi bi-telephone-fill fs-1"></i>
+                        </div>
+                        <h4>Telefone</h4>
+                        <p class="mb-0">(82) 4002-8922</p>
+                        <p>Segunda a Sexta, 8h às 18h</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card border-0 h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <i class="bi bi-envelope-fill fs-1"></i>
+                        </div>
+                        <h4>E-mail</h4>
+                        <p class="mb-0">contato@projectcare.com</p>
+                        <p>Respondemos em até 24 horas</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-    <div class="mb-5">
-        <h4 class="text-center mb-3">Sobre o Projeto</h4>
-        <textarea class="form-control" rows="5" readonly>
-ProjectCare é um sistema voltado para conectar responsáveis por idosos a cuidadores profissionais. Com foco em facilitar o processo de contratação e acompanhar o bem-estar dos idosos, o sistema permite cadastramento, avaliações, e gerenciamento de contratos de forma simples e intuitiva.
-        </textarea>
+<!-- Contact Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="mb-4">Envie-nos uma mensagem</h2>
+                <p class="mb-4">Preencha o formulário abaixo para entrar em contato conosco. Teremos prazer em responder suas dúvidas e ajudá-lo a encontrar o melhor cuidado para seus entes queridos.</p>
+
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="name" placeholder="Seu nome" required>
+                            <div class="invalid-feedback">
+                                Por favor, informe seu nome.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" class="form-control" id="email" placeholder="Seu e-mail" required>
+                            <div class="invalid-feedback">
+                                Por favor, informe um e-mail válido.
+                            </div>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="subject" class="form-label">Assunto</label>
+                            <input type="text" class="form-control" id="subject" placeholder="Assunto da mensagem" required>
+                            <div class="invalid-feedback">
+                                Por favor, informe o assunto.
+                            </div>
+                        </div>
+
+                        <div class="col-12 mb-3">
+                            <label for="message" class="form-label">Mensagem</label>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Sua mensagem" required></textarea>
+                            <div class="invalid-feedback">
+                                Por favor, escreva sua mensagem.
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-send me-2"></i>Enviar Mensagem
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="card border-0">
+                    <div class="card-body p-4">
+                        <h2 class="mb-4">Nossa Equipe</h2>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="{{ url_for('static', filename='images/breno.jpg') }}" class="rounded-circle me-4" alt="Breno Siqueira" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div>
+                                <h5 class="mb-1">Breno Siqueira</h5>
+                                <p class="text-muted mb-2">Desenvolvedor Full Stack</p>
+                                <div class="d-flex">
+                                    <a href="mailto:brenosiqueira@hotmail.com" class="me-3 text-primary">
+                                        <i class="bi bi-envelope"></i> brenosiqueira@hotmail.com
+                                    </a>
+                                </div>
+                                <div class="mt-1">
+                                    <a href="tel:+5582981316407" class="text-primary">
+                                        <i class="bi bi-telephone"></i> +55 82 9 8131-6407
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center">
+                            <img src="{{ url_for('static', filename='images/felipe.jpg') }}" class="rounded-circle me-4" alt="Felipe Felix" style="width: 100px; height: 100px; object-fit: cover;">
+                            <div>
+                                <h5 class="mb-1">Felipe Felix</h5>
+                                <p class="text-muted mb-2">Desenvolvedor Full Stack</p>
+                                <div class="d-flex">
+                                    <a href="mailto:felipefelix@hotmail.com" class="me-3 text-primary">
+                                        <i class="bi bi-envelope"></i> felipefelix@hotmail.com
+                                    </a>
+                                </div>
+                                <div class="mt-1">
+                                    <a href="tel:+5582999834470" class="text-primary">
+                                        <i class="bi bi-telephone"></i> +55 82 9 9983-4470
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <h4 class="mb-3">Sobre o Projeto</h4>
+                            <div class="card bg-light border-0">
+                                <div class="card-body">
+                                    <p>
+                                        ProjectCare é um sistema voltado para conectar responsáveis por idosos a cuidadores profissionais. 
+                                        Com foco em facilitar o processo de contratação e acompanhar o bem-estar dos idosos, o sistema 
+                                        permite cadastramento, avaliações, e gerenciamento de contratos de forma simples e intuitiva.
+                                    </p>
+                                    <p class="mb-0">
+                                        Nossa missão é proporcionar tranquilidade às famílias e cuidados de qualidade aos idosos, 
+                                        através de uma plataforma segura e confiável.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-{% include 'fragments/footer.html' %}
+<!-- Map Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="zoom-in">
+                <div class="card border-0">
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-21x9">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126303.8567542796!2d-35.81045235!3d-9.6476843!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7014768b5b0c1e1%3A0x1ba8d3c2b9a8cb4a!2sMacei%C3%B3%2C%20AL!5e0!3m2!1spt-BR!2sbr!4v1653508272408!5m2!1spt-BR!2sbr" 
+                                    style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% block extra_js %}
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+
+        const forms = document.querySelectorAll('.needs-validation');
+
+        Array.from(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

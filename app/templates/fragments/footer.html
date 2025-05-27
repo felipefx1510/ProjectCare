@@ -1,40 +1,83 @@
-<footer class="bg-dark text-white py-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-4 mb-4">
-        <h5 class="mb-3">ProjectCare</h5>
-        <p>Conectando famílias a profissionais de saúde qualificados para cuidados domiciliares com carinho e respeito.</p>
+<footer>
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="d-flex align-items-center mb-4">
+          <img src="{{ url_for('static', filename='images/projectcare.png') }}" alt="ProjectCare Logo" height="40" class="me-2">
+          <h5 class="mb-0">ProjectCare</h5>
+        </div>
+        <p class="mb-4">Conectando famílias a profissionais de saúde qualificados para cuidados domiciliares com carinho, respeito e dedicação.</p>
+        <div class="social-icons d-flex gap-2 mb-4">
+          <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+        </div>
       </div>
-      <div class="col-md-2 mb-4">
-        <h5 class="mb-3">Links</h5>
+
+      <div class="col-lg-2 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <h5 class="mb-4">Links Rápidos</h5>
         <ul class="list-unstyled">
-          <li><a href="{{ url_for('home.home') }}" class="text-white-50">Home</a></li>
-          <li><a href="#" class="text-white-50">Sobre nós</a></li>
-          <li><a href="#" class="text-white-50">Serviços</a></li>
-          <li><a href="{{ url_for('contact.contact') }}" class="text-white-50">Contato</a></li>
+          <li class="mb-2"><a href="{{ url_for('home.home') }}"><i class="bi bi-chevron-right me-1"></i> Home</a></li>
+          <li class="mb-2"><a href="#"><i class="bi bi-chevron-right me-1"></i> Sobre nós</a></li>
+          <li class="mb-2"><a href="#"><i class="bi bi-chevron-right me-1"></i> Serviços</a></li>
+          <li class="mb-2"><a href="{{ url_for('contact.contact') }}"><i class="bi bi-chevron-right me-1"></i> Contato</a></li>
         </ul>
       </div>
-      <div class="col-md-3 mb-4">
-        <h5 class="mb-3">Contato</h5>
-        <ul class="list-unstyled text-white-50">
-          <li><i class="bi bi-geo-alt me-2"></i> Av. Principal, 123</li>
-          <li><i class="bi bi-telephone me-2"></i> (82) 4002-8922</li>
-          <li><i class="bi bi-envelope me-2"></i> contato@projectcare.com</li>
+
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <h5 class="mb-4">Contato</h5>
+        <ul class="list-unstyled">
+          <li class="mb-3 d-flex">
+            <i class="bi bi-geo-alt-fill me-3 text-primary"></i>
+            <span>Av. Principal, 123<br>Maceió, AL 57000-000</span>
+          </li>
+          <li class="mb-3 d-flex">
+            <i class="bi bi-telephone-fill me-3 text-primary"></i>
+            <span>(82) 4002-8922</span>
+          </li>
+          <li class="mb-3 d-flex">
+            <i class="bi bi-envelope-fill me-3 text-primary"></i>
+            <span>contato@projectcare.com</span>
+          </li>
         </ul>
       </div>
-      <div class="col-md-3 mb-4">
-        <h5 class="mb-3">Redes Sociais</h5>
-        <div class="d-flex gap-3">
-          <a href="#" class="text-white"><i class="bi bi-facebook fs-4"></i></a>
-          <a href="#" class="text-white"><i class="bi bi-instagram fs-4"></i></a>
-          <a href="#" class="text-white"><i class="bi bi-twitter fs-4"></i></a>
-          <a href="#" class="text-white"><i class="bi bi-linkedin fs-4"></i></a>
+
+      <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <h5 class="mb-4">Horário de Atendimento</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2 d-flex justify-content-between">
+            <span>Segunda - Sexta:</span>
+            <span>8:00 - 18:00</span>
+          </li>
+          <li class="mb-2 d-flex justify-content-between">
+            <span>Sábado:</span>
+            <span>9:00 - 15:00</span>
+          </li>
+          <li class="mb-4 d-flex justify-content-between">
+            <span>Domingo:</span>
+            <span>Fechado</span>
+          </li>
+        </ul>
+        <div class="mt-3">
+          <a href="{{ url_for('contact.contact') }}" class="btn btn-primary btn-sm">
+            <i class="bi bi-chat-dots me-1"></i> Fale Conosco
+          </a>
         </div>
       </div>
     </div>
-    <hr class="my-4">
-    <div class="text-center">
-      <p class="mb-0">© 2025 ProjectCare. Todos os direitos reservados.</p>
+  </div>
+
+  <div class="py-3 border-top">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-md-0">© 2025 ProjectCare. Todos os direitos reservados.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <p class="mb-0">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> para cuidar de quem você ama</p>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

@@ -1,115 +1,244 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - ProjectCare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        /* CSS para ajustar o layout */
-        body {
-            display: flex;
-            flex-direction: column;
-            flex: 100vh;
-        }
-        main {
-            flex: 1;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-{% include 'fragments/navbar.html' %}
+{% block title %}Cadastro - ProjectCare{% endblock %}
 
-{% include 'fragments/flash.html' %}
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0" data-aos="fade-up">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <img src="{{ url_for('static', filename='images/projectcare.png') }}" alt="ProjectCare Logo" height="60" class="mb-3">
+                            <h2 class="mb-2">Crie sua conta</h2>
+                            <p class="text-muted">Preencha os dados abaixo para se cadastrar</p>
+                        </div>
 
-<main>
-    <section class="bg-light">
-        <div class="container py-5">
-            <div class="row d-flex justify-content-center align-items-center">
-                <div class="col-lg-8 col-xl-6">
-                    <div class="card shadow-lg" style="border-radius: 15px;">
-                        <div class="card-body p-4">
-                            <h3 class="text-center text-primary mb-4">Crie sua conta</h3>
-                            <form method="post" action="{{ url_for('register.register') }}">
-                                <div class="mb-3">
+                        <form method="post" action="{{ url_for('register.register') }}" class="needs-validation" novalidate>
+                            <div class="row g-3">
+                                <!-- Informações Pessoais -->
+                                <div class="col-12">
+                                    <h5 class="mb-3 border-bottom pb-2"><i class="bi bi-person-circle me-2 text-primary"></i>Informações Pessoais</h5>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
                                     <label for="name" class="form-label">Nome completo</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Digite seu nome" required>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-person text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="name" name="name" placeholder="Digite seu nome completo" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe seu nome completo.
+                                    </div>
                                 </div>
-                                <div class="mb-3">
+
+                                <div class="col-md-6 mb-3">
                                     <label for="cpf" class="form-label">CPF</label>
-                                    <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Digite seu CPF" required>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-card-text text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um CPF válido.
+                                    </div>
                                 </div>
-                                <div class="mb-3">
+
+                                <div class="col-md-6 mb-3">
                                     <label for="phone" class="form-label">Telefone</label>
-                                    <input type="text" class="form-control" id="phone" name="phone" placeholder="Digite seu telefone" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">E-mail</label>
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Senha</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="confirm_password" class="form-label">Confirme sua senha</label>
-                                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label">Endereço</label>
-                                    <input type="text" class="form-control" id="address" name="address" placeholder="Digite seu endereço" required>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="city" class="form-label">Cidade</label>
-                                        <input type="text" class="form-control" id="city" name="city" placeholder="Digite sua cidade" required>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-telephone text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="phone" name="phone" placeholder="(00) 00000-0000" required>
                                     </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="state" class="form-label">Estado</label>
-                                        <input type="text" class="form-control" id="state" name="state" placeholder="Digite seu estado" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um telefone válido.
                                     </div>
                                 </div>
-                                <div class="mb-3">
+
+                                <div class="col-md-6 mb-3">
                                     <label for="birthdate" class="form-label">Data de nascimento</label>
-                                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-calendar-date text-primary"></i>
+                                        </span>
+                                        <input type="date" class="form-control border-start-0" id="birthdate" name="birthdate" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe sua data de nascimento.
+                                    </div>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Gênero</label>
-                                    <div>
-                                        <div class="form-check form-check-inline">
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label d-block">Gênero</label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
                                             <input class="form-check-input" type="radio" id="genderm" name="gender" value="Masculino" required>
                                             <label class="form-check-label" for="genderm">Masculino</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check">
                                             <input class="form-check-input" type="radio" id="genderf" name="gender" value="Feminino" required>
                                             <label class="form-check-label" for="genderf">Feminino</label>
                                         </div>
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check">
                                             <input class="form-check-input" type="radio" id="gendero" name="gender" value="Outro" required>
                                             <label class="form-check-label" for="gendero">Outro</label>
                                         </div>
                                     </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione uma opção.
+                                    </div>
                                 </div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
+
+                                <!-- Informações de Contato -->
+                                <div class="col-12 mt-4">
+                                    <h5 class="mb-3 border-bottom pb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço</h5>
                                 </div>
-                            </form>
-                            <p class="text-center text-muted mt-3">Já tem uma conta? <a href="{{ url_for('login.login') }}" class="text-primary">Faça login</a></p>
+
+                                <div class="col-12 mb-3">
+                                    <label for="address" class="form-label">Endereço completo</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-house text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="address" name="address" placeholder="Rua, número, bairro, complemento" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe seu endereço.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="city" class="form-label">Cidade</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-building text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="city" name="city" placeholder="Digite sua cidade" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe sua cidade.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="state" class="form-label">Estado</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-map text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="state" name="state" placeholder="Digite seu estado" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe seu estado.
+                                    </div>
+                                </div>
+
+                                <!-- Informações de Acesso -->
+                                <div class="col-12 mt-4">
+                                    <h5 class="mb-3 border-bottom pb-2"><i class="bi bi-shield-lock me-2 text-primary"></i>Informações de Acesso</h5>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <label for="email" class="form-label">E-mail</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-envelope text-primary"></i>
+                                        </span>
+                                        <input type="email" class="form-control border-start-0" id="email" name="email" placeholder="Digite seu e-mail" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um e-mail válido.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="password" class="form-label">Senha</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-lock text-primary"></i>
+                                        </span>
+                                        <input type="password" class="form-control border-start-0" id="password" name="password" placeholder="Digite sua senha" required>
+                                        <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">A senha deve ter pelo menos 8 caracteres.</div>
+                                    <div class="invalid-feedback">
+                                        Por favor, crie uma senha.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="confirm_password" class="form-label">Confirme sua senha</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-lock-fill text-primary"></i>
+                                        </span>
+                                        <input type="password" class="form-control border-start-0" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        As senhas não coincidem.
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            Concordo com os <a href="#" class="text-primary">Termos de Uso</a> e <a href="#" class="text-primary">Política de Privacidade</a>
+                                        </label>
+                                        <div class="invalid-feedback">
+                                            Você deve concordar com os termos para continuar.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="bi bi-person-plus me-2"></i>Criar Conta
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <p class="mb-0">Já tem uma conta? <a href="{{ url_for('login.login') }}" class="text-primary">Faça login</a></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-</main>
+    </div>
+</section>
+{% endblock %}
 
-{% include 'fragments/footer.html' %}
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% block extra_js %}
 <script>
-   //verificar senhas
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('bi-eye');
+            icon.classList.add('bi-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('bi-eye-slash');
+            icon.classList.add('bi-eye');
+        }
+    });
+
+    // Password confirmation validation
     document.getElementById('confirm_password').addEventListener('input', function() {
         const password = document.getElementById('password').value;
         const confirmPassword = this.value;
@@ -119,7 +248,8 @@
             this.setCustomValidity('');
         }
     });
-    // mascara 
+
+    // CPF mask
     document.getElementById('cpf').addEventListener('input', function(e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 11) {
@@ -133,6 +263,38 @@
         }
         e.target.value = value;
     });
+
+    // Phone mask
+    document.getElementById('phone').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        if (value.length > 2) {
+            value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+        }
+        if (value.length > 7) {
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+    });
+
+    // Form validation
+    (function() {
+        'use strict';
+
+        const forms = document.querySelectorAll('.needs-validation');
+
+        Array.from(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
 </script>
-</body>
-</html>
+{% endblock %}

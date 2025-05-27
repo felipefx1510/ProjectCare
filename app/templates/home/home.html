@@ -1,117 +1,320 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Cuidados Dedicados</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .card-img-top {
-            object-fit: cover;
-            width: 100%;
-            height: 220px;
-            aspect-ratio: 1.2/1;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 12px 12px 0 0;
-            background: #f3f3f3;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-{% include navbar_template %}
+{% block title %}Home - ProjectCare{% endblock %}
 
-<header class="bg-primary text-white text-center py-5">
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center">
     <div class="container">
-        <h1 class="display-5">Cuidado Especializado e Confiável para Quem Você Mais Ama</h1>
-        <p class="lead mt-3">Conectamos sua família aos melhores profissionais de saúde, garantindo cuidado personalizado, segurança e tranquilidade para você e seus entes queridos. Comece agora mesmo!</p>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h1 data-aos="fade-up">Cuidado Especializado e Confiável para Quem Você Mais Ama</h1>
+                <p class="lead" data-aos="fade-up" data-aos-delay="200">
+                    Conectamos sua família aos melhores profissionais de saúde, garantindo cuidado personalizado, 
+                    segurança e tranquilidade para você e seus entes queridos.
+                </p>
+                {% if not session.get('user_id') %}
+                <div class="mt-5" data-aos="fade-up" data-aos-delay="300">
+                    <a href="{{ url_for('register.register') }}" class="btn btn-primary btn-lg me-3 mb-3 mb-md-0">
+                        <i class="bi bi-person-plus me-2"></i>Cadastre-se Agora
+                    </a>
+                    <a href="{{ url_for('login.login') }}" class="btn btn-outline-light btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</header>
+</section>
 
 {% if session.get('user_id') %}
     {% if session.get('acting_profile') == 'caregiver' %}
+    <!-- Caregiver Dashboard -->
     <section class="py-5">
         <div class="container">
-            <h2 class="mb-4 text-center">Bem-vindo, Cuidador!</h2>
-            <p class="text-center">Aqui você pode visualizar oportunidades de trabalho, gerenciar seu perfil e acompanhar avaliações.</p>
-            <div class="list-group mt-4">
-                <a href="{{ url_for('caregivers.list_elderly') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-search"></i> Ver Idosos Disponíveis
-                </a>
+            <div class="dashboard-section" data-aos="fade-up">
+                <h2 class="text-center mb-4">Bem-vindo, Cuidador!</h2>
+                <p class="text-center mb-5">Aqui você pode visualizar oportunidades de trabalho, gerenciar seu perfil e acompanhar avaliações.</p>
+
+                <div class="row g-4 mt-2">
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card">
+                            <div class="icon"><i class="bi bi-search"></i></div>
+                            <h3>Encontre Oportunidades</h3>
+                            <p>Visualize idosos que precisam de cuidados e candidate-se para prestar serviços.</p>
+                            <a href="{{ url_for('caregivers.list_elderly') }}" class="btn btn-primary mt-3">
+                                Ver Idosos Disponíveis
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card">
+                            <div class="icon"><i class="bi bi-person-badge"></i></div>
+                            <h3>Seu Perfil Profissional</h3>
+                            <p>Mantenha seu perfil atualizado para aumentar suas chances de ser contratado.</p>
+                            <a href="#" class="btn btn-primary mt-3">
+                                Atualizar Perfil
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     {% elif session.get('acting_profile') == 'responsible' %}
+    <!-- Responsible Dashboard -->
     <section class="py-5">
         <div class="container">
-            <h2 class="mb-4 text-center">Bem-vindo, Responsável!</h2>
-            <p class="text-center">Gerencie os idosos sob seus cuidados, contrate cuidadores e acompanhe o bem-estar dos seus familiares.</p>
-            <div class="list-group mt-4">
-                <a href="{{ url_for('responsible_dashboard.my_elderly') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-people-fill"></i> Meus Idosos Cadastrados
-                </a>
-                <a href="{{ url_for('register.register_elderly') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-person-plus-fill"></i> Cadastrar Novo Idoso
-                </a>
-                <a href="{{ url_for('caregivers.list_caregivers') }}" class="list-group-item list-group-item-action">
-                    <i class="bi bi-search"></i> Ver Cuidadores Disponíveis
-                </a>
+            <div class="dashboard-section" data-aos="fade-up">
+                <h2 class="text-center mb-4">Bem-vindo, Responsável!</h2>
+                <p class="text-center mb-5">Gerencie os idosos sob seus cuidados, contrate cuidadores e acompanhe o bem-estar dos seus familiares.</p>
+
+                <div class="row g-4">
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-card">
+                            <div class="icon"><i class="bi bi-people-fill"></i></div>
+                            <h3>Meus Idosos</h3>
+                            <p>Visualize e gerencie os idosos que estão sob sua responsabilidade.</p>
+                            <a href="{{ url_for('responsible_dashboard.my_elderly') }}" class="btn btn-primary mt-3">
+                                Ver Meus Idosos
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-card">
+                            <div class="icon"><i class="bi bi-person-plus-fill"></i></div>
+                            <h3>Cadastrar Idoso</h3>
+                            <p>Adicione um novo idoso para encontrar cuidadores qualificados.</p>
+                            <a href="{{ url_for('register.register_elderly') }}" class="btn btn-primary mt-3">
+                                Cadastrar Novo Idoso
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-card">
+                            <div class="icon"><i class="bi bi-search"></i></div>
+                            <h3>Encontrar Cuidadores</h3>
+                            <p>Busque e contrate cuidadores qualificados para seus idosos.</p>
+                            <a href="{{ url_for('caregivers.list_caregivers') }}" class="btn btn-primary mt-3">
+                                Ver Cuidadores
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     {% endif %}
 {% else %}
+<!-- Features Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Por que escolher a ProjectCare?</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="feature-card">
+                    <div class="icon"><i class="bi bi-shield-check"></i></div>
+                    <h3>Profissionais Verificados</h3>
+                    <p>Todos os cuidadores passam por um rigoroso processo de verificação de antecedentes e qualificações.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="feature-card">
+                    <div class="icon"><i class="bi bi-heart-pulse"></i></div>
+                    <h3>Cuidado Personalizado</h3>
+                    <p>Planos de cuidados adaptados às necessidades específicas de cada idoso e sua família.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="feature-card">
+                    <div class="icon"><i class="bi bi-clock-history"></i></div>
+                    <h3>Disponibilidade 24/7</h3>
+                    <p>Suporte e atendimento disponíveis a qualquer hora do dia, todos os dias da semana.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Professionals Section -->
 <section class="py-5">
     <div class="container">
-        <h2 class="mb-4 text-center">Profissionais em Destaque</h2>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ url_for('static', filename='images/p1.png') }}" class="card-img-top" alt="Foto do profissional">
-                    <div class="card-body">
-                        <h5 class="card-title">Maria Oliveira</h5>
-                        <p class="card-text">Enfermeira com 10 anos de experiência em cuidados geriátricos. Atende em domicílio.</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-primary btn-sm">Ver Perfil</a>
+        <h2 class="text-center mb-5" data-aos="fade-up">Profissionais em Destaque</h2>
+
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="profile-card">
+                    <img src="{{ url_for('static', filename='images/p1.png') }}" class="profile-img" alt="Maria Oliveira">
+                    <div class="profile-info">
+                        <h4 class="profile-name">Maria Oliveira</h4>
+                        <p class="profile-title">Enfermeira Geriátrica</p>
+                        <div class="profile-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <span class="ms-1">4.5</span>
+                        </div>
+                        <p>Enfermeira com 10 anos de experiência em cuidados geriátricos. Especialista em cuidados domiciliares.</p>
+                        <a href="#" class="btn btn-primary">Ver Perfil</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ url_for('static', filename='images/p2.jpg') }}" class="card-img-top" alt="Foto do profissional">
-                    <div class="card-body">
-                        <h5 class="card-title">Davi Brito</h5>
-                        <p class="card-text">Cuidador certificado, especialista em mobilidade e acompanhamento diário.</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-primary btn-sm">Ver Perfil</a>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="profile-card">
+                    <img src="{{ url_for('static', filename='images/p2.jpg') }}" class="profile-img" alt="Davi Brito">
+                    <div class="profile-info">
+                        <h4 class="profile-name">Davi Brito</h4>
+                        <p class="profile-title">Cuidador Certificado</p>
+                        <div class="profile-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                            <span class="ms-1">4.0</span>
+                        </div>
+                        <p>Cuidador certificado, especialista em mobilidade e acompanhamento diário de idosos com necessidades especiais.</p>
+                        <a href="#" class="btn btn-primary">Ver Perfil</a>
                     </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ url_for('static', filename='images/p3.jpg') }}" class="card-img-top" alt="Foto do profissional">
-                    <div class="card-body">
-                        <h5 class="card-title">Ana Paula</h5>
-                        <p class="card-text">Fisioterapeuta com foco em idosos, ajuda na reabilitação e qualidade de vida.</p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <a href="#" class="btn btn-primary btn-sm">Ver Perfil</a>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="profile-card">
+                    <img src="{{ url_for('static', filename='images/p3.jpg') }}" class="profile-img" alt="Ana Paula">
+                    <div class="profile-info">
+                        <h4 class="profile-name">Ana Paula</h4>
+                        <p class="profile-title">Fisioterapeuta</p>
+                        <div class="profile-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span class="ms-1">5.0</span>
+                        </div>
+                        <p>Fisioterapeuta com foco em idosos, especializada em reabilitação e melhoria da qualidade de vida.</p>
+                        <a href="#" class="btn btn-primary">Ver Perfil</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Testimonials Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">O que nossos clientes dizem</h2>
+
+        <div class="row g-4">
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <div class="mb-3 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="card-text">"A ProjectCare mudou a vida da minha mãe. O cuidador que encontramos é atencioso, profissional e se tornou parte da família. Recomendo a todos!"</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span>RS</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Roberto Silva</h6>
+                                <small class="text-muted">Filho de cliente</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <div class="mb-3 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="card-text">"Como cuidadora, a plataforma me conectou com famílias maravilhosas. O processo é transparente e me permite fazer o que amo: cuidar de quem precisa."</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span>JM</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Juliana Mendes</h6>
+                                <small class="text-muted">Cuidadora</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <div class="mb-3 text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                        </div>
+                        <p class="card-text">"Encontrar um cuidador para meu pai foi muito mais fácil do que imaginei. A equipe da ProjectCare nos ajudou em cada etapa e estamos muito satisfeitos."</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span>CA</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Carlos Almeida</h6>
+                                <small class="text-muted">Filho de cliente</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="mb-4">Pronto para encontrar o cuidado ideal?</h2>
+                <p class="lead mb-5">Junte-se a milhares de famílias que confiam na ProjectCare para cuidar de seus entes queridos.</p>
+                <a href="{{ url_for('register.register') }}" class="btn btn-light btn-lg me-3 mb-3 mb-md-0">
+                    <i class="bi bi-person-plus me-2"></i>Cadastre-se Agora
+                </a>
+                <a href="{{ url_for('contact.contact') }}" class="btn btn-outline-light btn-lg">
+                    <i class="bi bi-chat-dots me-2"></i>Fale Conosco
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
 {% endif %}
-
-{% include 'fragments/footer.html' %}
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
