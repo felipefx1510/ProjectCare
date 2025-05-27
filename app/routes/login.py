@@ -19,14 +19,19 @@ def login():
             return redirect(url_for('login.login'))
 
         user = user_service.get_by_email(email)
-        caregiver = caregiver_service.get_caregiver_by_id(user.id) if user else None
-        if not caregiver and user:
+        if not user:
+            flash('Email ou senha inválidos', 'danger')
+            return redirect(url_for('login.login'))
+        caregiver = caregiver_service.get_caregiver_by_id(user.id)
+        if not caregiver:
             caregiver = caregiver_service.get_caregiver_by_email(user.email)
-        responsible = responsible_service.get_responsible_by_id(user.id) if user else None
-        if not responsible and user:
+        responsible = responsible_service.get_responsible_by_id(user.id)
+        if not responsible:
             responsible = responsible_service.get_responsible_by_email(user.email)
+        session['user_id'] = user.id
         if not caregiver and not responsible:
             # Redireciona para seleção de perfil se não tiver nenhum perfil
+            session['acting_profile'] = None
             return redirect(url_for('register.select_profile'))
         if caregiver and responsible:
             # Usuário tem ambos os perfis, redireciona para escolha

@@ -9,7 +9,7 @@ def list_caregivers():
     List all caregivers.
     """
     caregivers = caregiver_service.get_all_caregivers()
-    return render_template("caregivers/list.html", caregivers=caregivers)
+    return render_template("list/caregiver_list.html", caregivers=caregivers)
 
 @caregivers_bp.route("/elderly", methods=["GET"])
 def list_elderly():
@@ -17,4 +17,4 @@ def list_elderly():
     Lista todos os idosos disponíveis para cuidadores.
     """
     elderly_list = elderly_service.get_all()
-    return render_template("caregivers/elderly_list.html", elderly_list=elderly_list)
+    return render_template("list/elderly_list.html", elderly_list=elderly_list)

@@ -18,4 +18,4 @@ def my_elderly():
         return redirect(url_for('home.home'))
 
     elderly_list = elderly_service.get_by_responsible_id(responsible.id)
-    return render_template("responsible/my_elderly_list.html", elderly_list=elderly_list)
+    return render_template("list/my_elderly_list.html", elderly_list=elderly_list)
