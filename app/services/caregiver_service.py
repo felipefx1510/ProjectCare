@@ -8,7 +8,6 @@ class CaregiverService:
         """
         db.session.add(caregiver)
         db.session.commit()
-        return caregiver
     
     def get_all_caregivers(self):
         """
