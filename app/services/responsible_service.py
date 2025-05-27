@@ -29,9 +29,13 @@ class ResponsibleService:
     
     def get_responsible_by_email(self, email: str):
         """
-        Retrieve a responsible by their email.
+        Retrieve a responsible by their email (busca pelo user.email).
         """
-        return Responsible.query.filter_by(email=email).first()
+        from app.models.user import User
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return None
+        return Responsible.query.filter_by(user_id=user.id).first()
     
     def get_responsible_by_user_id(self, user_id: int):
         """

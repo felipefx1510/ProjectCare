@@ -43,16 +43,12 @@
                     <h2 class="mb-4 select-title">Escolha o perfil de atuação</h2>
                     <form method="post">
                         <div class="row g-4">
-                            {% if has_caregiver %}
                             <div class="col-md-6">
                                 <button type="submit" name="acting_profile" value="caregiver" class="btn btn-primary btn-lg w-100 card-option">Acessar como Cuidador</button>
                             </div>
-                            {% endif %}
-                            {% if has_responsible %}
                             <div class="col-md-6">
                                 <button type="submit" name="acting_profile" value="responsible" class="btn btn-success btn-lg w-100 card-option">Acessar como Responsável</button>
                             </div>
-                            {% endif %}
                         </div>
                     </form>
                 </div>

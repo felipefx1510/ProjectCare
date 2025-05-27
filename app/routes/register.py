@@ -101,22 +101,16 @@ def register_caregiver():
         user_id = session.get('user_id')
         if not user_id:
             return redirect(url_for('login.login'))
-
         user = user_service.get_by_id(user_id)
-
         specialty = request.form.get('specialty')
         experience = request.form.get('experience')
         education = request.form.get('education')
         expertise_area = request.form.get('expertise')
         skills = request.form.get('skills') or ""
-
-        # Novos campos do formulário
         dias = request.form.getlist('dias[]')
         periodos = request.form.getlist('periodos[]')
         inicio_imediato = request.form.get('inicio_imediato') == 'sim'
         pretensao = request.form.get('pretensao')
-
-        # Serializa as informações extras para o campo skills
         info_extra = []
         if dias:
             info_extra.append(f"Dias: {', '.join(dias)}")
@@ -125,7 +119,6 @@ def register_caregiver():
         info_extra.append(f"Início imediato: {'Sim' if inicio_imediato else 'Não'}")
         info_extra.append(f"Pretensão: R$ {pretensao}")
         skills_full = skills + " | " + " | ".join(info_extra)
-
         caregiver = Caregiver(
             user=user,
             specialty=specialty,
@@ -138,9 +131,10 @@ def register_caregiver():
             inicio_imediato=inicio_imediato,
             pretensao_salarial=float(pretensao) if pretensao else None
         )
-
         caregiver_service.save(caregiver)
-        return redirect(url_for('login.login'))
+        session['acting_profile'] = 'caregiver'
+        flash('Perfil de Cuidador cadastrado e ativado com sucesso!', 'success')
+        return redirect(url_for('home.home'))
 
     return render_template("register/register_caregiver.html")
 
@@ -151,12 +145,10 @@ def register_responsible():
         user_id = session.get('user_id')
         if not user_id:
             return redirect(url_for('login.login'))
-
         user = user_service.get_by_id(user_id)
         relationship_with_elderly = request.form.get('relationship_with_elderly')
         primary_need_description = request.form.get('primary_need_description')
         preferred_contact_method = request.form.get('preferred_contact_method')
-
         responsible = Responsible(
             user=user,
             relationship_with_elderly=relationship_with_elderly,
@@ -164,7 +156,9 @@ def register_responsible():
             preferred_contact_method=preferred_contact_method
         )
         responsible_service.save(responsible)
-        return redirect(url_for('login.login'))
+        session['acting_profile'] = 'responsible'
+        flash('Perfil de Responsável cadastrado e ativado com sucesso!', 'success')
+        return redirect(url_for('home.home'))
 
     return render_template("register/register_responsible.html")
 

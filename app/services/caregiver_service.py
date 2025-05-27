@@ -24,6 +24,10 @@ class CaregiverService:
     
     def get_caregiver_by_email(self, email: str):
         """
-        Retrieve a caregiver by their email.
+        Recupera um cuidador pelo email do usuário associado.
         """
-        return Caregiver.query.filter_by(email=email).first()
+        from app.models.user import User
+        user = User.query.filter_by(email=email).first()
+        if user:
+            return Caregiver.query.filter_by(user_id=user.id).first()
+        return None

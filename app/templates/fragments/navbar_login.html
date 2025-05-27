@@ -37,6 +37,9 @@
                 {% elif session['acting_profile'] == 'responsible' %}
                     <span class="badge bg-success me-2">Responsável</span>
                 {% endif %}
+                <a href="{{ url_for('login.select_acting_profile') }}" class="btn btn-outline-primary btn-sm me-2">
+                    <i class="bi bi-person-lines-fill"></i> Meus Perfis
+                </a>
                 <a href="{{ url_for('home.logout') }}" class="btn btn-outline-danger btn-sm">Sair</a>
             </div>
         </div>

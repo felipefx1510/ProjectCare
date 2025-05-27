@@ -10,7 +10,7 @@ class Caregiver(db.Model):
     experience = db.Column(db.Integer, nullable=False)
     education = db.Column(db.String(100), nullable=False)
     expertise_area = db.Column(db.String(100), nullable=False)
-    skills = db.Column(db.String(200), nullable=False)
+    skills = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Float, nullable=False, default=0.0)
     dias_disponiveis = db.Column(db.String(100), nullable=True)
     periodos_disponiveis = db.Column(db.String(100), nullable=True)

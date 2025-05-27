@@ -61,10 +61,22 @@ def select_acting_profile():
         responsible = responsible_service.get_responsible_by_email(user.email)
     if request.method == "POST":
         profile = request.form.get('acting_profile')
-        if profile in ['caregiver', 'responsible']:
-            session['acting_profile'] = profile
-            return redirect(url_for('home.home'))
-        flash('Selecione um perfil válido.', 'warning')
+        if profile == 'caregiver':
+            if caregiver:
+                session['acting_profile'] = 'caregiver'
+                flash('Você está atuando como Cuidador.', 'success')
+                return redirect(url_for('home.home'))
+            else:
+                return redirect(url_for('register.register_caregiver'))
+        elif profile == 'responsible':
+            if responsible:
+                session['acting_profile'] = 'responsible'
+                flash('Você está atuando como Responsável.', 'success')
+                return redirect(url_for('home.home'))
+            else:
+                return redirect(url_for('register.register_responsible'))
+        else:
+            flash('Selecione um perfil válido.', 'warning')
     return render_template(
         "login/select_acting_profile.html",
         has_caregiver=bool(caregiver),
