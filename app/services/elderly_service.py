@@ -34,3 +34,9 @@ class ElderlyService:
         Retrieve an elderly by their user ID.
         """
         return Elderly.query.filter_by(user_id=user_id).first()
+
+    def get_by_responsible_id(self, responsible_id: int):
+        """
+        Retrieve all elderly associated with a specific responsible ID.
+        """
+        return Elderly.query.filter_by(responsible_id=responsible_id).all()

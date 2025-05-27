@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Idosos - ProjectCare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-elderly { margin-bottom: 1.5rem; }
+    </style>
+</head>
+<body>
+    {% include 'fragments/navbar_login.html' %}
+    {% include 'fragments/flash.html' %}
+
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Meus Idosos Cadastrados</h2>
+            <a href="{{ url_for('register.register_elderly') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Adicionar Novo Idoso
+            </a>
+        </div>
+
+        {% if elderly_list %}
+            <div class="row">
+                {% for elderly_item in elderly_list %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card card-elderly shadow-sm">
+                        <img src="{{ url_for('static', filename='images/projectcare.png') }}" class="card-img-top" alt="Foto padrão" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ elderly_item.name }}</h5>
+                            <p class="card-text mb-1"><strong>CPF:</strong> {{ elderly_item.cpf if elderly_item.cpf else 'Não informado' }}</p>
+                            <p class="card-text mb-1"><strong>Nascimento:</strong> {{ elderly_item.birthdate.strftime('%d/%m/%Y') if elderly_item.birthdate else 'Não informada' }}</p>
+                            <p class="card-text mb-1"><strong>Gênero:</strong> {{ elderly_item.gender if elderly_item.gender else 'Não informado' }}</p>
+                            <p class="card-text mb-1"><strong>Endereço:</strong> {{ elderly_item.address_elderly if elderly_item.address_elderly else 'Não informado' }}</p>
+                            <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ver Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                Você ainda não cadastrou nenhum idoso. <a href="{{ url_for('register.register_elderly') }}" class="alert-link">Clique aqui para adicionar</a>.
+            </div>
+        {% endif %}
+    </div>
+
+    {% include 'fragments/footer.html' %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

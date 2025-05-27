@@ -47,12 +47,14 @@ def create_app():
     from app.routes.contact import contact_bp
     from app.routes.login import login_bp
     from app.routes.register import register_bp
+    from app.routes.responsible_dashboard import responsible_dashboard_bp
 
     app.register_blueprint(home_bp)
     app.register_blueprint(caregivers_bp)
     app.register_blueprint(contact_bp)
     app.register_blueprint(login_bp)
     app.register_blueprint(register_bp)
+    app.register_blueprint(responsible_dashboard_bp)
 
     return app
 

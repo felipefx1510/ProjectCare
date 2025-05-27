@@ -23,8 +23,8 @@
         {% for caregiver in caregivers %}
         <tr>
             <td>{{ caregiver.id }}</td>
-            <td>{{ caregiver.name }}</td>
-            <td>{{ caregiver.phone }}</td>
+            <td>{{ caregiver.user.name }}</td>
+            <td>{{ caregiver.user.phone }}</td>
         </tr>
         {% endfor %}
         </tbody>

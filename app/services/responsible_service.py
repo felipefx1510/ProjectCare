@@ -32,3 +32,9 @@ class ResponsibleService:
         Retrieve a responsible by their email.
         """
         return Responsible.query.filter_by(email=email).first()
+    
+    def get_responsible_by_user_id(self, user_id: int):
+        """
+        Retrieve a responsible by their user_id (FK para users.id).
+        """
+        return Responsible.query.filter_by(user_id=user_id).first()

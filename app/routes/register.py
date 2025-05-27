@@ -65,7 +65,7 @@ def select_profile():
     if not user:
         flash('Usuário não encontrado', 'danger')
         return redirect(url_for('login.login'))
-    return render_template("profile/select.html", user=user)
+    return render_template("register/select.html", user=user)
 
 
 @register_bp.route("/add-profile", methods=["GET", "POST"])
@@ -108,7 +108,7 @@ def register_caregiver():
         experience = request.form.get('experience')
         education = request.form.get('education')
         expertise_area = request.form.get('expertise')
-        skills = request.form.get('skills')
+        skills = request.form.get('skills') or ""
 
         # Novos campos do formulário
         dias = request.form.getlist('dias[]')
@@ -132,7 +132,7 @@ def register_caregiver():
             experience=experience,
             education=education,
             expertise_area=expertise_area,
-            skills=skills,
+            skills=skills_full,
             dias_disponiveis=", ".join(dias) if dias else None,
             periodos_disponiveis=", ".join(periodos) if periodos else None,
             inicio_imediato=inicio_imediato,
