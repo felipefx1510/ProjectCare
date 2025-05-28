@@ -1,166 +1,294 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Idoso - ProjectCare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .register-card {
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            padding: 2rem 2rem 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .form-section-title {
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-        .section-divider {
-            border-top: 2px solid #e3e3e3;
-            margin: 2.5rem 0 2rem 0;
-        }
-        .form-label {
-            font-weight: 500;
-        }
-        @media (max-width: 767px) {
-            .register-card {
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    {% include 'fragments/navbar.html' %}
-    {% include 'fragments/flash.html' %}
+{% extends 'base.html' %}
 
-    <div class="container py-5">
+{% block title %}Cadastro de Idoso - ProjectCare{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-card {
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        padding: 2rem 2rem 1.5rem 2rem;
+        margin-bottom: 2rem;
+    }
+    .form-section-title {
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+    }
+    .section-divider {
+        border-top: 2px solid #e3e3e3;
+        margin: 2.5rem 0 2rem 0;
+    }
+    .form-label {
+        font-weight: 500;
+    }
+    @media (max-width: 767px) {
+        .register-card {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-9">
-                <div class="register-card">
+                <div class="register-card" data-aos="fade-up">
                     <h2 class="text-center mb-4 text-primary">Cadastro de Idoso</h2>
                     <form method="post" enctype="multipart/form-data" action="{{ url_for('register.register_elderly') }}">
-                        <h5 class="form-section-title">Informações Pessoais</h5>
+                        <h5 class="form-section-title"><i class="bi bi-person-circle me-2 text-primary"></i>Informações Pessoais</h5>
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="name" class="form-label">Nome completo</label>
-                                <input type="text" class="form-control" id="name" name="name" required placeholder="Nome do idoso">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="name" name="name" required placeholder="Nome do idoso">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="cpf" class="form-label">CPF</label>
-                                <input type="text" class="form-control" id="cpf" name="cpf" placeholder="Opcional">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-card-text text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="cpf" name="cpf" placeholder="Opcional">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="birthdate" class="form-label">Data de nascimento</label>
-                                <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-calendar-date text-primary"></i>
+                                    </span>
+                                    <input type="date" class="form-control border-start-0" id="birthdate" name="birthdate" required>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Gênero</label>
-                                <select class="form-select" id="gender" name="gender" required>
-                                    <option value="" selected disabled>Selecione</option>
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                    <option value="Outro">Outro</option>
-                                </select>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-gender-ambiguous text-primary"></i>
+                                    </span>
+                                    <select class="form-select border-start-0" id="gender" name="gender" required>
+                                        <option value="" selected disabled>Selecione</option>
+                                        <option value="Masculino">Masculino</option>
+                                        <option value="Feminino">Feminino</option>
+                                        <option value="Outro">Outro</option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 <label for="photo_url" class="form-label">Foto do idoso (URL ou upload)</label>
-                                <input type="text" class="form-control mb-2" id="photo_url" name="photo_url" placeholder="URL da foto (opcional)">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-image text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="photo_url" name="photo_url" placeholder="URL da foto (opcional)">
+                                </div>
                                 <!-- Para upload real, seria necessário backend para salvar o arquivo -->
                             </div>
                         </div>
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="address_elderly" class="form-label">Endereço</label>
-                                <input type="text" class="form-control" id="address_elderly" name="address_elderly" placeholder="Rua, número, complemento">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-house text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="address_elderly" name="address_elderly" placeholder="Rua, número, complemento">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="city_elderly" class="form-label">Cidade</label>
-                                <input type="text" class="form-control" id="city_elderly" name="city_elderly" placeholder="Cidade">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-building text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="city_elderly" name="city_elderly" placeholder="Cidade">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="state_elderly" class="form-label">Estado</label>
-                                <input type="text" class="form-control" id="state_elderly" name="state_elderly" placeholder="Estado">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-map text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="state_elderly" name="state_elderly" placeholder="Estado">
+                                </div>
                             </div>
                         </div>
 
                         <div class="section-divider"></div>
-                        <h5 class="form-section-title">Saúde e Cuidados</h5>
+                        <h5 class="form-section-title"><i class="bi bi-heart-pulse me-2 text-primary"></i>Saúde e Cuidados</h5>
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="medical_conditions" class="form-label">Condições médicas relevantes</label>
-                                <textarea class="form-control" id="medical_conditions" name="medical_conditions" rows="2" placeholder="Ex: Diabetes, Alzheimer, etc."></textarea>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-clipboard2-pulse text-primary"></i>
+                                    </span>
+                                    <textarea class="form-control border-start-0" id="medical_conditions" name="medical_conditions" rows="2" placeholder="Ex: Diabetes, Alzheimer, etc."></textarea>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="allergies" class="form-label">Alergias</label>
-                                <textarea class="form-control" id="allergies" name="allergies" rows="2" placeholder="Ex: Amendoim, Dipirona, etc."></textarea>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-exclamation-triangle text-primary"></i>
+                                    </span>
+                                    <textarea class="form-control border-start-0" id="allergies" name="allergies" rows="2" placeholder="Ex: Amendoim, Dipirona, etc."></textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="medications_in_use" class="form-label">Medicações em uso</label>
-                                <textarea class="form-control" id="medications_in_use" name="medications_in_use" rows="2" placeholder="Nome, dosagem, frequência"></textarea>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-capsule text-primary"></i>
+                                    </span>
+                                    <textarea class="form-control border-start-0" id="medications_in_use" name="medications_in_use" rows="2" placeholder="Nome, dosagem, frequência"></textarea>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="mobility_level" class="form-label">Nível de mobilidade</label>
-                                <select class="form-select" id="mobility_level" name="mobility_level">
-                                    <option value="" selected>Selecione</option>
-                                    <option value="Independente">Independente</option>
-                                    <option value="Requer Auxílio Leve">Requer Auxílio Leve</option>
-                                    <option value="Requer Auxílio Moderado">Requer Auxílio Moderado</option>
-                                    <option value="Dependência Total/Acamado">Dependência Total/Acamado</option>
-                                </select>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person-walking text-primary"></i>
+                                    </span>
+                                    <select class="form-select border-start-0" id="mobility_level" name="mobility_level">
+                                        <option value="" selected>Selecione</option>
+                                        <option value="Independente">Independente</option>
+                                        <option value="Requer Auxílio Leve">Requer Auxílio Leve</option>
+                                        <option value="Requer Auxílio Moderado">Requer Auxílio Moderado</option>
+                                        <option value="Dependência Total/Acamado">Dependência Total/Acamado</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="specific_care_needs" class="form-label">Necessidades específicas de cuidado</label>
-                            <textarea class="form-control" id="specific_care_needs" name="specific_care_needs" rows="2" placeholder="Ex: Higiene, alimentação, curativos, acompanhamento em consultas..."></textarea>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-list-check text-primary"></i>
+                                </span>
+                                <textarea class="form-control border-start-0" id="specific_care_needs" name="specific_care_needs" rows="2" placeholder="Ex: Higiene, alimentação, curativos, acompanhamento em consultas..."></textarea>
+                            </div>
                         </div>
 
                         <div class="section-divider"></div>
-                        <h5 class="form-section-title">Contato de Emergência</h5>
+                        <h5 class="form-section-title"><i class="bi bi-telephone-fill me-2 text-primary"></i>Contato de Emergência</h5>
                         <div class="row g-3 mb-2">
                             <div class="col-md-4">
                                 <label for="emergency_contact_name" class="form-label">Nome do contato</label>
-                                <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" placeholder="Nome completo">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-person-fill text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="emergency_contact_name" name="emergency_contact_name" placeholder="Nome completo">
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="emergency_contact_phone" class="form-label">Telefone</label>
-                                <input type="text" class="form-control" id="emergency_contact_phone" name="emergency_contact_phone" placeholder="(99) 99999-9999">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-telephone text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="emergency_contact_phone" name="emergency_contact_phone" placeholder="(99) 99999-9999">
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <label for="emergency_contact_relationship" class="form-label">Relação</label>
-                                <input type="text" class="form-control" id="emergency_contact_relationship" name="emergency_contact_relationship" placeholder="Ex: Filho(a), vizinho(a)">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-people text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="emergency_contact_relationship" name="emergency_contact_relationship" placeholder="Ex: Filho(a), vizinho(a)">
+                                </div>
                             </div>
                         </div>
 
                         <div class="section-divider"></div>
-                        <h5 class="form-section-title">Plano de Saúde</h5>
+                        <h5 class="form-section-title"><i class="bi bi-shield-plus me-2 text-primary"></i>Plano de Saúde</h5>
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="health_plan_name" class="form-label">Nome do plano</label>
-                                <input type="text" class="form-control" id="health_plan_name" name="health_plan_name" placeholder="Opcional">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-hospital text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="health_plan_name" name="health_plan_name" placeholder="Opcional">
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <label for="health_plan_number" class="form-label">Número da carteirinha</label>
-                                <input type="text" class="form-control" id="health_plan_number" name="health_plan_number" placeholder="Opcional">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-credit-card text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="health_plan_number" name="health_plan_number" placeholder="Opcional">
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4">
                             <label for="additional_notes" class="form-label">Observações/Preferências</label>
-                            <textarea class="form-control" id="additional_notes" name="additional_notes" rows="2" placeholder="Rotinas, preferências alimentares, atividades que gosta, etc."></textarea>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-journal-text text-primary"></i>
+                                </span>
+                                <textarea class="form-control border-start-0" id="additional_notes" name="additional_notes" rows="2" placeholder="Rotinas, preferências alimentares, atividades que gosta, etc."></textarea>
+                            </div>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Cadastrar Idoso</button>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-person-plus-fill me-2"></i>Cadastrar Idoso
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Phone mask for emergency contact
+    document.getElementById('emergency_contact_phone').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        if (value.length > 2) {
+            value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+        }
+        if (value.length > 7) {
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+        }
+        e.target.value = value;
+    });
+
+    // CPF mask
+    document.getElementById('cpf').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 11) {
+            value = value.slice(0, 11);
+        }
+        if (value.length > 3) {
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+        }
+        if (value.length > 6) {
+            value = value.replace(/(\d{3})(\d{3})(\d)/, '$1.$2-$3');
+        }
+        e.target.value = value;
+    });
+</script>
+{% endblock %}

@@ -1,39 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Idosos Disponíveis</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-{% include navbar_template %}
+{% extends 'base.html' %}
 
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">Idosos Disponíveis</h2>
-    <div class="row">
-        {% for elderly in elderly_list %}
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <img src="{{ elderly.photo_url or url_for('static', filename='images/projectcare.png') }}" class="card-img-top" alt="Foto do idoso" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h5 class="card-title">{{ elderly.name }}</h5>
-                    <p class="card-text mb-1"><strong>CPF:</strong> {{ elderly.cpf if elderly.cpf else 'Não informado' }}</p>
-                    <p class="card-text mb-1"><strong>Nascimento:</strong> {{ elderly.birthdate.strftime('%d/%m/%Y') if elderly.birthdate else 'Não informada' }}</p>
-                    <p class="card-text mb-1"><strong>Gênero:</strong> {{ elderly.gender if elderly.gender else 'Não informado' }}</p>
-                    <p class="card-text mb-1"><strong>Endereço:</strong> {{ elderly.address_elderly if elderly.address_elderly else 'Não informado' }}</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary mt-2">Ver Detalhes</a>
+{% block title %}Idosos Disponíveis - ProjectCare{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4" data-aos="fade-up">Idosos Disponíveis</h2>
+
+        <div class="row g-4">
+            {% for elderly in elderly_list %}
+            <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ loop.index * 100 }}">
+                <div class="card h-100">
+                    <img src="{{ elderly.photo_url or url_for('static', filename='images/projectcare.png') }}" class="card-img-top" alt="Foto do idoso" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ elderly.name }}</h5>
+                        <p class="card-text mb-1"><strong>CPF:</strong> {{ elderly.cpf if elderly.cpf else 'Não informado' }}</p>
+                        <p class="card-text mb-1"><strong>Nascimento:</strong> {{ elderly.birthdate.strftime('%d/%m/%Y') if elderly.birthdate else 'Não informada' }}</p>
+                        <p class="card-text mb-1"><strong>Gênero:</strong> {{ elderly.gender if elderly.gender else 'Não informado' }}</p>
+                        <p class="card-text mb-1"><strong>Endereço:</strong> {{ elderly.address_elderly if elderly.address_elderly else 'Não informado' }}</p>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-primary">
+                                <i class="bi bi-eye me-1"></i> Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    {% if not elderly_list %}
-    <div class="alert alert-info" role="alert">
-        Nenhum idoso disponível no momento.
-    </div>
-    {% endif %}
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+        {% if not elderly_list %}
+        <div class="alert alert-info mt-4" role="alert" data-aos="fade-up" data-aos-delay="200">
+            <i class="bi bi-info-circle me-2"></i> Nenhum idoso disponível no momento.
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
