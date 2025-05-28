@@ -1,61 +1,95 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escolher Perfil de Atuação - ProjectCare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .profile-card {
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-            padding: 2rem 2rem 1.5rem 2rem;
-            margin-bottom: 2rem;
-        }
-        .select-title {
-            font-weight: 700;
-            margin-bottom: 2rem;
-        }
-        .card-option {
-            border-radius: 12px;
-            box-shadow: 0 1px 8px rgba(0,0,0,0.06);
-            transition: transform 0.15s;
-        }
-        .card-option:hover {
-            transform: translateY(-4px) scale(1.02);
-        }
-        @media (max-width: 767px) {
-            .profile-card {
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    {% include 'fragments/navbar.html' %}
-    {% include 'fragments/flash.html' %}
+{% extends 'base.html' %}
 
-    <div class="container py-5">
+{% block title %}Escolher Perfil de Atuação - ProjectCare{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-card {
+        background: #fff;
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .profile-option {
+        height: 100%;
+        padding: 2rem;
+        border-radius: var(--border-radius-lg);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .profile-option:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .profile-option .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .btn-profile {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 my-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="profile-card text-center">
-                    <h2 class="mb-4 select-title">Escolha o perfil de atuação</h2>
-                    <form method="post">
-                        <div class="row g-4">
-                            <div class="col-md-6">
-                                <button type="submit" name="acting_profile" value="caregiver" class="btn btn-primary btn-lg w-100 card-option">Acessar como Cuidador</button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="submit" name="acting_profile" value="responsible" class="btn btn-success btn-lg w-100 card-option">Acessar como Responsável</button>
-                            </div>
+            <div class="col-lg-10">
+                <div class="card border-0" data-aos="fade-up">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-5">
+                            <img src="{{ url_for('static', filename='images/projectcare.png') }}" alt="ProjectCare Logo" height="60" class="mb-3">
+                            <h2 class="mb-2">Escolha seu perfil de atuação</h2>
+                            <p class="text-muted">Selecione como deseja acessar o sistema</p>
                         </div>
-                    </form>
+
+                        <form method="post">
+                            <div class="row g-4">
+                                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="profile-option bg-light">
+                                        <div class="icon text-primary">
+                                            <i class="bi bi-person-heart"></i>
+                                        </div>
+                                        <h3>Cuidador</h3>
+                                        <p class="text-center">Acesse como cuidador para visualizar oportunidades e gerenciar seus serviços</p>
+                                        <button type="submit" name="acting_profile" value="caregiver" class="btn btn-primary btn-profile">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Acessar como Cuidador
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="profile-option bg-light">
+                                        <div class="icon text-success">
+                                            <i class="bi bi-person-check"></i>
+                                        </div>
+                                        <h3>Responsável</h3>
+                                        <p class="text-center">Acesse como responsável para gerenciar idosos e contratar cuidadores</p>
+                                        <button type="submit" name="acting_profile" value="responsible" class="btn btn-success btn-profile">
+                                            <i class="bi bi-box-arrow-in-right me-2"></i>Acessar como Responsável
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</section>
+{% endblock %}
