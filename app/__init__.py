@@ -4,7 +4,7 @@ from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
 
-load_dotenv(override=True)  # Carrega variáveis do arquivo .env
+load_dotenv(override=True) #override para sobescrever as variaveis
 
 db = SQLAlchemy()
 migrate = Migrate()
