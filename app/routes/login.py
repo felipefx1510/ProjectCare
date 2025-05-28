@@ -19,7 +19,7 @@ def login():
             return redirect(url_for('login.login'))
 
         user = user_service.get_by_email(email)
-        if not user:
+        if not user or not user.check_password(password):
             flash('Email ou senha inválidos', 'danger')
             return redirect(url_for('login.login'))
         caregiver = caregiver_service.get_caregiver_by_id(user.id)
