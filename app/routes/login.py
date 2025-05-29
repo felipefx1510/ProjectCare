@@ -1,12 +1,14 @@
 # app/routes/login.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
 from app.services import caregiver_service, responsible_service, user_service
+from app.services.authentication_service import AuthenticationService
 
 login_bp = Blueprint("login", __name__, url_prefix="/login")
 
 
 @login_bp.route("/", methods=["GET", "POST"])
 def login():
+    # Verifica se usuário já está logado
     if 'user_id' in session:
         return redirect(url_for('home.home'))
     
@@ -14,36 +16,21 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
+        # Validação básica de entrada
         if not email or not password:
             flash('Email e senha são obrigatórios', 'warning')
             return redirect(url_for('login.login'))
-
-        user = user_service.get_by_email(email)
-        if not user or not user.check_password(password):
-            flash('Email ou senha inválidos', 'danger')
-            return redirect(url_for('login.login'))
-        caregiver = caregiver_service.get_caregiver_by_id(user.id)
-        if not caregiver:
-            caregiver = caregiver_service.get_caregiver_by_email(user.email)
-        responsible = responsible_service.get_responsible_by_id(user.id)
-        if not responsible:
-            responsible = responsible_service.get_responsible_by_email(user.email)
-        session['user_id'] = user.id
-        if not caregiver and not responsible:
-            # Redireciona para seleção de perfil se não tiver nenhum perfil
-            session['acting_profile'] = None
-            return redirect(url_for('register.select_profile'))
-        if caregiver and responsible:
-            # Usuário tem ambos os perfis, redireciona para escolha
-            return redirect(url_for('login.select_acting_profile'))
-        elif caregiver:
-            session['acting_profile'] = 'caregiver'
-        elif responsible:
-            session['acting_profile'] = 'responsible'
-        else:
-            session['acting_profile'] = None
-        flash('Login realizado com sucesso', 'success')
-        return redirect(url_for('home.home'))
+          # Processar login usando o serviço de autenticação
+        success, redirect_url, message = AuthenticationService.process_login(email, password)
+        
+        if not success:
+            flash(message, 'danger')
+            return redirect(redirect_url)
+        
+        # Login bem-sucedido
+        flash(message, 'success')
+        return redirect(redirect_url)
+    
     return render_template("login/login.html")
 
 
@@ -52,24 +39,25 @@ def select_acting_profile():
     user_id = session.get('user_id')
     if not user_id:
         return redirect(url_for('login.login'))
+        
     user = user_service.get_by_id(user_id)
-    caregiver = caregiver_service.get_caregiver_by_id(user_id) if user else None
-    if not caregiver and user:
-        caregiver = caregiver_service.get_caregiver_by_email(user.email)
-    responsible = responsible_service.get_responsible_by_id(user_id) if user else None
-    if not responsible and user:
-        responsible = responsible_service.get_responsible_by_email(user.email)
+    if not user:
+        return redirect(url_for('login.login'))
+    
+    # Usa o serviço de autenticação para buscar perfis (elimina duplicação)
+    user_profile = AuthenticationService.get_user_profiles(user)
+    
     if request.method == "POST":
         profile = request.form.get('acting_profile')
         if profile == 'caregiver':
-            if caregiver:
+            if user_profile.has_caregiver:
                 session['acting_profile'] = 'caregiver'
                 flash('Você está atuando como Cuidador.', 'success')
                 return redirect(url_for('home.home'))
             else:
                 return redirect(url_for('register.register_caregiver'))
         elif profile == 'responsible':
-            if responsible:
+            if user_profile.has_responsible:
                 session['acting_profile'] = 'responsible'
                 flash('Você está atuando como Responsável.', 'success')
                 return redirect(url_for('home.home'))
@@ -77,17 +65,17 @@ def select_acting_profile():
                 return redirect(url_for('register.register_responsible'))
         else:
             flash('Selecione um perfil válido.', 'warning')
+    
     return render_template(
         "login/select_acting_profile.html",
-        has_caregiver=bool(caregiver),
-        has_responsible=bool(responsible)
+        has_caregiver=user_profile.has_caregiver,
+        has_responsible=user_profile.has_responsible
     )
 
 
 @login_bp.route("/logout")
 def logout():
-    # Remove todas as informações da sessão (limpeza completa)
-    session.pop('user_id', None)
-    session.pop('acting_profile', None)
+    # Usa o serviço de autenticação para limpeza da sessão
+    AuthenticationService.clear_session()
     flash('Você saiu da sua conta com sucesso.', 'info')
     return redirect(url_for('home.home'))
