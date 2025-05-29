@@ -86,5 +86,8 @@ def select_acting_profile():
 
 @login_bp.route("/logout")
 def logout():
+    # Remove todas as informações da sessão (limpeza completa)
     session.pop('user_id', None)
+    session.pop('acting_profile', None)
+    flash('Você saiu da sua conta com sucesso.', 'info')
     return redirect(url_for('home.home'))

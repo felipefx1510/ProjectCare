@@ -6,3 +6,5 @@ __pycache__/
 .idea/
 .vercel
 .venv/
+user_service_migration_guide.md
+locale.md
