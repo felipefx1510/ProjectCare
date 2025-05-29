@@ -166,10 +166,10 @@ def register_responsible():
 @register_bp.route('/elderly', methods=['GET', 'POST'])
 def register_elderly():
     if request.method == "POST":
-        responsible_id = session.get('user_id')
-        if not responsible_id:
+        user_id = session.get('user_id')
+        if not user_id:
             return redirect(url_for('login.login'))
-        responsible = responsible_service.get_responsible_by_id(responsible_id)
+        responsible = responsible_service.get_responsible_by_user_id(user_id)
         if not responsible:
             flash('Responsável não encontrado.', 'danger')
             return redirect(url_for('login.login'))

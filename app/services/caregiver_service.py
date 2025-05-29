@@ -1,13 +1,20 @@
+# app/services/caregiver_service.py
 from app import db
 from app.models.caregiver import Caregiver
 
 class CaregiverService:
-    def save(self, caregiver: Caregiver) -> None:
+    def save(self, caregiver: Caregiver):
         """
         Save a new caregiver to the database.
         """
-        db.session.add(caregiver)
-        db.session.commit()
+        try:
+            db.session.add(caregiver)
+            db.session.commit()
+            return caregiver
+        except Exception as e:
+            db.session.rollback()
+            print(f"Erro ao salvar cuidador no banco de dados: {e}")
+            raise
     
     def get_all_caregivers(self):
         """
@@ -30,3 +37,9 @@ class CaregiverService:
         if user:
             return Caregiver.query.filter_by(user_id=user.id).first()
         return None
+    
+    def get_caregiver_by_user_id(self, user_id: int):
+        """
+        Retrieve a caregiver by their user_id (FK para users.id).
+        """
+        return Caregiver.query.filter_by(user_id=user_id).first()

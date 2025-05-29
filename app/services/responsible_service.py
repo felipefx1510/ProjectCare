@@ -12,7 +12,7 @@ class ResponsibleService:
             return responsible
         except Exception as e:
             db.session.rollback()
-            print(f"Erro ao salvar no banco de dados: {e}")
+            print(f"Erro ao salvar responsável no banco de dados: {e}")
             raise
     
     def get_all_responsibles(self):
