@@ -16,7 +16,7 @@ register_bp = Blueprint("register", __name__, url_prefix="/register")
 
 @register_bp.route("/", methods=["GET", "POST"])
 def register():
-    if 'user_id' in session:
+    if 'user_id' in session: #verifica se o usuario já possui uma sessão ativa pelo context processor
         return redirect(url_for('home.home'))
 
     if request.method == "POST":
@@ -33,7 +33,7 @@ def register():
             birthdate = request.form.get('birthdate')
             gender = request.form.get('gender')
 
-            # Verifica se o usuário já existe
+            # verifica se o usuario  já existe pelos campos que são únicos
             existing_user = UserService.get_by_email_or_phone_or_cpf(email=email, phone=phone, cpf=cpf)
             if existing_user:
                 flash('Usuário já cadastrado', 'danger')
