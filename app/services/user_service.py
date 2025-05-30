@@ -99,7 +99,7 @@ class UserService:
         Returns:
             User ou None se não encontrado
         """
-        return User.query.filter_by(email=email).first()
+        return User.query.filter_by(email=email).first() #first = 1 resultado
 
     @staticmethod
     def get_by_cpf(cpf: str) -> Optional[User]:

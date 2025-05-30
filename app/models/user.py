@@ -27,13 +27,13 @@ class User(db.Model):
     address = db.Column(db.String(255), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     state = db.Column(db.String(100), nullable=False)
-    
+    #timestamp
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Relações
+    # relações
     caregiver = db.relationship("Caregiver", back_populates="user", uselist=False)
     responsible = db.relationship("Responsible", back_populates="user", uselist=False)
-    # elderly = db.relationship("Elderly", back_populates="user", uselist=False)  #elderly sem fk
+    # elderly = db.relationship("Elderly", back_populates="user", uselist=False)  #elderly sem relação
 
     def __init__(self, name, cpf, gender, birthdate, phone, email, password, address, city, state):
         self.name = name
