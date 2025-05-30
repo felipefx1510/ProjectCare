@@ -3,6 +3,9 @@ from app import db
 
 class Responsible(db.Model):
     __tablename__ = "responsible"
+    __table_args__ = (
+        db.CheckConstraint("preferred_contact_method IN ('E-mail', 'Telefone', 'WhatsApp', 'Sem preferência')", name="ck_responsible_contact_method"),
+    )
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     user = db.relationship("User", back_populates="responsible")

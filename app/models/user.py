@@ -16,6 +16,9 @@ ph = PasswordHasher(
 
 class User(db.Model):
     __tablename__ = "users"
+    __table_args__ = (
+        db.CheckConstraint("gender IN ('Masculino', 'Feminino', 'Outro')", name="ck_user_gender"),
+    )
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     cpf = db.Column(db.String(17), unique=True, nullable=False)

@@ -5,6 +5,9 @@ from app import db
 
 class Contract(db.Model):
     __tablename__ = "contract"
+    __table_args__ = (
+      db.CheckConstraint("status IN ('active', 'completed', 'cancelled')", name="ck_contract_status_valid"),
+    )
     id = db.Column(db.Integer, primary_key=True)
     start_date = db.Column(db.DateTime, nullable=False)
     end_date = db.Column(db.DateTime, nullable=False)

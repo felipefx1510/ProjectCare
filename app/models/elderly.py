@@ -5,6 +5,9 @@ from app import db
 
 class Elderly(db.Model):
     __tablename__ = "elderly"
+    __table_args__ = (
+        db.CheckConstraint("gender IN ('Masculino', 'Feminino', 'Outro')", name="ck_elderly_gender"),
+    )
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     cpf = db.Column(db.String(20), nullable=True)

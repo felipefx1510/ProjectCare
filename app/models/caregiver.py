@@ -5,6 +5,9 @@ from app import db
 
 class Caregiver(db.Model):
     __tablename__ = "caregiver"
+    __table_args__ = (
+        db.CheckConstraint("pretensao_salarial IS NULL OR pretensao_salarial >= 0", name="ck_caregiver_salary_non_negative"),
+    )
     id = db.Column(db.Integer, primary_key=True)
     specialty = db.Column(db.String(100), nullable=False)
     experience = db.Column(db.Integer, nullable=False)
