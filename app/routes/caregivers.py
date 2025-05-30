@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
-from app.services import caregiver_service, elderly_service
+from app.services.caregiver_service import CaregiverService
+from app.services.elderly_service import ElderlyService
 
 caregivers_bp = Blueprint("caregivers", __name__, url_prefix="/caregivers")
 
@@ -8,7 +9,7 @@ def list_caregivers():
     """
     Retorna a pagina de listagem de cuidadores
     """
-    caregivers = caregiver_service.get_all_caregivers()
+    caregivers = CaregiverService.get_all()
     return render_template("list/caregiver_list.html", caregivers=caregivers)
 
 @caregivers_bp.route("/elderly", methods=["GET"])
@@ -16,5 +17,5 @@ def list_elderly():
     """
     Retorna a pagina de listagem de idosos disponíveis para cuidadores.
     """
-    elderly_list = elderly_service.get_all()
+    elderly_list = ElderlyService.get_all()
     return render_template("list/elderly_list.html", elderly_list=elderly_list)

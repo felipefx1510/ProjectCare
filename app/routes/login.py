@@ -1,6 +1,6 @@
 # app/routes/login.py
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from app.services import caregiver_service, responsible_service, user_service
+from app.services.user_service import UserService
 from app.services.authentication_service import AuthenticationService
 
 login_bp = Blueprint("login", __name__, url_prefix="/login")
@@ -40,7 +40,7 @@ def select_acting_profile():
     if not user_id:
         return redirect(url_for('login.login'))
         
-    user = user_service.get_by_id(user_id)
+    user = UserService.get_by_id(user_id)
     if not user:
         return redirect(url_for('login.login'))
     

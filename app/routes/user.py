@@ -1,5 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from app.services import caregiver_service, responsible_service, user_service
+from app.services.user_service import UserService
+from app.services.caregiver_service import CaregiverService
+from app.services.responsible_service import ResponsibleService
+from app.services.authentication_service import AuthenticationService
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
@@ -8,15 +11,16 @@ def manage_profiles():
     user_id = session.get('user_id')
     if not user_id:
         return redirect(url_for('login.login'))
-    user = user_service.get_by_id(user_id)
-    caregiver = caregiver_service.get_caregiver_by_id(user_id) if user else None
-    if not caregiver and user:
-        caregiver = caregiver_service.get_caregiver_by_email(user.email)
-    responsible = responsible_service.get_responsible_by_id(user_id) if user else None
-    if not responsible and user:
-        responsible = responsible_service.get_responsible_by_email(user.email)
-    has_caregiver = bool(caregiver)
-    has_responsible = bool(responsible)
+    
+    user = UserService.get_by_id(user_id)
+    if not user:
+        return redirect(url_for('login.login'))
+    
+    # Usar o método do authentication_service para buscar perfis
+    user_profile = AuthenticationService.get_user_profiles(user)
+    
+    has_caregiver = user_profile.has_caregiver
+    has_responsible = user_profile.has_responsible
     acting_profile = session.get('acting_profile')
 
     if request.method == "POST":

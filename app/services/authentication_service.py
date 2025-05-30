@@ -1,6 +1,8 @@
 # app/services/authentication_service.py
 from flask import session, url_for
-from app.services import caregiver_service, responsible_service, user_service
+from app.services.caregiver_service import CaregiverService
+from app.services.responsible_service import ResponsibleService
+from app.services.user_service import UserService
 from dataclasses import dataclass
 from typing import Optional, Tuple, Any
 
@@ -52,7 +54,7 @@ class AuthenticationService:
         if not email or not password:
             return False, None
             
-        user = user_service.get_by_email(email)
+        user = UserService.get_by_email(email)
         if not user or not user.check_password(password):
             return False, None
             
@@ -65,14 +67,14 @@ class AuthenticationService:
         Encapsula a lógica de busca dupla (por ID e email)
         """
         # Busca perfil de cuidador
-        caregiver = caregiver_service.get_caregiver_by_id(user.id)
+        caregiver = CaregiverService.get_by_user_id(user.id)
         if not caregiver:
-            caregiver = caregiver_service.get_caregiver_by_email(user.email)
+            caregiver = CaregiverService.get_by_email(user.email)
         
         # Busca perfil de responsável
-        responsible = responsible_service.get_responsible_by_id(user.id)
+        responsible = ResponsibleService.get_by_user_id(user.id)
         if not responsible:
-            responsible = responsible_service.get_responsible_by_email(user.email)
+            responsible = ResponsibleService.get_by_email(user.email)
         
         return UserProfile(caregiver=caregiver, responsible=responsible)
     

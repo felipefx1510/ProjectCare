@@ -1,43 +1,150 @@
 # app/services/user_service.py
 from app import db
 from app.models.user import User
+from typing import Optional, List
+from dataclasses import dataclass
+
+
+@dataclass
+class UserValidationResult:
+    """Encapsula resultado de validação de usuário"""
+    is_valid: bool
+    message: str
+    user: Optional[User] = None
+
 
 class UserService:
-    def save(self, user: User):
+    """
+    Serviço responsável por operações relacionadas a usuários
+    Aplica princípios POO: Encapsulamento, SRP, DRY
+    """
+    
+    @staticmethod
+    def save(user: User) -> User:
         """
-        Save a new user to the database.
-        Validates email uniqueness before saving.
+        Salva um novo usuário no banco de dados
+        Valida unicidade do email antes de salvar
+        
+        Args:
+            user: Instância do usuário a ser salva
+            
+        Returns:
+            User: Usuário salvo
+            
+        Raises:
+            ValueError: Se email já existir
         """
         try:
-            existing_user = self.get_by_email(user.email)
-            if existing_user:
-                raise ValueError("Email já existe em nosso sistema.")
+            validation_result = UserService.validate_user_creation(user)
+            if not validation_result.is_valid:
+                raise ValueError(validation_result.message)
             
             db.session.add(user)
             db.session.commit()
             return user
         except Exception as e:
             db.session.rollback()
-            print(f"Erro ao salvar usuário no banco de dados: {e}")
             raise
-
-    def get_by_id(self, user_id: int):
+    
+    @staticmethod
+    def validate_user_creation(user: User) -> UserValidationResult:
         """
-        Get a user by ID.
+        Valida se um usuário pode ser criado
+        Centraliza toda lógica de validação
+        """
+        if UserService.exists_by_email(user.email):
+            return UserValidationResult(
+                is_valid=False,
+                message="Email já existe em nosso sistema."
+            )
+        
+        if UserService.exists_by_cpf(user.cpf):
+            return UserValidationResult(
+                is_valid=False,
+                message="CPF já existe em nosso sistema."
+            )
+        
+        if UserService.exists_by_phone(user.phone):
+            return UserValidationResult(
+                is_valid=False,
+                message="Telefone já existe em nosso sistema."
+            )
+        
+        return UserValidationResult(
+            is_valid=True,
+            message="Usuário válido para criação"
+        )
+
+    @staticmethod
+    def get_by_id(user_id: int) -> Optional[User]:
+        """
+        Busca usuário por ID
+        
+        Args:
+            user_id: ID do usuário
+            
+        Returns:
+            User ou None se não encontrado
         """
         return User.query.get(user_id)
 
-    def get_by_email(self, email: str):
+    @staticmethod
+    def get_by_email(email: str) -> Optional[User]:
         """
-        Get a user by email.
+        Busca usuário por email
+        
+        Args:
+            email: Email do usuário
+            
+        Returns:
+            User ou None se não encontrado
         """
         return User.query.filter_by(email=email).first()
 
-    def get_by_email_or_phone_or_cpf(self, email=None, phone=None, cpf=None):
+    @staticmethod
+    def get_by_cpf(cpf: str) -> Optional[User]:
         """
-        Get a user by email, phone, or CPF.
+        Busca usuário por CPF
+        
+        Args:
+            cpf: CPF do usuário
+            
+        Returns:
+            User ou None se não encontrado
+        """
+        return User.query.filter_by(cpf=cpf).first()
+
+    @staticmethod
+    def get_by_phone(phone: str) -> Optional[User]:
+        """
+        Busca usuário por telefone
+        
+        Args:
+            phone: Telefone do usuário
+            
+        Returns:
+            User ou None se não encontrado
+        """
+        return User.query.filter_by(phone=phone).first()
+
+    @staticmethod
+    def get_by_email_or_phone_or_cpf(email: Optional[str] = None, 
+                                    phone: Optional[str] = None, 
+                                    cpf: Optional[str] = None) -> Optional[User]:
+        """
+        Busca usuário por email, telefone ou CPF
+        Permite busca flexível com múltiplos critérios
+        
+        Args:
+            email: Email para busca (opcional)
+            phone: Telefone para busca (opcional)
+            cpf: CPF para busca (opcional)
+            
+        Returns:
+            User ou None se não encontrado
         """
         query = User.query
+        
         if email:
             query = query.filter_by(email=email)
         if phone:
@@ -47,27 +154,41 @@ class UserService:
         
         return query.first()
 
-    def get_all(self):
+    @staticmethod
+    def get_all() -> List[User]:
         """
-        Get all users.
+        Busca todos os usuários
+        
+        Returns:
+            Lista de todos os usuários
         """
         return User.query.all()
 
-    def delete(self, user: User):
+    @staticmethod
+    def delete(user: User) -> None:
         """
-        Delete a user from the database.
+        Remove usuário do banco de dados
+        
+        Args:
+            user: Usuário a ser removido
         """
         try:
             db.session.delete(user)
             db.session.commit()
         except Exception as e:
             db.session.rollback()
-            print(f"Erro ao deletar usuário do banco de dados: {e}")
             raise
 
-    def update(self, user: User):
+    @staticmethod
+    def update(user: User) -> User:
         """
-        Update an existing user in the database.
+        Atualiza usuário existente no banco de dados
+        
+        Args:
+            user: Usuário com dados atualizados
+            
+        Returns:
+            User: Usuário atualizado
         """
         try:
             db.session.merge(user)
@@ -75,23 +196,43 @@ class UserService:
             return user
         except Exception as e:
             db.session.rollback()
-            print(f"Erro ao atualizar usuário no banco de dados: {e}")
             raise
 
-    def exists_by_email(self, email: str):
+    @staticmethod
+    def exists_by_email(email: str) -> bool:
         """
-        Check if a user exists by email.
+        Verifica se existe usuário com o email informado
+        
+        Args:
+            email: Email a ser verificado
+            
+        Returns:
+            bool: True se existe, False caso contrário
         """
         return User.query.filter_by(email=email).first() is not None
 
-    def exists_by_cpf(self, cpf: str):
+    @staticmethod
+    def exists_by_cpf(cpf: str) -> bool:
         """
-        Check if a user exists by CPF.
+        Verifica se existe usuário com o CPF informado
+        
+        Args:
+            cpf: CPF a ser verificado
+            
+        Returns:
+            bool: True se existe, False caso contrário
         """
         return User.query.filter_by(cpf=cpf).first() is not None
 
-    def exists_by_phone(self, phone: str):
+    @staticmethod
+    def exists_by_phone(phone: str) -> bool:
         """
-        Check if a user exists by phone.
+        Verifica se existe usuário com o telefone informado
+        
+        Args:
+            phone: Telefone a ser verificado
+            
+        Returns:
+            bool: True se existe, False caso contrário
         """
         return User.query.filter_by(phone=phone).first() is not None

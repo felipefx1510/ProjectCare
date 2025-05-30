@@ -1,6 +1,7 @@
 # app/routes/responsible_dashboard.py
 from flask import Blueprint, render_template, session, redirect, url_for, flash
-from app.services import elderly_service, responsible_service
+from app.services.elderly_service import ElderlyService
+from app.services.responsible_service import ResponsibleService
 
 responsible_dashboard_bp = Blueprint("responsible_dashboard", __name__, url_prefix="/responsible")
 
@@ -12,10 +13,10 @@ def my_elderly():
 
     user_id = session['user_id']
     # Buscar o Responsible pelo user_id
-    responsible = responsible_service.get_responsible_by_user_id(user_id)
+    responsible = ResponsibleService.get_by_user_id(user_id)
     if not responsible:
         flash('Responsável não encontrado.', 'danger')
         return redirect(url_for('home.home'))
 
-    elderly_list = elderly_service.get_by_responsible_id(responsible.id)
+    elderly_list = ElderlyService.get_by_responsible_id(responsible.id)
     return render_template("list/my_elderly_list.html", elderly_list=elderly_list)
