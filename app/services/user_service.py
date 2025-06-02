@@ -164,39 +164,39 @@ class UserService:
         """
         return User.query.all()
 
-    @staticmethod
-    def delete(user: User) -> None:
-        """
-        Remove usuário do banco de dados
+    # @staticmethod
+    # def delete(user: User) -> None:
+    #     """
+    #     Remove usuário do banco de dados
         
-        Args:
-            user: Usuário a ser removido
-        """
-        try:
-            db.session.delete(user)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Args:
+    #         user: Usuário a ser removido
+    #     """
+    #     try:
+    #         db.session.delete(user)
+    #         db.session.commit()
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
 
-    @staticmethod
-    def update(user: User) -> User:
-        """
-        Atualiza usuário existente no banco de dados
+    # @staticmethod
+    # def update(user: User) -> User:
+    #     """
+    #     Atualiza usuário existente no banco de dados
         
-        Args:
-            user: Usuário com dados atualizados
+    #     Args:
+    #         user: Usuário com dados atualizados
             
-        Returns:
-            User: Usuário atualizado
-        """
-        try:
-            db.session.merge(user)
-            db.session.commit()
-            return user
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Returns:
+    #         User: Usuário atualizado
+    #     """
+    #     try:
+    #         db.session.merge(user)
+    #         db.session.commit()
+    #         return user
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
 
     @staticmethod
     def exists_by_email(email: str) -> bool:

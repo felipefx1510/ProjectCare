@@ -92,96 +92,95 @@ class ResponsibleService:
         """
         return Responsible.query.filter_by(user_id=user_id).first()
     
-    @staticmethod
-    def find_responsible_by_user(user_id: int, email: str) -> ResponsibleSearchResult:
-        """
-        Busca responsável por ID de usuário ou email
-        Centraliza lógica de busca dupla usada no authentication_service
+    # @staticmethod
+    # def find_responsible_by_user(user_id: int, email: str) -> ResponsibleSearchResult:
+    #     """
+    #     Busca responsável por ID de usuário ou email
+    #     Centraliza lógica de busca dupla usada no authentication_service
         
-        Args:
-            user_id: ID do usuário
-            email: Email do usuário
+    #     Args:
+    #         user_id: ID do usuário
+    #         email: Email do usuário
             
-        Returns:
-            ResponsibleSearchResult com o resultado da busca
-        """
-        # Primeira tentativa: busca por ID
-        responsible = ResponsibleService.get_by_user_id(user_id)
-        if responsible:
-            return ResponsibleSearchResult(
-                found=True,
-                responsible=responsible,
-                message="Responsável encontrado por ID de usuário"
-            )
+    #     Returns:
+    #         ResponsibleSearchResult com o resultado da busca
+    #     """
+    #     # Primeira tentativa: busca por ID
+    #     responsible = ResponsibleService.get_by_user_id(user_id)
+    #     if responsible:
+    #         return ResponsibleSearchResult(
+    #             found=True,
+    #             responsible=responsible,
+    #             message="Responsável encontrado por ID de usuário"
+    #         )
         
-        # Segunda tentativa: busca por email
-        responsible = ResponsibleService.get_by_email(email)
-        if responsible:
-            return ResponsibleSearchResult(
-                found=True,
-                responsible=responsible,
-                message="Responsável encontrado por email"
-            )
+    #     # Segunda tentativa: busca por email
+    #     responsible = ResponsibleService.get_by_email(email)
+    #     if responsible:
+    #         return ResponsibleSearchResult(
+    #             found=True,
+    #             responsible=responsible,
+    #             message="Responsável encontrado por email"
+    #         )
         
-        return ResponsibleSearchResult(
-            found=False,
-            message="Responsável não encontrado"
-        )
+    #     return ResponsibleSearchResult(
+    #         found=False,
+    #         message="Responsável não encontrado"
+    #     )
     
-    @staticmethod
-    def exists_by_user_id(user_id: int) -> bool:
-        """
-        Verifica se existe responsável para o user_id informado
+    # @staticmethod
+    # def exists_by_user_id(user_id: int) -> bool:
+    #     """
+    #     Verifica se existe responsável para o user_id informado
         
-        Args:
-            user_id: ID do usuário
+    #     Args:
+    #         user_id: ID do usuário
             
-        Returns:
-            bool: True se existe, False caso contrário
-        """
-        return Responsible.query.filter_by(user_id=user_id).first() is not None
+    #     Returns:
+    #         bool: True se existe, False caso contrário
+    #     """
+    #     return Responsible.query.filter_by(user_id=user_id).first() is not None
     
-    @staticmethod
-    def update(responsible: Responsible) -> Responsible:
-        """
-        Atualiza responsável existente no banco de dados
+    # @staticmethod
+    # def update(responsible: Responsible) -> Responsible:
+    #     """
+    #     Atualiza responsável existente no banco de dados
         
-        Args:
-            responsible: Responsável com dados atualizados
+    #     Args:
+    #         responsible: Responsável com dados atualizados
             
-        Returns:
-            Responsible: Responsável atualizado
-        """
-        try:
-            db.session.merge(responsible)
-            db.session.commit()
-            return responsible
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Returns:
+    #         Responsible: Responsável atualizado
+    #     """
+    #     try:
+    #         db.session.merge(responsible)
+    #         db.session.commit()
+    #         return responsible
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
     
-    @staticmethod
-    def delete(responsible: Responsible) -> None:
-        """
-        Remove responsável do banco de dados
+    # @staticmethod
+    # def delete(responsible: Responsible) -> None:
+    #     """
+    #     Remove responsável do banco de dados
         
-        Args:
-            responsible: Responsável a ser removido
-        """
-        try:
-            db.session.delete(responsible)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Args:
+    #         responsible: Responsável a ser removido
+    #     """
+    #     try:
+    #         db.session.delete(responsible)
+    #         db.session.commit()
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
 
 
-# Mantém compatibilidade com código existente que usa métodos de instância
 def get_responsible_by_id(responsible_id: int) -> Optional[Responsible]:
-    """Função de compatibilidade para código legado"""
+    """"""
     return ResponsibleService.get_by_id(responsible_id)
 
 
 def get_responsible_by_email(email: str) -> Optional[Responsible]:
-    """Função de compatibilidade para código legado"""
+    """"""
     return ResponsibleService.get_by_email(email)

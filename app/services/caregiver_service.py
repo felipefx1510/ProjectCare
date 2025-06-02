@@ -92,94 +92,95 @@ class CaregiverService:
         """
         return Caregiver.query.filter_by(user_id=user_id).first()
     
-    @staticmethod
-    def find_caregiver_by_user(user_id: int, email: str) -> CaregiverSearchResult:
-        """
-        Busca cuidador por ID de usuário ou email
-        Centraliza lógica de busca dupla usada no authentication_service
-        
-        Args:
-            user_id: ID do usuário
-            email: Email do usuário
-            
-        Returns:
-            CaregiverSearchResult com o resultado da busca
-        """
-        # Primeira tentativa: busca por ID
-        caregiver = CaregiverService.get_by_user_id(user_id)
-        if caregiver:
-            return CaregiverSearchResult(
-                found=True,
-                caregiver=caregiver,
-                message="Cuidador encontrado por ID de usuário"
-            )
-        
-        # Segunda tentativa: busca por email
-        caregiver = CaregiverService.get_by_email(email)
-        if caregiver:
-            return CaregiverSearchResult(
-                found=True,
-                caregiver=caregiver,
-                message="Cuidador encontrado por email"
-            )
-        
-        return CaregiverSearchResult(
-            found=False,
-            message="Cuidador não encontrado"
-        )
     
-    @staticmethod
-    def exists_by_user_id(user_id: int) -> bool:
-        """
-        Verifica se existe cuidador para o user_id informado
+    # @staticmethod
+    # def find_caregiver_by_user(user_id: int, email: str) -> CaregiverSearchResult:
+    #     """
+    #     Busca cuidador por ID de usuário ou email
+    #     Centraliza lógica de busca dupla usada no authentication_service
         
-        Args:
-            user_id: ID do usuário
+    #     Args:
+    #         user_id: ID do usuário
+    #         email: Email do usuário
             
-        Returns:
-            bool: True se existe, False caso contrário
-        """
-        return Caregiver.query.filter_by(user_id=user_id).first() is not None
-    
-    @staticmethod
-    def update(caregiver: Caregiver) -> Caregiver:
-        """
-        Atualiza cuidador existente no banco de dados
+    #     Returns:
+    #         CaregiverSearchResult com o resultado da busca
+    #     """
+    #     # Primeira tentativa: busca por ID
+    #     caregiver = CaregiverService.get_by_user_id(user_id)
+    #     if caregiver:
+    #         return CaregiverSearchResult(
+    #             found=True,
+    #             caregiver=caregiver,
+    #             message="Cuidador encontrado por ID de usuário"
+    #         )
         
-        Args:
-            caregiver: Cuidador com dados atualizados
+    #     # Segunda tentativa: busca por email
+    #     caregiver = CaregiverService.get_by_email(email)
+    #     if caregiver:
+    #         return CaregiverSearchResult(
+    #             found=True,
+    #             caregiver=caregiver,
+    #             message="Cuidador encontrado por email"
+    #         )
+        
+    #     return CaregiverSearchResult(
+    #         found=False,
+    #         message="Cuidador não encontrado"
+    #     )
+    
+    # @staticmethod
+    # def exists_by_user_id(user_id: int) -> bool:
+    #     """
+    #     Verifica se existe cuidador para o user_id informado
+        
+    #     Args:
+    #         user_id: ID do usuário
             
-        Returns:
-            Caregiver: Cuidador atualizado
-        """
-        try:
-            db.session.merge(caregiver)
-            db.session.commit()
-            return caregiver
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Returns:
+    #         bool: True se existe, False caso contrário
+    #     """
+    #     return Caregiver.query.filter_by(user_id=user_id).first() is not None
     
-    @staticmethod
-    def delete(caregiver: Caregiver) -> None:
-        """
-        Remove cuidador do banco de dados
+    # @staticmethod
+    # def update(caregiver: Caregiver) -> Caregiver:
+    #     """
+    #     Atualiza cuidador existente no banco de dados
         
-        Args:
-            caregiver: Cuidador a ser removido
-        """
-        try:
-            db.session.delete(caregiver)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            raise
+    #     Args:
+    #         caregiver: Cuidador com dados atualizados
+            
+    #     Returns:
+    #         Caregiver: Cuidador atualizado
+    #     """
+    #     try:
+    #         db.session.merge(caregiver)
+    #         db.session.commit()
+    #         return caregiver
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
+    
+    # @staticmethod
+    # def delete(caregiver: Caregiver) -> None:
+    #     """
+    #     Remove cuidador do banco de dados
+        
+    #     Args:
+    #         caregiver: Cuidador a ser removido
+    #     """
+    #     try:
+    #         db.session.delete(caregiver)
+    #         db.session.commit()
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         raise
 
 
-# Mantém compatibilidade com código existente que usa métodos de instância
-def get_caregiver_by_id(caregiver_id: int) -> Optional[Caregiver]:
-    """Função de compatibilidade para código legado"""
-    return CaregiverService.get_by_id(caregiver_id)
+# # Mantém compatibilidade com código existente que usa métodos de instância
+# def get_caregiver_by_id(caregiver_id: int) -> Optional[Caregiver]:
+#     """Função de compatibilidade para código legado"""
+#     return CaregiverService.get_by_id(caregiver_id)
 
 
 def get_caregiver_by_email(email: str) -> Optional[Caregiver]:

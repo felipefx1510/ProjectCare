@@ -49,18 +49,18 @@ class ElderlyService:
         """
         return Elderly.query.all()
 
-    @staticmethod
-    def get_by_id(elderly_id: int) -> Optional[Elderly]:
-        """
-        Busca idoso por ID
+    # @staticmethod
+    # def get_by_id(elderly_id: int) -> Optional[Elderly]:
+    #     """
+    #     Busca idoso por ID
         
-        Args:
-            elderly_id: ID do idoso
+    #     Args:
+    #         elderly_id: ID do idoso
             
-        Returns:
-            Elderly ou None se não encontrado
-        """
-        return Elderly.query.get(elderly_id)
+    #     Returns:
+    #         Elderly ou None se não encontrado
+    #     """
+    #     return Elderly.query.get(elderly_id)
 
     @staticmethod
     def get_by_user_id(user_id: int) -> Optional[Elderly]:

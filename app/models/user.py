@@ -55,7 +55,7 @@ class User(db.Model):
         self.password_hash = ph.hash(password)
         
     def check_password(self, password):
-        """Check the password against the stored hash."""
+        """Verifica a senha fornecida com o hash armazenado."""
         try:
             ph.verify(self.password_hash, password)
             return True
