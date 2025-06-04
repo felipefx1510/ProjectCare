@@ -74,6 +74,35 @@ def select_profile():
     return render_template("register/select.html", user=user)
 
 
+# @register_bp.route("/add-profile", methods=["GET", "POST"])
+# def add_profile():
+#     user_id = session.get('user_id')
+#     if not user_id:
+#         return redirect(url_for('login.login'))
+    
+#     user = UserService.get_by_id(user_id)
+#     if not user:
+#         return redirect(url_for('login.login'))
+    
+#     # Usar o authentication_service para buscar perfis
+#     user_profile = AuthenticationService.get_user_profiles(user)
+    
+#     if request.method == "POST":
+#         if not user_profile.has_caregiver and request.form.get('add_caregiver'):
+#             return redirect(url_for('register.register_caregiver'))
+#         if not user_profile.has_responsible and request.form.get('add_responsible'):
+#             return redirect(url_for('register.register_responsible'))
+#         flash('Selecione um perfil para adicionar.', 'warning')
+    
+#     return render_template(
+#         "profile/select.html",
+#         user=user,
+#         show_add_profile=True,
+#         has_caregiver=user_profile.has_caregiver,
+#         has_responsible=user_profile.has_responsible
+#     )
+
+
 @register_bp.route('/caregiver', methods=['GET', 'POST'])
 def register_caregiver():
     if request.method == "POST":
