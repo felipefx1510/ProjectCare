@@ -91,19 +91,62 @@
                                     <input type="text" class="form-control border-start-0" id="photo_url" name="photo_url" placeholder="URL da foto (opcional)">
                                 </div>
                                 <!-- Para upload real, seria necessário backend para salvar o arquivo -->
-                            </div>
+                            </div>                        
                         </div>
                         <div class="row g-3 mb-2">
-                            <div class="col-md-6">
-                                <label for="address_elderly" class="form-label">Endereço</label>
+                            <div class="col-md-3">
+                                <label for="cep_elderly" class="form-label">CEP</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-mailbox text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="cep_elderly" name="cep_elderly" placeholder="00000-000" maxlength="9">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="buscarCepElderly">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                                <div class="form-text small">Buscar CEP</div>
+                            </div>                            
+                            <div class="col-12">
+                                <div id="cepElderlyMessage"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="address_elderly" class="form-label">Logradouro/Rua</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="bi bi-house text-primary"></i>
                                     </span>
-                                    <input type="text" class="form-control border-start-0" id="address_elderly" name="address_elderly" placeholder="Rua, número, complemento">
+                                    <input type="text" class="form-control border-start-0" id="address_elderly" name="address_elderly" placeholder="Nome da rua">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="number_elderly" class="form-label">Número</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-123 text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="number_elderly" name="number_elderly" placeholder="Nº">
                                 </div>
                             </div>
                             <div class="col-md-3">
+                                <label for="neighborhood_elderly" class="form-label">Bairro</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-geo text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="neighborhood_elderly" name="neighborhood_elderly" placeholder="Bairro">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="complement_elderly" class="form-label">Complemento</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0">
+                                        <i class="bi bi-plus-circle text-primary"></i>
+                                    </span>
+                                    <input type="text" class="form-control border-start-0" id="complement_elderly" name="complement_elderly" placeholder="Apto, bloco (opcional)">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="city_elderly" class="form-label">Cidade</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light border-end-0">
@@ -111,6 +154,7 @@
                                     </span>
                                     <input type="text" class="form-control border-start-0" id="city_elderly" name="city_elderly" placeholder="Cidade">
                                 </div>
+                            </div>
                             </div>
                             <div class="col-md-3">
                                 <label for="state_elderly" class="form-label">Estado</label>
@@ -274,9 +318,7 @@
             value = value.replace(/(\d{5})(\d)/, '$1-$2');
         }
         e.target.value = value;
-    });
-
-    // CPF mask
+    });    // CPF mask
     document.getElementById('cpf').addEventListener('input', function(e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 11) {
@@ -290,5 +332,78 @@
         }
         e.target.value = value;
     });
+
+    // CEP functionality for elderly
+    const cepElderlyInput = document.getElementById('cep_elderly');
+    const buscarCepElderlyBtn = document.getElementById('buscarCepElderly');
+    const cepElderlyMessage = document.getElementById('cepElderlyMessage');
+
+    // Apply CEP mask
+    if (window.cepService && cepElderlyInput) {
+        window.cepService.aplicarMascaraCep(cepElderlyInput);
+    }
+
+    // CEP search on button click
+    if (buscarCepElderlyBtn) {
+        buscarCepElderlyBtn.addEventListener('click', async function() {
+            const cep = cepElderlyInput.value.trim();
+            
+            if (!cep) {
+                window.cepService.mostrarErro('Por favor, digite um CEP', cepElderlyMessage);
+                return;
+            }
+
+            try {
+                window.cepService.mostrarCarregamento(buscarCepElderlyBtn);
+                
+                const enderecoData = await window.cepService.consultarCep(cep);
+                  // Fill address fields for elderly
+                window.cepService.preencherEndereco(enderecoData, {
+                    endereco: '#address_elderly',
+                    bairro: '#neighborhood_elderly',
+                    cidade: '#city_elderly',
+                    estado: '#state_elderly'
+                });
+
+                // Fill detailed address fields for elderly
+                if (enderecoData.logradouro) {
+                    document.getElementById('address_elderly').value = enderecoData.logradouro;
+                }
+                if (enderecoData.bairro) {
+                    document.getElementById('neighborhood_elderly').value = enderecoData.bairro;
+                }
+                if (enderecoData.localidade) {
+                    document.getElementById('city_elderly').value = enderecoData.localidade;
+                }
+                if (enderecoData.uf) {
+                    document.getElementById('state_elderly').value = enderecoData.uf;
+                }
+
+                window.cepService.mostrarSucesso('Endereço encontrado e preenchido!', cepElderlyMessage);
+                
+            } catch (error) {
+                window.cepService.mostrarErro(error.message || 'Erro ao buscar CEP', cepElderlyMessage);
+            } finally {
+                window.cepService.esconderCarregamento(buscarCepElderlyBtn);
+            }
+        });
+    }
+
+    // Auto search CEP on Enter key or when field loses focus
+    if (cepElderlyInput) {
+        cepElderlyInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                buscarCepElderlyBtn.click();
+            }
+        });
+
+        cepElderlyInput.addEventListener('blur', function() {
+            const cep = this.value.trim();
+            if (cep && window.cepService.validarCep(window.cepService.limparCep(cep))) {
+                buscarCepElderlyBtn.click();
+            }
+        });
+    }
 </script>
 {% endblock %}

@@ -42,8 +42,7 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- AOS Animation Library -->
+      <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -54,6 +53,9 @@
             });
         });
     </script>
+    
+    <!-- CEP Service -->
+    <script src="{{ url_for('static', filename='js/cep.js') }}"></script>
     
     <!-- Additional JavaScript -->
     {% block extra_js %}{% endblock %}

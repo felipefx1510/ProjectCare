@@ -4,6 +4,7 @@ from app.services.elderly_service import ElderlyService
 from app.services.responsible_service import ResponsibleService
 from app.services.user_service import UserService
 from app.services.authentication_service import AuthenticationService
+from app.services.viacep_service import ViaCepService
 
 # Instâncias de compatibilidade para código legado
 # DEPRECATED: Use as classes estáticas diretamente

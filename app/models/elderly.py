@@ -10,10 +10,15 @@ class Elderly(db.Model):
     )
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    cpf = db.Column(db.String(20), nullable=True)
+    cpf = db.Column(db.String(14), nullable=True)
     birthdate = db.Column(db.Date, nullable=False)
     gender = db.Column(db.String(10), nullable=False)
+    # Campos de endereço detalhados
+    cep_elderly = db.Column(db.String(10), nullable=True)
     address_elderly = db.Column(db.String(255), nullable=True)
+    number_elderly = db.Column(db.String(20), nullable=True)
+    neighborhood_elderly = db.Column(db.String(100), nullable=True)
+    complement_elderly = db.Column(db.String(100), nullable=True)
     city_elderly = db.Column(db.String(100), nullable=True)
     state_elderly = db.Column(db.String(100), nullable=True)
     photo_url = db.Column(db.String(255), nullable=True)
@@ -35,12 +40,16 @@ class Elderly(db.Model):
     # Relações
     responsible = db.relationship("Responsible", back_populates="elderly")
 
-    def __init__(self, name, birthdate, gender, responsible, cpf=None, address_elderly=None, city_elderly=None, state_elderly=None, photo_url=None, medical_conditions=None, allergies=None, medications_in_use=None, mobility_level=None, specific_care_needs=None, emergency_contact_name=None, emergency_contact_phone=None, emergency_contact_relationship=None, health_plan_name=None, health_plan_number=None, additional_notes=None):
+    def __init__(self, name, birthdate, gender, responsible, cpf=None, cep_elderly=None, address_elderly=None, number_elderly=None, neighborhood_elderly=None, complement_elderly=None, city_elderly=None, state_elderly=None, photo_url=None, medical_conditions=None, allergies=None, medications_in_use=None, mobility_level=None, specific_care_needs=None, emergency_contact_name=None, emergency_contact_phone=None, emergency_contact_relationship=None, health_plan_name=None, health_plan_number=None, additional_notes=None):
         self.name = name
         self.cpf = cpf
         self.birthdate = birthdate
         self.gender = gender
+        self.cep_elderly = cep_elderly
         self.address_elderly = address_elderly
+        self.number_elderly = number_elderly
+        self.neighborhood_elderly = neighborhood_elderly
+        self.complement_elderly = complement_elderly
         self.city_elderly = city_elderly
         self.state_elderly = state_elderly
         self.photo_url = photo_url

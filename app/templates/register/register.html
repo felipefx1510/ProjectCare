@@ -97,19 +97,65 @@
 
                                 <!-- Informações de Contato -->
                                 <div class="col-12 mt-4">
-                                    <h5 class="mb-3 border-bottom pb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço</h5>
+                                    <h5 class="mb-3 border-bottom pb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i>Endereço</h5>                                </div>
+
+                                <!-- CEP Section -->
+                                <div class="col-md-4 mb-3">
+                                    <label for="cep" class="form-label">CEP</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-mailbox text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="cep" name="cep" placeholder="00000-000" maxlength="9">
+                                        <button type="button" class="btn btn-outline-primary" id="buscarCep">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">Digite o CEP para preencher automaticamente</div>
+                                </div>                                <div class="col-12 mb-3">
+                                    <div id="cepMessage"></div>
                                 </div>
 
-                                <div class="col-12 mb-3">
-                                    <label for="address" class="form-label">Endereço completo</label>
+                                <div class="col-md-6 mb-3">
+                                    <label for="address" class="form-label">Logradouro/Rua</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-house text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="address" name="address" placeholder="Rua, número, bairro, complemento" required>
+                                        <input type="text" class="form-control border-start-0" id="address" name="address" placeholder="Nome da rua" required>
                                     </div>
                                     <div class="invalid-feedback">
-                                        Por favor, informe seu endereço.
+                                        Por favor, informe o logradouro.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="number" class="form-label">Número</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-123 text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="number" name="number" placeholder="Nº">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label for="neighborhood" class="form-label">Bairro</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-geo text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="neighborhood" name="neighborhood" placeholder="Bairro">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label for="complement" class="form-label">Complemento</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="bi bi-plus-circle text-primary"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" id="complement" name="complement" placeholder="Apartamento, bloco, etc. (opcional)">
                                     </div>
                                 </div>
 
@@ -261,8 +307,7 @@
         if (value.length > 6) {
             value = value.replace(/(\d{3})(\d{3})(\d)/, '$1.$2-$3');
         }
-        e.target.value = value;
-    });
+        e.target.value = value;    });
 
     // Phone mask
     document.getElementById('phone').addEventListener('input', function(e) {
@@ -278,6 +323,79 @@
         }
         e.target.value = value;
     });
+
+    // CEP functionality
+    const cepInput = document.getElementById('cep');
+    const buscarCepBtn = document.getElementById('buscarCep');
+    const cepMessage = document.getElementById('cepMessage');
+
+    // Apply CEP mask
+    if (window.cepService && cepInput) {
+        window.cepService.aplicarMascaraCep(cepInput);
+    }
+
+    // CEP search on button click
+    if (buscarCepBtn) {
+        buscarCepBtn.addEventListener('click', async function() {
+            const cep = cepInput.value.trim();
+            
+            if (!cep) {
+                window.cepService.mostrarErro('Por favor, digite um CEP', cepMessage);
+                return;
+            }
+
+            try {
+                window.cepService.mostrarCarregamento(buscarCepBtn);
+                
+                const enderecoData = await window.cepService.consultarCep(cep);
+                  // Fill address fields
+                window.cepService.preencherEndereco(enderecoData, {
+                    endereco: '#address',
+                    bairro: '#neighborhood',
+                    cidade: '#city',
+                    estado: '#state'
+                });
+
+                // Fill detailed address fields
+                if (enderecoData.logradouro) {
+                    document.getElementById('address').value = enderecoData.logradouro;
+                }
+                if (enderecoData.bairro) {
+                    document.getElementById('neighborhood').value = enderecoData.bairro;
+                }
+                if (enderecoData.localidade) {
+                    document.getElementById('city').value = enderecoData.localidade;
+                }
+                if (enderecoData.uf) {
+                    document.getElementById('state').value = enderecoData.uf;
+                }
+
+                window.cepService.mostrarSucesso('Endereço encontrado e preenchido!', cepMessage);
+                
+            } catch (error) {
+                window.cepService.mostrarErro(error.message || 'Erro ao buscar CEP', cepMessage);
+            } finally {
+                window.cepService.esconderCarregamento(buscarCepBtn);
+            }
+        });
+    }
+
+    // Auto search CEP on Enter key or when field loses focus
+    if (cepInput) {
+        cepInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                buscarCepBtn.click();
+            }
+        });
+
+        cepInput.addEventListener('blur', function() {
+            const cep = this.value.trim();
+            if (cep && window.cepService.validarCep(window.cepService.limparCep(cep))) {
+                buscarCepBtn.click();
+            }
+        });
+    }
 
     // Form validation
     (function() {

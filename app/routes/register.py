@@ -27,7 +27,12 @@ def register():
             phone = request.form.get('phone')
             email = request.form.get('email')
             password = request.form.get('password')
+            # Campos de endereço detalhados
+            cep = request.form.get('cep')
             address = request.form.get('address')
+            number = request.form.get('number')
+            neighborhood = request.form.get('neighborhood')
+            complement = request.form.get('complement')
             city = request.form.get('city')
             state = request.form.get('state')
             birthdate = request.form.get('birthdate')
@@ -42,7 +47,8 @@ def register():
             # Criação e salvamento do usuário
             user = User(
                 name=name, cpf=cpf, phone=phone, email=email, password=password,
-                address=address, city=city, state=state, birthdate=birthdate, gender=gender
+                cep=cep, address=address, number=number, neighborhood=neighborhood, 
+                complement=complement, city=city, state=state, birthdate=birthdate, gender=gender
             )
             UserService.save(user)
 
@@ -72,35 +78,6 @@ def select_profile():
         return redirect(url_for('login.login'))
     
     return render_template("register/select.html", user=user)
-
-
-# @register_bp.route("/add-profile", methods=["GET", "POST"])
-# def add_profile():
-#     user_id = session.get('user_id')
-#     if not user_id:
-#         return redirect(url_for('login.login'))
-    
-#     user = UserService.get_by_id(user_id)
-#     if not user:
-#         return redirect(url_for('login.login'))
-    
-#     # Usar o authentication_service para buscar perfis
-#     user_profile = AuthenticationService.get_user_profiles(user)
-    
-#     if request.method == "POST":
-#         if not user_profile.has_caregiver and request.form.get('add_caregiver'):
-#             return redirect(url_for('register.register_caregiver'))
-#         if not user_profile.has_responsible and request.form.get('add_responsible'):
-#             return redirect(url_for('register.register_responsible'))
-#         flash('Selecione um perfil para adicionar.', 'warning')
-    
-#     return render_template(
-#         "profile/select.html",
-#         user=user,
-#         show_add_profile=True,
-#         has_caregiver=user_profile.has_caregiver,
-#         has_responsible=user_profile.has_responsible
-#     )
 
 
 @register_bp.route('/caregiver', methods=['GET', 'POST'])
@@ -198,7 +175,12 @@ def register_elderly():
         cpf = request.form.get('cpf')
         birthdate = request.form.get('birthdate')
         gender = request.form.get('gender')
+        # Campos de endereço detalhados para idoso
+        cep_elderly = request.form.get('cep_elderly')
         address_elderly = request.form.get('address_elderly')
+        number_elderly = request.form.get('number_elderly')
+        neighborhood_elderly = request.form.get('neighborhood_elderly')
+        complement_elderly = request.form.get('complement_elderly')
         city_elderly = request.form.get('city_elderly')
         state_elderly = request.form.get('state_elderly')
         photo_url = request.form.get('photo_url')
@@ -219,7 +201,11 @@ def register_elderly():
             cpf=cpf,
             birthdate=birthdate,
             gender=gender,
+            cep_elderly=cep_elderly,
             address_elderly=address_elderly,
+            number_elderly=number_elderly,
+            neighborhood_elderly=neighborhood_elderly,
+            complement_elderly=complement_elderly,
             city_elderly=city_elderly,
             state_elderly=state_elderly,
             photo_url=photo_url,
