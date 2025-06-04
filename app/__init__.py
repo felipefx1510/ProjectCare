@@ -17,23 +17,12 @@ def create_app():
     required_env_vars = ['SECRET_KEY', 'DATABASE_URL']
     for var in required_env_vars:
         if not os.getenv(var):
-            raise RuntimeError(f"A variável de ambiente '{var}' não está definida. Verifique o arquivo .env.")    # Configuração do app
+            raise RuntimeError(f"A variável de ambiente '{var}' não está definida. Verifique o arquivo .env.")
+
+    # Configuração do app
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    
-    # Configurações de conexão para PostgreSQL/Neon
-    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-        'pool_pre_ping': True,  # Verifica conexões antes de usar
-        'pool_recycle': 300,    # Recicla conexões a cada 5 minutos
-        'pool_timeout': 20,     # Timeout para obter conexão do pool
-        'max_overflow': 0,      # Não permite conexões extras além do pool
-        'pool_size': 5,         # Tamanho do pool de conexões
-        'connect_args': {
-            'connect_timeout': 10,  # Timeout para conectar
-            'options': '-c timezone=America/Sao_Paulo'
-        }
-    }
 
     # Extensões
     db.init_app(app)
