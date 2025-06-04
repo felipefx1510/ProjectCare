@@ -8,8 +8,8 @@ class Responsible(db.Model):
     )
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    
     user = db.relationship("User", back_populates="responsible")
-
     elderly = db.relationship("Elderly", back_populates="responsible", cascade="all, delete-orphan")
     contracts = db.relationship("Contract", back_populates="responsible", cascade="all, delete-orphan")
 

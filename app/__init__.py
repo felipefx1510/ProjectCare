@@ -40,6 +40,7 @@ def create_app():
         if 'user_id' in session:
             return {'navbar_template': 'fragments/navbar_login.html'}
         return {'navbar_template': 'fragments/navbar.html'}    # Registro de blueprints
+    
     from app.routes.home import home_bp
     from app.routes.caregivers import caregivers_bp
     from app.routes.contact import contact_bp
