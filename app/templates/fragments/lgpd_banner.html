@@ -1,0 +1,92 @@
+<!-- LGPD Cookie Banner -->
+<div id="lgpd-banner" class="position-fixed bottom-0 start-0 end-0 bg-white border-top shadow-lg p-3 d-none" style="z-index: 1050;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8 col-lg-9">
+                <div class="d-flex align-items-start">
+                    <i class="bi bi-shield-check text-primary me-2 mt-1"></i>
+                    <div>
+                        <p class="mb-1 small fw-semibold">
+                            Proteção de Dados - LGPD
+                        </p>                        <p class="mb-0 small text-muted">
+                            Utilizamos cookies e coletamos dados pessoais para melhorar sua experiência, personalizar conteúdo e analisar o uso do site. 
+                            Seus dados são tratados com segurança e em conformidade com a LGPD. 
+                            <a href="{{ url_for('legal.privacy_policy') }}" class="text-decoration-none">Saiba mais sobre nossa Política de Privacidade</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3 text-end">
+                <div class="d-flex gap-2 flex-wrap justify-content-end">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="rejectCookies()">
+                        Recusar
+                    </button>
+                    <button type="button" class="btn btn-primary btn-sm" onclick="acceptCookies()">
+                        Aceitar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// LGPD Cookie Banner functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const banner = document.getElementById('lgpd-banner');
+    const cookieConsent = localStorage.getItem('lgpd-consent');
+    
+    // Show banner if no consent is stored
+    if (!cookieConsent) {
+        banner.classList.remove('d-none');
+    }
+});
+
+function acceptCookies() {
+    localStorage.setItem('lgpd-consent', 'accepted');
+    localStorage.setItem('lgpd-consent-date', new Date().toISOString());
+    hideBanner();
+}
+
+function rejectCookies() {
+    localStorage.setItem('lgpd-consent', 'rejected');
+    localStorage.setItem('lgpd-consent-date', new Date().toISOString());
+    hideBanner();
+}
+
+function hideBanner() {
+    const banner = document.getElementById('lgpd-banner');
+    banner.style.animation = 'slideDown 0.3s ease-out';
+    setTimeout(() => {
+        banner.classList.add('d-none');
+    }, 300);
+}
+</script>
+
+<style>
+@keyframes slideDown {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+#lgpd-banner {
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+</style>

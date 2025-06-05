@@ -48,6 +48,7 @@ def create_app():
     from app.routes.register import register_bp
     from app.routes.responsible_dashboard import responsible_dashboard_bp
     from app.routes.api import api_bp
+    from app.routes.legal import legal_bp
 
     app.register_blueprint(home_bp)
     app.register_blueprint(caregivers_bp)
@@ -56,6 +57,7 @@ def create_app():
     app.register_blueprint(register_bp)
     app.register_blueprint(responsible_dashboard_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(legal_bp)
 
     return app
 

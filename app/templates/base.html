@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
+<head>    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="ProjectCare">
+    <meta name="privacy-policy" content="Em conformidade com LGPD - Lei 13.709/2018">
     <title>{% block title %}ProjectCare{% endblock %}</title>
     
     <!-- Google Fonts -->
@@ -36,9 +38,11 @@
     <main class="fade-in">
         {% block content %}{% endblock %}
     </main>
-    
-    <!-- Footer -->
+      <!-- Footer -->
     {% include 'fragments/footer.html' %}
+    
+    <!-- LGPD Banner -->
+    {% include 'fragments/lgpd_banner.html' %}
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -67,15 +67,27 @@
       </div>
     </div>
   </div>
-
-  <div class="py-3 border-top">
+  <div class="py-4 border-top">
     <div class="container">
-      <div class="row align-items-center">
+      <div class="row g-3">
+        <div class="col-md-12 text-center mb-3">          <div class="d-flex flex-wrap justify-content-center gap-4 mb-3">
+            <a href="{{ url_for('legal.privacy_policy') }}" class="text-decoration-none small">Política de Privacidade</a>
+            <a href="{{ url_for('legal.terms_of_use') }}" class="text-decoration-none small">Termos de Uso</a>
+            <a href="{{ url_for('legal.cookie_policy') }}" class="text-decoration-none small">Política de Cookies</a>
+            <a href="{{ url_for('contact.contact') }}" class="text-decoration-none small">Fale Conosco</a>
+          </div>
+          <div class="mb-2">
+            <small class="text-muted">
+              <i class="bi bi-shield-check text-success me-1"></i>
+              Este site está em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)
+            </small>
+          </div>
+        </div>
         <div class="col-md-6 text-center text-md-start">
-          <p class="mb-md-0">© 2025 ProjectCare. Todos os direitos reservados.</p>
+          <p class="mb-md-0 small">© 2025 ProjectCare. Todos os direitos reservados.</p>
         </div>
         <div class="col-md-6 text-center text-md-end">
-          <p class="mb-0">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> para cuidar de quem você ama</p>
+          <p class="mb-0 small">Desenvolvido com <i class="bi bi-heart-fill text-danger"></i> para cuidar de quem você ama</p>
         </div>
       </div>
     </div>
