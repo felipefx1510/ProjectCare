@@ -47,8 +47,10 @@
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="bi bi-person text-primary"></i>
                                     </span>
-                                    <input type="text" class="form-control border-start-0" id="name" name="name" required placeholder="Nome do idoso">
+                                    <input type="text" class="form-control border-start-0" id="name" name="name" 
+                                           required placeholder="Nome do idoso" minlength="2" maxlength="100">
                                 </div>
+                                <div class="invalid-feedback">Por favor, informe o nome completo (2-100 caracteres).</div>
                             </div>
                             <div class="col-md-3">
                                 <label for="cpf" class="form-label">CPF</label>
@@ -56,8 +58,10 @@
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="bi bi-card-text text-primary"></i>
                                     </span>
-                                    <input type="text" class="form-control border-start-0" id="cpf" name="cpf" placeholder="Opcional">
+                                    <input type="text" class="form-control border-start-0" id="cpf" name="cpf" 
+                                           placeholder="Opcional" maxlength="14">
                                 </div>
+                                <div class="invalid-feedback">CPF inválido.</div>
                             </div>
                             <div class="col-md-3">
                                 <label for="birthdate" class="form-label">Data de nascimento</label>
@@ -67,6 +71,7 @@
                                     </span>
                                     <input type="date" class="form-control border-start-0" id="birthdate" name="birthdate" required>
                                 </div>
+                                <div class="invalid-feedback">Por favor, informe a data de nascimento.</div>
                             </div>
                             <div class="col-md-4">
                                 <label class="form-label">Gênero</label>
@@ -90,7 +95,7 @@
                                     </span>
                                     <input type="text" class="form-control border-start-0" id="photo_url" name="photo_url" placeholder="URL da foto (opcional)">
                                 </div>
-                                <!-- Para upload real, seria necessário backend para salvar o arquivo -->
+                                <!-- sem backend para fotps -->
                             </div>                        
                         </div>
                         <div class="row g-3 mb-2">
@@ -305,33 +310,44 @@
 
 {% block extra_js %}
 <script>
-    // Phone mask for emergency contact
-    document.getElementById('emergency_contact_phone').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) {
-            value = value.slice(0, 11);
+    // Configurar data máxima como hoje
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('birthdate').setAttribute('max', today);
+
+    // CPF validation (opcional, mas se preenchido deve ser válido)
+    const cpfInput = document.getElementById('cpf');
+    ValidationService.aplicarMascaraCPF(cpfInput);
+    cpfInput.addEventListener('blur', function() {
+        const valor = this.value.trim();
+        if (valor && !ValidationService.validarCPF(valor)) {
+            this.setCustomValidity('CPF inválido');
+            this.classList.add('is-invalid');
+        } else {
+            this.setCustomValidity('');
+            this.classList.remove('is-invalid');
+            if (valor) this.classList.add('is-valid');
         }
-        if (value.length > 2) {
-            value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        }
-        if (value.length > 7) {
-            value = value.replace(/(\d{5})(\d)/, '$1-$2');
-        }
-        e.target.value = value;
-    });    // CPF mask
-    document.getElementById('cpf').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) {
-            value = value.slice(0, 11);
-        }
-        if (value.length > 3) {
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        }
-        if (value.length > 6) {
-            value = value.replace(/(\d{3})(\d{3})(\d)/, '$1.$2-$3');
-        }
-        e.target.value = value;
     });
+
+    // Phone mask for emergency contact
+    const emergencyPhoneInput = document.getElementById('emergency_contact_phone');
+    ValidationService.aplicarMascaraTelefone(emergencyPhoneInput);
+    emergencyPhoneInput.addEventListener('blur', function() {
+        const valor = this.value.trim();
+        if (valor && !ValidationService.validarTelefone(valor)) {
+            this.setCustomValidity('Telefone inválido');
+            this.classList.add('is-invalid');
+        } else {
+            this.setCustomValidity('');
+            this.classList.remove('is-invalid');
+            if (valor) this.classList.add('is-valid');
+        }
+    });
+
+    // Form validation
+    const form = document.querySelector('form');
+    form.classList.add('needs-validation');
+    ValidationService.configurarValidacaoFormulario(form);
 
     // CEP functionality for elderly
     const cepElderlyInput = document.getElementById('cep_elderly');

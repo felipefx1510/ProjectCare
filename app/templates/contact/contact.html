@@ -71,15 +71,17 @@
                     <div class="row g-3">
                         <div class="col-md-6 mb-3">
                             <label for="name" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="name" placeholder="Seu nome" required>
+                            <input type="text" class="form-control" id="name" placeholder="Seu nome" 
+                                   required minlength="3" maxlength="100">
                             <div class="invalid-feedback">
-                                Por favor, informe seu nome.
+                                Por favor, informe seu nome (mínimo 3 caracteres).
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">E-mail</label>
-                            <input type="email" class="form-control" id="email" placeholder="Seu e-mail" required>
+                            <input type="email" class="form-control" id="email" placeholder="Seu e-mail" 
+                                   required maxlength="100">
                             <div class="invalid-feedback">
                                 Por favor, informe um e-mail válido.
                             </div>
@@ -87,17 +89,19 @@
 
                         <div class="col-12 mb-3">
                             <label for="subject" class="form-label">Assunto</label>
-                            <input type="text" class="form-control" id="subject" placeholder="Assunto da mensagem" required>
+                            <input type="text" class="form-control" id="subject" placeholder="Assunto da mensagem" 
+                                   required minlength="5" maxlength="200">
                             <div class="invalid-feedback">
-                                Por favor, informe o assunto.
+                                Por favor, informe o assunto (mínimo 5 caracteres).
                             </div>
                         </div>
 
                         <div class="col-12 mb-3">
                             <label for="message" class="form-label">Mensagem</label>
-                            <textarea class="form-control" id="message" rows="5" placeholder="Sua mensagem" required></textarea>
+                            <textarea class="form-control" id="message" rows="5" placeholder="Sua mensagem" 
+                                      required minlength="10" maxlength="1000"></textarea>
                             <div class="invalid-feedback">
-                                Por favor, escreva sua mensagem.
+                                Por favor, escreva sua mensagem (mínimo 10 caracteres).
                             </div>
                         </div>
 
@@ -195,22 +199,23 @@
 
 {% block extra_js %}
 <script>
+    // Email validation
+    const emailInput = document.getElementById('email');
+    ValidationService.adicionarValidacaoTemporal(emailInput, ValidationService.validarEmail, 'E-mail inválido');
+
     // Form validation
-    (function() {
-        'use strict';
+    const form = document.querySelector('.needs-validation');
+    ValidationService.configurarValidacaoFormulario(form);
 
-        const forms = document.querySelectorAll('.needs-validation');
-
-        Array.from(forms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
+    // Success message on form submit (simulated)
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        if (form.checkValidity()) {
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            form.reset();
+            form.classList.remove('was-validated');
+        }
+    });
 </script>
 {% endblock %}

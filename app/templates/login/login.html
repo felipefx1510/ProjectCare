@@ -22,7 +22,8 @@
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="bi bi-envelope text-primary"></i>
                                     </span>
-                                    <input type="email" class="form-control border-start-0" id="email" name="email" placeholder="Digite seu e-mail" required>
+                                    <input type="email" class="form-control border-start-0" id="email" name="email" 
+                                           placeholder="Digite seu e-mail" required maxlength="100">
                                 </div>
                                 <div class="invalid-feedback">
                                     Por favor, informe um e-mail válido.
@@ -38,13 +39,14 @@
                                     <span class="input-group-text bg-light border-end-0">
                                         <i class="bi bi-lock text-primary"></i>
                                     </span>
-                                    <input type="password" class="form-control border-start-0" id="senha" name="password" placeholder="Digite sua senha" required>
+                                    <input type="password" class="form-control border-start-0" id="senha" name="password" 
+                                           placeholder="Digite sua senha" required minlength="8" maxlength="100">
                                     <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword">
                                         <i class="bi bi-eye"></i>
                                     </button>
                                 </div>
                                 <div class="invalid-feedback">
-                                    Por favor, informe sua senha.
+                                    Por favor, informe sua senha (mínimo 8 caracteres).
                                 </div>
                             </div>
 
@@ -93,22 +95,12 @@
         }
     });
 
+    // Email validation
+    const emailInput = document.getElementById('email');
+    ValidationService.adicionarValidacaoTemporal(emailInput, ValidationService.validarEmail, 'E-mail inválido');
+
     // Form validation
-    (function() {
-        'use strict';
-
-        const forms = document.querySelectorAll('.needs-validation');
-
-        Array.from(forms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
+    const form = document.querySelector('.needs-validation');
+    ValidationService.configurarValidacaoFormulario(form);
 </script>
 {% endblock %}

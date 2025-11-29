@@ -28,10 +28,11 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-person text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="name" name="name" placeholder="Digite seu nome completo" required>
+                                        <input type="text" class="form-control border-start-0" id="name" name="name" 
+                                               placeholder="Digite seu nome completo" required minlength="3" maxlength="100">
                                     </div>
                                     <div class="invalid-feedback">
-                                        Por favor, informe seu nome completo.
+                                        Por favor, informe seu nome completo (mínimo 3 caracteres).
                                     </div>
                                 </div>
 
@@ -41,7 +42,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-card-text text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                                        <input type="text" class="form-control border-start-0" id="cpf" name="cpf" 
+                                               placeholder="000.000.000-00" required maxlength="14">
                                     </div>
                                     <div class="invalid-feedback">
                                         Por favor, informe um CPF válido.
@@ -54,7 +56,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-telephone text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="phone" name="phone" placeholder="(00) 00000-0000" required>
+                                        <input type="text" class="form-control border-start-0" id="phone" name="phone" 
+                                               placeholder="(00) 00000-0000" required maxlength="15">
                                     </div>
                                     <div class="invalid-feedback">
                                         Por favor, informe um telefone válido.
@@ -67,7 +70,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-calendar-date text-primary"></i>
                                         </span>
-                                        <input type="date" class="form-control border-start-0" id="birthdate" name="birthdate" required>
+                                        <input type="date" class="form-control border-start-0" id="birthdate" name="birthdate" 
+                                               required max="{{ today }}">
                                     </div>
                                     <div class="invalid-feedback">
                                         Por favor, informe sua data de nascimento.
@@ -122,10 +126,11 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-house text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="address" name="address" placeholder="Nome da rua" required>
+                                        <input type="text" class="form-control border-start-0" id="address" name="address" 
+                                               placeholder="Nome da rua" required minlength="3" maxlength="255">
                                     </div>
                                     <div class="invalid-feedback">
-                                        Por favor, informe o logradouro.
+                                        Por favor, informe o logradouro (mínimo 3 caracteres).
                                     </div>
                                 </div>
 
@@ -135,7 +140,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-123 text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="number" name="number" placeholder="Nº">
+                                        <input type="text" class="form-control border-start-0" id="number" name="number" 
+                                               placeholder="Nº" maxlength="20">
                                     </div>
                                 </div>
 
@@ -145,7 +151,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-geo text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="neighborhood" name="neighborhood" placeholder="Bairro">
+                                        <input type="text" class="form-control border-start-0" id="neighborhood" name="neighborhood" 
+                                               placeholder="Bairro" maxlength="100">
                                     </div>
                                 </div>
 
@@ -155,7 +162,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-plus-circle text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="complement" name="complement" placeholder="Apartamento, bloco, etc. (opcional)">
+                                        <input type="text" class="form-control border-start-0" id="complement" name="complement" 
+                                               placeholder="Apartamento, bloco, etc. (opcional)" maxlength="100">
                                     </div>
                                 </div>
 
@@ -165,10 +173,11 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-building text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="city" name="city" placeholder="Digite sua cidade" required>
+                                        <input type="text" class="form-control border-start-0" id="city" name="city" 
+                                               placeholder="Digite sua cidade" required minlength="2" maxlength="100">
                                     </div>
                                     <div class="invalid-feedback">
-                                        Por favor, informe sua cidade.
+                                        Por favor, informe sua cidade (mínimo 2 caracteres).
                                     </div>
                                 </div>
 
@@ -178,10 +187,11 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-map text-primary"></i>
                                         </span>
-                                        <input type="text" class="form-control border-start-0" id="state" name="state" placeholder="Digite seu estado" required>
+                                        <input type="text" class="form-control border-start-0" id="state" name="state" 
+                                               placeholder="Digite seu estado" required minlength="2" maxlength="100">
                                     </div>
                                     <div class="invalid-feedback">
-                                        Por favor, informe seu estado.
+                                        Por favor, informe seu estado (mínimo 2 caracteres).
                                     </div>
                                 </div>
 
@@ -196,7 +206,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-envelope text-primary"></i>
                                         </span>
-                                        <input type="email" class="form-control border-start-0" id="email" name="email" placeholder="Digite seu e-mail" required>
+                                        <input type="email" class="form-control border-start-0" id="email" name="email" 
+                                               placeholder="Digite seu e-mail" required maxlength="100">
                                     </div>
                                     <div class="invalid-feedback">
                                         Por favor, informe um e-mail válido.
@@ -209,14 +220,15 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-lock text-primary"></i>
                                         </span>
-                                        <input type="password" class="form-control border-start-0" id="password" name="password" placeholder="Digite sua senha" required>
+                                        <input type="password" class="form-control border-start-0" id="password" name="password" 
+                                               placeholder="Digite sua senha" required minlength="8" maxlength="100">
                                         <button class="btn btn-outline-secondary border-start-0" type="button" id="togglePassword">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                     </div>
                                     <div class="form-text">A senha deve ter pelo menos 8 caracteres.</div>
                                     <div class="invalid-feedback">
-                                        Por favor, crie uma senha.
+                                        Por favor, crie uma senha com pelo menos 8 caracteres.
                                     </div>
                                 </div>
 
@@ -226,7 +238,8 @@
                                         <span class="input-group-text bg-light border-end-0">
                                             <i class="bi bi-lock-fill text-primary"></i>
                                         </span>
-                                        <input type="password" class="form-control border-start-0" id="confirm_password" name="confirm_password" placeholder="Confirme sua senha" required>
+                                        <input type="password" class="form-control border-start-0" id="confirm_password" name="confirm_password" 
+                                               placeholder="Confirme sua senha" required minlength="8" maxlength="100">
                                     </div>
                                     <div class="invalid-feedback">
                                         As senhas não coincidem.
@@ -268,6 +281,10 @@
 
 {% block extra_js %}
 <script>
+    // Configurar data máxima como hoje
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('birthdate').setAttribute('max', today);
+
     // Toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', function() {
         const passwordInput = document.getElementById('password');
@@ -295,33 +312,35 @@
         }
     });
 
-    // CPF mask
-    document.getElementById('cpf').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) {
-            value = value.slice(0, 11);
-        }
-        if (value.length > 3) {
-            value = value.replace(/(\d{3})(\d)/, '$1.$2');
-        }
-        if (value.length > 6) {
-            value = value.replace(/(\d{3})(\d{3})(\d)/, '$1.$2-$3');
-        }
-        e.target.value = value;    });
+    // CPF validation
+    const cpfInput = document.getElementById('cpf');
+    ValidationService.aplicarMascaraCPF(cpfInput);
+    ValidationService.adicionarValidacaoTemporal(cpfInput, ValidationService.validarCPF, 'CPF inválido');
 
-    // Phone mask
-    document.getElementById('phone').addEventListener('input', function(e) {
-        let value = e.target.value.replace(/\D/g, '');
-        if (value.length > 11) {
-            value = value.slice(0, 11);
+    // Phone validation
+    const phoneInput = document.getElementById('phone');
+    ValidationService.aplicarMascaraTelefone(phoneInput);
+    ValidationService.adicionarValidacaoTemporal(phoneInput, ValidationService.validarTelefone, 'Telefone inválido');
+
+    // Email validation
+    const emailInput = document.getElementById('email');
+    ValidationService.adicionarValidacaoTemporal(emailInput, ValidationService.validarEmail, 'E-mail inválido');
+
+    // Birthdate validation (must be at least 18 years old)
+    const birthdateInput = document.getElementById('birthdate');
+    birthdateInput.addEventListener('blur', function() {
+        const date = this.value;
+        if (date && !ValidationService.validarDataNascimento(date)) {
+            this.setCustomValidity('Data de nascimento inválida');
+            this.classList.add('is-invalid');
+        } else if (date && !ValidationService.validarIdadeMinima(date, 18)) {
+            this.setCustomValidity('Você deve ter pelo menos 18 anos');
+            this.classList.add('is-invalid');
+        } else if (date) {
+            this.setCustomValidity('');
+            this.classList.remove('is-invalid');
+            this.classList.add('is-valid');
         }
-        if (value.length > 2) {
-            value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-        }
-        if (value.length > 7) {
-            value = value.replace(/(\d{5})(\d)/, '$1-$2');
-        }
-        e.target.value = value;
     });
 
     // CEP functionality
@@ -398,21 +417,7 @@
     }
 
     // Form validation
-    (function() {
-        'use strict';
-
-        const forms = document.querySelectorAll('.needs-validation');
-
-        Array.from(forms).forEach(function(form) {
-            form.addEventListener('submit', function(event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-
-                form.classList.add('was-validated');
-            }, false);
-        });
-    })();
+    const form = document.querySelector('.needs-validation');
+    ValidationService.configurarValidacaoFormulario(form);
 </script>
 {% endblock %}

@@ -67,24 +67,35 @@
                         <div class="row g-3 mb-2">
                             <div class="col-md-6">
                                 <label for="specialty" class="form-label">Especialidade</label>
-                                <input type="text" class="form-control" id="specialty" name="specialty" required placeholder="Ex: Enfermagem, Fisioterapia">
+                                <input type="text" class="form-control" id="specialty" name="specialty" required 
+                                       placeholder="Ex: Enfermagem, Fisioterapia" minlength="2" maxlength="100">
+                                <div class="invalid-feedback">Por favor, informe sua especialidade (2-100 caracteres).</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="experience" class="form-label">Experiência (anos)</label>
-                                <input type="number" class="form-control" id="experience" name="experience" min="0" required placeholder="Ex: 5">
+                                <input type="number" class="form-control" id="experience" name="experience" min="0" max="99" 
+                                       required placeholder="Ex: 5">
+                                <div class="invalid-feedback">Por favor, informe sua experiência em anos (0-99).</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="education" class="form-label">Formação</label>
-                                <input type="text" class="form-control" id="education" name="education" required placeholder="Ex: Técnico em Enfermagem">
+                                <input type="text" class="form-control" id="education" name="education" required 
+                                       placeholder="Ex: Técnico em Enfermagem" minlength="2" maxlength="100">
+                                <div class="invalid-feedback">Por favor, informe sua formação (2-100 caracteres).</div>
                             </div>
                             <div class="col-md-6">
                                 <label for="expertise" class="form-label">Área de Atuação</label>
-                                <input type="text" class="form-control" id="expertise" name="expertise" required placeholder="Ex: Idosos, Reabilitação">
+                                <input type="text" class="form-control" id="expertise" name="expertise" required 
+                                       placeholder="Ex: Idosos, Reabilitação" minlength="2" maxlength="100">
+                                <div class="invalid-feedback">Por favor, informe sua área de atuação (2-100 caracteres).</div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="skills" class="form-label">Habilidades</label>
-                            <input type="text" class="form-control" id="skills" name="skills" placeholder="Ex: Primeiros socorros, Medicação, Higiene pessoal" required>
+                            <input type="text" class="form-control" id="skills" name="skills" 
+                                   placeholder="Ex: Primeiros socorros, Medicação, Higiene pessoal" 
+                                   required minlength="2" maxlength="500">
+                            <div class="invalid-feedback">Por favor, informe suas habilidades (2-500 caracteres).</div>
                         </div>
 
                         <div class="section-divider"></div>
@@ -119,7 +130,9 @@
                         </div>
                         <div class="mb-4">
                             <label for="pretensao" class="form-label">Pretensão Salarial / Taxa por Hora (R$)</label>
-                            <input type="number" class="form-control" id="pretensao" name="pretensao" min="0" step="0.01" required placeholder="Ex: 120.00">
+                            <input type="number" class="form-control" id="pretensao" name="pretensao" min="0" max="999999" 
+                                   step="0.01" required placeholder="Ex: 120.00">
+                            <div class="invalid-feedback">Por favor, informe um valor válido (mínimo R$ 0,01).</div>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary btn-lg">Cadastrar</button>
@@ -131,5 +144,32 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/validation.js') }}"></script>
+    <script>
+        // Form validation
+        const form = document.querySelector('form');
+        form.classList.add('needs-validation');
+        ValidationService.configurarValidacaoFormulario(form);
+
+        // Validação de disponibilidade
+        form.addEventListener('submit', function(event) {
+            const diasSelecionados = document.querySelectorAll('input[name="dias[]"]:checked');
+            const periodosSelecionados = document.querySelectorAll('input[name="periodos[]"]:checked');
+            
+            if (diasSelecionados.length === 0) {
+                event.preventDefault();
+                event.stopPropagation();
+                alert('Por favor, selecione pelo menos um dia disponível.');
+                return false;
+            }
+            
+            if (periodosSelecionados.length === 0) {
+                event.preventDefault();
+                event.stopPropagation();
+                alert('Por favor, selecione pelo menos um período disponível.');
+                return false;
+            }
+        });
+    </script>
 </body>
 </html>
